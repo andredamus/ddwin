@@ -13,7 +13,7 @@ criterios = ["points", "trb", "assists", "tpfgm", "steals", "blocks"]
 headers = {"User-Agent": "Mozilla/5.0"}
 
 # Caminho para salvar os arquivos CSV
-caminho_pasta = "/Users/andredamus/Documents/APP/Gamelog/Players/"
+caminho_pasta = "Data/Players/"
 
 # Função para baixar as tabelas
 def baixar_tabela(filtro, criterio):

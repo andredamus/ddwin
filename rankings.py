@@ -6,7 +6,7 @@ import os
 ssl._create_default_https_context = ssl._create_unverified_context
 
 # Caminho para salvar o arquivo CSV
-caminho_pasta = "/Users/andredamus/Documents/APP/Gamelog/Rankings/"
+caminho_pasta = "Data/Rankings/"
 nome_arquivo = os.path.join(caminho_pasta, "rankings.csv")
 
 # URL da página com as tabelas de estatísticas

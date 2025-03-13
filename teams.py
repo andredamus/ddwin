@@ -13,8 +13,8 @@ times_nba = [
     "OKC", "ORL", "PHI", "PHO", "POR", "SAC", "SAS", "TOR", "UTA", "WAS"
 ]
 
-# Caminho para salvar os arquivos CSV
-caminho_pasta = "/Users/andredamus/Documents/APP/Gamelog/Teams/"
+# Caminho para salvar os arquivos CSV no repositório
+caminho_pasta = "Data/Teams/"
 
 # Função para baixar e salvar os game logs de cada time
 def baixar_gamelogs():

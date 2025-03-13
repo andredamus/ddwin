@@ -7,9 +7,14 @@ import pandas as pd
 app = Flask(__name__)
 
 # <<CONFIGURAÇÕES GERAIS>>
-DATA_FOLDER = "/Users/andredamus/Documents/App/Gamelog/Teams"
-PLAYERS_FOLDER = "/Users/andredamus/Documents/APP/Gamelog/Players/"
-RANKINGS_FOLDER = "/Users/andredamus/Documents/APP/Gamelog/Rankings/"
+
+BASE_FOLDER = os.path.dirname(os.path.abspath(__file__))
+
+# Agora, usando o caminho relativo para as pastas
+DATA_FOLDER = os.path.join(BASE_FOLDER, "data", "teams")
+PLAYERS_FOLDER = os.path.join(BASE_FOLDER, "data", "players")
+RANKINGS_FOLDER = os.path.join(BASE_FOLDER, "data", "rankings")
+
 
 # <<LÓGICA PARA TIMES>>
 
@@ -549,7 +554,11 @@ def index_view():
 
 if __name__ == "__main__":
 
+    # Ajuste o caminho para o arquivo rankings.csv com base na estrutura de pastas
     caminho_arquivo_rankings = os.path.join(RANKINGS_FOLDER, "rankings.csv")
+    
+    # Processar o arquivo de rankings
     processar_rankings(caminho_arquivo_rankings)
     
+    # Iniciar o servidor da aplicação
     app.run(port=5001, debug=True)
