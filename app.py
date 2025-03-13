@@ -481,7 +481,7 @@ def index_view():
                 # Verifica se o critério do mandante atende à condição
                 if mandante_criterio >= valor_criterio:
                     nome_arquivo = f"tabela_{filtro_jogadores}_{info['arquivo']}.csv"
-                    caminho_completo = f"/Users/andredamus/Documents/App/Gamelog/Players/{nome_arquivo}"
+                    caminho_completo = f"Data/Players/{nome_arquivo}"
                     
                     if os.path.exists(caminho_completo):
                         df = pd.read_csv(caminho_completo)
