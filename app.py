@@ -201,11 +201,11 @@ def processar_rankings(caminho_arquivo):
     df_tabela2_ordenado = df_tabela2.sort_values(by="dEFF_2", ascending=True)
     df_tabela2_ordenado["Ranking"] = range(1, len(df_tabela2_ordenado) + 1)
 
-    caminho_saida_tabela1 = "/Users/andredamus/Documents/APP/Gamelog/Rankings/ranking_tabela1.csv"
+    caminho_saida_tabela1 = "Data/Rankings/ranking_tabela1.csv"
     df_tabela1_ordenado.to_csv(caminho_saida_tabela1, index=False)
     print(f"✅ Ranking da Tabela 1 salvo com sucesso em {caminho_saida_tabela1}!")
 
-    caminho_saida_tabela2 = "/Users/andredamus/Documents/APP/Gamelog/Rankings/ranking_tabela2.csv"
+    caminho_saida_tabela2 = "Data/Rankings/ranking_tabela2.csv"
     df_tabela2_ordenado.to_csv(caminho_saida_tabela2, index=False)
     print(f"✅ Ranking da Tabela 2 salvo com sucesso em {caminho_saida_tabela2}!")
 
