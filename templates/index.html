@@ -411,13 +411,15 @@
             /* Filtros */
             .filtros-container {
                 flex-direction: column;
-                gap: 10px;
+                gap: 12px;
+                padding: 10px;
             }
 
             .filtro {
                 width: 100%;
                 padding: 12px;
                 font-size: 14px;
+                box-sizing: border-box; /* Para garantir que o padding não quebre o layout */
             }
 
             /* Tabelas lado a lado */
@@ -431,14 +433,16 @@
             .tabela-pontostotais-container,
             .tabela-handicap-container,
             .tabela-pontostime-container {
-                max-width: 100%;
-                flex: 1;
+                width: 100%;
+                margin: 0 auto;
             }
 
             /* Ajuste no cabeçalho */
             header h1 {
-                font-size: 1.5rem;
-                padding: 10px;
+                font-size: 1.75rem;
+                padding: 12px;
+                text-align: center;
+                margin: 0;
             }
 
             /* Ajuste nas tabelas */
@@ -449,15 +453,31 @@
             .tabela-handicap {
                 width: 100%;
                 font-size: 12px;
+                border-collapse: collapse;
             }
 
+            /* Ajuste nas células das tabelas */
             .tabela-criterios td,
             .tabela-resultados td,
             .tabela-pontostotais td,
             .tabela-pontostime td,
             .tabela-handicap td {
-                padding: 6px;
+                padding: 8px;
                 font-size: 12px;
+                text-align: center; /* Melhor para leitura em telas pequenas */
+                border: 1px solid #ddd;
+            }
+
+            .tabela-criterios th,
+            .tabela-resultados th,
+            .tabela-pontostotais th,
+            .tabela-pontostime th,
+            .tabela-handicap th {
+                padding: 8px;
+                font-size: 14px;
+                background-color: #f4f4f4;
+                text-align: center;
+                border: 1px solid #ddd;
             }
 
             /* Ajuste de largura das tabelas */
@@ -485,20 +505,38 @@
                 width: 20% !important;
             }
 
+            /* Ajuste do cabeçalho das tabelas */
             .cabecalho-tabela-resultados,
             .cabecalho-tabela-pontostotais,
             .cabecalho-tabela-handicap,
             .cabecalho-tabela-jogadores {
                 font-size: 12px;
                 padding: 8px;
+                text-align: center;
             }
 
             /* Ajuste das fontes no rodapé */
             footer {
-                font-size: 0.8rem;
-                padding: 15px 0;
+                font-size: 0.9rem;
+                padding: 12px 0;
+                text-align: center;
+            }
+
+            /* Melhora na legibilidade de botões */
+            button {
+                font-size: 14px;
+                padding: 10px 15px;
+                margin: 10px 0;
+                width: 100%;
+            }
+
+            /* Ajustar imagens para o celular */
+            img {
+                max-width: 100%;
+                height: auto;
             }
         }
+
 
     </style>    
     
