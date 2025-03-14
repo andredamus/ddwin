@@ -657,7 +657,7 @@
                 <label for="criterio" class="titulos_2">Escolha o critério:</label>
                 <select name="criterio" id="criterio" onchange="toggleCriteria()">
                     <option value="0" {% if criterio == '0' %}selected{% endif %}>Clique aqui para definir o critério</option>
-                    <option value="damus_sports" {% if criterio == 'damus_sports' %}selected{% endif %}>Critério Damus Sports</option>
+                    <option value="damus_sports" {% if criterio == 'damus_sports' %}selected{% endif %}>Critério DDWin Sports</option>
                     <option value="outro_criterio" {% if criterio == 'outro_criterio' %}selected{% endif %}>Critério Personalizado</option>
                 </select>
             </div>
@@ -1582,7 +1582,7 @@
                 } else {
                     console.log("Condição VERDE atendida!");
                     semaforoHandicapVisitante.style.backgroundColor = "green";
-                    frasesAnaliseHandicapVisitante.innerHTML = "<p>Excelente aposta!!!</p>";
+                    frasesAnaliseHandicapVisitante.innerHTML = "<p>Excelente aposta.</p>";
                 }
             } else {
                 if (valorAvaliarHandicapVisitantePreciso < totalProjecaoPreciso) {
@@ -1596,7 +1596,7 @@
                 } else {
                     console.log("Condição VERDE atendida!");
                     semaforoHandicapVisitante.style.backgroundColor = "green";
-                    frasesAnaliseHandicapVisitante.innerHTML = "<p>Excelente aposta!!!</p>";
+                    frasesAnaliseHandicapVisitante.innerHTML = "<p>Excelente aposta.</p>";
                 }
             }
         }
@@ -1644,7 +1644,7 @@
                 } else {
                     console.log("Condição VERDE atendida!");
                     semaforoHandicapMandante.style.backgroundColor = "green";
-                    frasesAnaliseHandicapMandante.innerHTML = "<p>Excelente aposta!!!</p>";
+                    frasesAnaliseHandicapMandante.innerHTML = "<p>Excelente aposta.</p>";
                 }
             } else {
                 if (valorAvaliarHandicapMandantePreciso < totalProjecaoPreciso) {
@@ -1658,7 +1658,7 @@
                 } else {
                     console.log("Condição VERDE atendida!");
                     semaforoHandicapMandante.style.backgroundColor = "green";
-                    frasesAnaliseHandicapMandante.innerHTML = "<p>Excelente aposta!!!</p>";
+                    frasesAnaliseHandicapMandante.innerHTML = "<p>Excelente aposta.</p>";
                 }
             }
         }
