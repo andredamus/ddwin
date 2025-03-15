@@ -15,7 +15,7 @@ echo "🕓 Início da execução: $(date)" >> "$LOG_FILE"
 
 # Corrigindo permissões dos arquivos de importação de jogadores
 echo "🔧 Corrigindo permissões dos arquivos importados..." >> "$LOG_FILE"
-find "$PROJETO_DIR/data/Players" -type f -exec chmod 644 {} \; -exec echo "✔ Permissão corrigida: {}" >> "$LOG_FILE" \;
+find "$PROJETO_DIR/data/players" -type f -exec chmod 644 {} \; -exec echo "✔ Permissão corrigida: {}" >> "$LOG_FILE" \;
 
 # Ativar o ambiente virtual
 source "$PROJETO_DIR/venv/bin/activate"
