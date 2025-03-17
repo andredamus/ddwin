@@ -31,6 +31,3 @@ deactivate
 echo "✅ Fim da execução: $(date)" >> "$LOG_FILE"
 echo "=============================" >> "$LOG_FILE"
 echo "" >> "$LOG_FILE"
-
-# Enviar log por e-mail
-mail -s "📝 LOG players.py - $(date '+%d/%m/%Y %H:%M')" "$EMAIL_DESTINO" < "$LOG_FILE"
