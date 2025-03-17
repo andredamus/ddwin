@@ -4,7 +4,6 @@
 PROJETO_DIR="/home/andredamus/ddwin"
 LOG_DIR="$PROJETO_DIR/logs"
 LOG_FILE="$LOG_DIR/players_cron.log"
-EMAIL_DESTINO="andredamus@gmail.com"   # <-- Coloca seu e-mail aqui!
 
 # Criar pasta de logs caso não exista
 mkdir -p "$LOG_DIR"
