@@ -156,6 +156,10 @@
             transition: all 0.3s ease;
         }
 
+        select {
+            color: #8a8a8a !important;
+        }
+
         select:focus, button:focus {
             border-color: #007BFF;
             outline: none;
@@ -410,9 +414,11 @@
         @media (max-width: 768px) {
             /* Filtros */
             .filtros-container {
+                display: flex;
                 flex-direction: column;
                 gap: 12px;
-                padding: 10px;
+                width: 100%; /* Ocupa toda a largura disponível */
+                
             }
 
             .filtro {
@@ -420,21 +426,54 @@
                 padding: 12px;
                 font-size: 14px;
                 box-sizing: border-box; /* Para garantir que o padding não quebre o layout */
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+
+            .cabecalho-desktop, .linha-desktop {
+                display: none; /* Esconde o cabeçalho e a linha do desktop */
+            }
+
+            .linha-mobile {
+                display: table-row; /* Exibe a linha mobile */
+            }
+
+            .criterio-mobile {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .criterio-mobile:last-child {
+                border-bottom: none; /* Remove a borda do último item */
+            }
+
+            .criterio-mobile span {
+                font-weight: bold;
+            }
+
+            .criterio-mobile select {
+                width: 50%; /* Ajusta o tamanho do select */
             }
 
             /* Tabelas lado a lado */
             .tabelas-lado-a-lado {
-                flex-direction: column;
-                gap: 20px;
+                flex-direction: column; /* Coloca as tabelas uma embaixo da outra */
+                gap: 20px; /* Espaçamento entre as tabelas */
+                align-items: center; /* Centraliza as tabelas */
+                width: 100%; /* Garante que o container ocupe toda a largura */
             }
 
             .tabela-resultados-container,
-            .tabela-jogadores-container,
             .tabela-pontostotais-container,
             .tabela-handicap-container,
-            .tabela-pontostime-container {
-                width: 100%;
-                margin: 0 auto;
+            .tabela-pontostime-container,
+            .tabela-jogadores-container {
+                max-width: 100%; /* Faz as tabelas ocuparem 100% da largura */
+                width: 100%; /* Garante que as tabelas não ultrapassem as margens */
+                overflow-x: auto; /* Adiciona scroll horizontal se necessário */
             }
 
             /* Ajuste no cabeçalho */
@@ -445,12 +484,44 @@
                 margin: 0;
             }
 
-            /* Ajuste nas tabelas */
-            .tabela-criterios,
             .tabela-resultados,
             .tabela-pontostotais,
-            .tabela-pontostime,
-            .tabela-handicap {
+            .tabela-handicap,
+            .tabela-jogadores {
+                font-size: 10px; /* Reduz o tamanho da fonte para caber melhor */
+                width: 100%; /* Garante que a tabela ocupe toda a largura do container */
+                min-width: 300px; /* Define uma largura mínima para evitar quebra de layout */
+            }
+
+            .tabela-resultados th,
+            .tabela-resultados td,
+            .tabela-pontostotais th,
+            .tabela-pontostotais td,
+            .tabela-handicap th,
+            .tabela-handicap td {
+                padding: 6px; /* Reduz o padding para economizar espaço */
+                white-space: nowrap; /* Evita quebra de texto nas células */
+            }
+
+            .tabela-resultados td:nth-child(1) {
+                font-size: 10px; /* Reduz o tamanho da fonte da primeira coluna */
+            }
+
+            .cabecalho-tabela-resultados,
+            .cabecalho-tabela-pontostotais,
+            .cabecalho-tabela-handicap,
+            .cabecalho-tabela-jogadores {
+                background-color: #8a8a8a;
+                color: white;
+                padding: 6px;
+                text-align: center;
+                font-weight: bold;
+                font-size: 11px;
+            }
+
+            /* Ajuste nas tabelas */
+            .tabela-criterios,
+            .tabela-pontostime {
                 width: 100%;
                 font-size: 12px;
                 border-collapse: collapse;
@@ -458,10 +529,7 @@
 
             /* Ajuste nas células das tabelas */
             .tabela-criterios td,
-            .tabela-resultados td,
-            .tabela-pontostotais td,
-            .tabela-pontostime td,
-            .tabela-handicap td {
+            .tabela-pontostime td {
                 padding: 8px;
                 font-size: 12px;
                 text-align: center; /* Melhor para leitura em telas pequenas */
@@ -469,10 +537,7 @@
             }
 
             .tabela-criterios th,
-            .tabela-resultados th,
-            .tabela-pontostotais th,
-            .tabela-pontostime th,
-            .tabela-handicap th {
+            .tabela-pontostime th {
                 padding: 8px;
                 font-size: 14px;
                 background-color: #f4f4f4;
@@ -481,8 +546,6 @@
             }
 
             /* Ajuste de largura das tabelas */
-            .tabela-resultados td:nth-child(1),
-            .tabela-pontostotais td:nth-child(1),
             .tabela-handicap td:nth-child(1),
             .tabela-pontostime td:nth-child(1) {
                 width: 100% !important;
@@ -505,16 +568,6 @@
                 width: 20% !important;
             }
 
-            /* Ajuste do cabeçalho das tabelas */
-            .cabecalho-tabela-resultados,
-            .cabecalho-tabela-pontostotais,
-            .cabecalho-tabela-handicap,
-            .cabecalho-tabela-jogadores {
-                font-size: 12px;
-                padding: 8px;
-                text-align: center;
-            }
-
             /* Ajuste das fontes no rodapé */
             footer {
                 font-size: 0.9rem;
@@ -534,6 +587,12 @@
             img {
                 max-width: 100%;
                 height: auto;
+            }    
+        }
+
+        @media (min-width: 769px) {
+            .linha-mobile {
+                display: none; /* Esconde a linha mobile */
             }
         }
 
@@ -738,7 +797,7 @@
                     <tr>
                         <th colspan="7" class="titulos_2">Critérios de Matchup</th> <!-- Título da tabela -->
                     </tr>
-                    <tr>
+                    <tr class="cabecalho-desktop"> <!-- Cabeçalho visível apenas no desktop -->
                         <th>Critérios</th>
                         <th>Pontos</th>
                         <th>Rebotes</th>
@@ -748,105 +807,204 @@
                         <th>Bloqueios</th>
                     </tr>
                 </thead>
-                <tr>
-                    <td>Valor</td>
-                    <td>
-                        <select name="criterio_pontos" class="criterio-input">
-                            {% for valor in valores_criterios %}
-                                <option value="{{ valor }}" 
-                                        {% if criterios_selecionados["Pontos"] == valor %}selected{% endif %}>
-                                    {% if valor == "menor que -10" %}
-                                        Menor que -10
-                                    {% elif valor == "maior que 10" %}
-                                        Maior que 10
-                                    {% else %}
-                                        {{ valor }}
-                                    {% endif %}
-                                </option>
-                            {% endfor %}
-                        </select>
-                    </td>
-                    <td>
-                        <select name="criterio_rebotes" class="criterio-input">
-                            {% for valor in valores_criterios %}
-                                <option value="{{ valor }}" 
-                                        {% if criterios_selecionados["Rebotes"] == valor %}selected{% endif %}>
-                                    {% if valor == "menor que -10" %}
-                                        Menor que -10
-                                    {% elif valor == "maior que 10" %}
-                                        Maior que 10
-                                    {% else %}
-                                        {{ valor }}
-                                    {% endif %}
-                                </option>
-                            {% endfor %}
-                        </select>
-                    </td>
-                    <td>
-                        <select name="criterio_assistencias" class="criterio-input">
-                            {% for valor in valores_criterios %}
-                                <option value="{{ valor }}" 
-                                        {% if criterios_selecionados["Assistências"] == valor %}selected{% endif %}>
-                                    {% if valor == "menor que -10" %}
-                                        Menor que -10
-                                    {% elif valor == "maior que 10" %}
-                                        Maior que 10
-                                    {% else %}
-                                        {{ valor }}
-                                    {% endif %}
-                                </option>
-                            {% endfor %}
-                        </select>
-                    </td>
-                    <td>
-                        <select name="criterio_trespontos" class="criterio-input">
-                            {% for valor in valores_criterios %}
-                                <option value="{{ valor }}" 
-                                        {% if criterios_selecionados["Três Pontos"] == valor %}selected{% endif %}>
-                                    {% if valor == "menor que -10" %}
-                                        Menor que -10
-                                    {% elif valor == "maior que 10" %}
-                                        Maior que 10
-                                    {% else %}
-                                        {{ valor }}
-                                    {% endif %}
-                                </option>
-                            {% endfor %}
-                        </select>
-                    </td>
-                    <td>
-                        <select name="criterio_roubos" class="criterio-input">
-                            {% for valor in valores_criterios %}
-                                <option value="{{ valor }}" 
-                                        {% if criterios_selecionados["Roubos"] == valor %}selected{% endif %}>
-                                    {% if valor == "menor que -10" %}
-                                        Menor que -10
-                                    {% elif valor == "maior que 10" %}
-                                        Maior que 10
-                                    {% else %}
-                                        {{ valor }}
-                                    {% endif %}
-                                </option>
-                            {% endfor %}
-                        </select>
-                    </td>
-                    <td>
-                        <select name="criterio_bloqueios" class="criterio-input">
-                            {% for valor in valores_criterios %}
-                                <option value="{{ valor }}" 
-                                        {% if criterios_selecionados["Bloqueios"] == valor %}selected{% endif %}>
-                                    {% if valor == "menor que -10" %}
-                                        Menor que -10
-                                    {% elif valor == "maior que 10" %}
-                                        Maior que 10
-                                    {% else %}
-                                        {{ valor }}
-                                    {% endif %}
-                                </option>
-                            {% endfor %}
-                        </select>
-                    </td>
-                </tr>
+                <tbody>
+                    <!-- Linha para desktop -->
+                    <tr class="linha-desktop">
+                        <td>Valor</td>
+                        <td>
+                            <select name="criterio_pontos" class="criterio-input">
+                                {% for valor in valores_criterios %}
+                                    <option value="{{ valor }}" {% if criterios_selecionados["Pontos"] == valor %}selected{% endif %}>
+                                        {% if valor == "menor que -10" %}
+                                            Menor que -10
+                                        {% elif valor == "maior que 10" %}
+                                            Maior que 10
+                                        {% else %}
+                                            {{ valor }}
+                                        {% endif %}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <select name="criterio_rebotes" class="criterio-input">
+                                {% for valor in valores_criterios %}
+                                    <option value="{{ valor }}" {% if criterios_selecionados["Rebotes"] == valor %}selected{% endif %}>
+                                        {% if valor == "menor que -10" %}
+                                            Menor que -10
+                                        {% elif valor == "maior que 10" %}
+                                            Maior que 10
+                                        {% else %}
+                                            {{ valor }}
+                                        {% endif %}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <select name="criterio_assistencias" class="criterio-input">
+                                {% for valor in valores_criterios %}
+                                    <option value="{{ valor }}" {% if criterios_selecionados["Assistências"] == valor %}selected{% endif %}>
+                                        {% if valor == "menor que -10" %}
+                                            Menor que -10
+                                        {% elif valor == "maior que 10" %}
+                                            Maior que 10
+                                        {% else %}
+                                            {{ valor }}
+                                        {% endif %}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <select name="criterio_trespontos" class="criterio-input">
+                                {% for valor in valores_criterios %}
+                                    <option value="{{ valor }}" {% if criterios_selecionados["Três Pontos"] == valor %}selected{% endif %}>
+                                        {% if valor == "menor que -10" %}
+                                            Menor que -10
+                                        {% elif valor == "maior que 10" %}
+                                            Maior que 10
+                                        {% else %}
+                                            {{ valor }}
+                                        {% endif %}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <select name="criterio_roubos" class="criterio-input">
+                                {% for valor in valores_criterios %}
+                                    <option value="{{ valor }}" {% if criterios_selecionados["Roubos"] == valor %}selected{% endif %}>
+                                        {% if valor == "menor que -10" %}
+                                            Menor que -10
+                                        {% elif valor == "maior que 10" %}
+                                            Maior que 10
+                                        {% else %}
+                                            {{ valor }}
+                                        {% endif %}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <select name="criterio_bloqueios" class="criterio-input">
+                                {% for valor in valores_criterios %}
+                                    <option value="{{ valor }}" {% if criterios_selecionados["Bloqueios"] == valor %}selected{% endif %}>
+                                        {% if valor == "menor que -10" %}
+                                            Menor que -10
+                                        {% elif valor == "maior que 10" %}
+                                            Maior que 10
+                                        {% else %}
+                                            {{ valor }}
+                                        {% endif %}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+        
+                    <!-- Linha para mobile -->
+                    <tr class="linha-mobile">
+                        <td colspan="7">
+                            <div class="criterio-mobile">
+                                <span>Pontos</span>
+                                <select name="criterio_pontos" class="criterio-input">
+                                    {% for valor in valores_criterios %}
+                                        <option value="{{ valor }}" {% if criterios_selecionados["Pontos"] == valor %}selected{% endif %}>
+                                            {% if valor == "menor que -10" %}
+                                                Menor que -10
+                                            {% elif valor == "maior que 10" %}
+                                                Maior que 10
+                                            {% else %}
+                                                {{ valor }}
+                                            {% endif %}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="criterio-mobile">
+                                <span>Rebotes</span>
+                                <select name="criterio_rebotes" class="criterio-input">
+                                    {% for valor in valores_criterios %}
+                                        <option value="{{ valor }}" {% if criterios_selecionados["Rebotes"] == valor %}selected{% endif %}>
+                                            {% if valor == "menor que -10" %}
+                                                Menor que -10
+                                            {% elif valor == "maior que 10" %}
+                                                Maior que 10
+                                            {% else %}
+                                                {{ valor }}
+                                            {% endif %}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="criterio-mobile">
+                                <span>Assistências</span>
+                                <select name="criterio_assistencias" class="criterio-input">
+                                    {% for valor in valores_criterios %}
+                                        <option value="{{ valor }}" {% if criterios_selecionados["Assistências"] == valor %}selected{% endif %}>
+                                            {% if valor == "menor que -10" %}
+                                                Menor que -10
+                                            {% elif valor == "maior que 10" %}
+                                                Maior que 10
+                                            {% else %}
+                                                {{ valor }}
+                                            {% endif %}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="criterio-mobile">
+                                <span>Três Pontos</span>
+                                <select name="criterio_trespontos" class="criterio-input">
+                                    {% for valor in valores_criterios %}
+                                        <option value="{{ valor }}" {% if criterios_selecionados["Três Pontos"] == valor %}selected{% endif %}>
+                                            {% if valor == "menor que -10" %}
+                                                Menor que -10
+                                            {% elif valor == "maior que 10" %}
+                                                Maior que 10
+                                            {% else %}
+                                                {{ valor }}
+                                            {% endif %}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="criterio-mobile">
+                                <span>Roubos</span>
+                                <select name="criterio_roubos" class="criterio-input">
+                                    {% for valor in valores_criterios %}
+                                        <option value="{{ valor }}" {% if criterios_selecionados["Roubos"] == valor %}selected{% endif %}>
+                                            {% if valor == "menor que -10" %}
+                                                Menor que -10
+                                            {% elif valor == "maior que 10" %}
+                                                Maior que 10
+                                            {% else %}
+                                                {{ valor }}
+                                            {% endif %}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="criterio-mobile">
+                                <span>Bloqueios</span>
+                                <select name="criterio_bloqueios" class="criterio-input">
+                                    {% for valor in valores_criterios %}
+                                        <option value="{{ valor }}" {% if criterios_selecionados["Bloqueios"] == valor %}selected{% endif %}>
+                                            {% if valor == "menor que -10" %}
+                                                Menor que -10
+                                            {% elif valor == "maior que 10" %}
+                                                Maior que 10
+                                            {% else %}
+                                                {{ valor }}
+                                            {% endif %}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
         
@@ -957,7 +1115,7 @@
                 <h2 class="titulo-pontostotais">Pontos | Totais (Over/Under)</h2>
                 <table class="tabela-pontostotais">
                     <tr>
-                        <th class="cabecalho-tabela-pontostotais">Over/Under</th>
+                        <th class="cabecalho-tabela-pontostotais">Ov/Un</th>
                         <th class="cabecalho-tabela-pontostotais">Média</th>
                         <th class="cabecalho-tabela-pontostotais">Projeção</th>
                         <th class="cabecalho-tabela-pontostotais">Valor</th>
