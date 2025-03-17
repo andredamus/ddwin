@@ -4,6 +4,10 @@ from bs4 import BeautifulSoup
 from io import StringIO
 import os
 
+# Configuração do Telegram
+TELEGRAM_BOT_TOKEN = "7711386411:AAEZc_cIeYW33PsgJlNvWZb8V4nc7YhmcGM"
+TELEGRAM_CHAT_ID = "1700880989"
+
 # URLs e filtros
 base_url = "https://basketball.realgm.com/nba/stats/2025/Averages/Qualified"
 filtros = ["regular", "Last_10_Games", "Last_5_Games"]
@@ -15,45 +19,42 @@ headers = {"User-Agent": "Mozilla/5.0"}
 # Caminho para salvar os arquivos CSV
 caminho_pasta = "/home/andredamus/ddwin/data/players/"
 
-# Função para baixar as tabelas
+def enviar_mensagem_telegram(mensagem):
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    payload = {"chat_id": TELEGRAM_CHAT_ID, "text": mensagem}
+    requests.post(url, data=payload)
+
 def baixar_tabela(filtro, criterio):
-    # Monta a URL correta com o filtro e o critério
     url = f"{base_url}/{criterio}/All/desc/1/{filtro}"
-    print(f"Acessando URL: {url}")  # Para depuração
     response = requests.get(url, headers=headers)
 
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, "html.parser")
-        
-        # Procura pela tabela correta usando uma classe ou ID específica
-        # Inspecione o HTML da página para encontrar a classe ou ID correta
-        tabela_certa = soup.find("table", class_="tablesaw")  # Exemplo: classe "tablesaw"
-        
+        tabela_certa = soup.find("table", class_="tablesaw")
         if tabela_certa:
-            # Usa StringIO para evitar o FutureWarning
             df = pd.read_html(StringIO(str(tabela_certa)))[0]
             return df
         else:
-            print(f"Tabela não encontrada para {filtro} e {criterio}")
+            mensagem = f"⚠️ Tabela não encontrada para {filtro} e {criterio}"
+            enviar_mensagem_telegram(mensagem)
             return None
     else:
-        print(f"Erro ao acessar o site: {response.status_code}")
+        mensagem = f"❌ Erro ao acessar {url}: Código {response.status_code}"
+        enviar_mensagem_telegram(mensagem)
         return None
 
-# Iterar sobre filtros e critérios para salvar as 18 tabelas
+# Início do processo
+enviar_mensagem_telegram("🚀 Iniciando importação de estatísticas dos jogadores...")
+
 for filtro in filtros:
     for criterio in criterios:
         tabela = baixar_tabela(filtro, criterio)
         if tabela is not None:
-            # Ajusta o nome do arquivo para Last_5 e Last_10
-            if filtro == "Last_5_Games":
-                nome_filtro = "Last_5"
-            elif filtro == "Last_10_Games":
-                nome_filtro = "Last_10"
-            else:
-                nome_filtro = filtro  # Mantém "regular" sem alteração
-
+            nome_filtro = "Last_5" if filtro == "Last_5_Games" else "Last_10" if filtro == "Last_10_Games" else filtro
             nome_arquivo = f"{caminho_pasta}tabela_{nome_filtro}_{criterio}.csv"
             tabela.to_csv(nome_arquivo, index=False)
-            print(f"✅ Arquivo salvo como {nome_arquivo}")
-            print(tabela.head())  # Para conferir as primeiras linhas
+            mensagem = f"✅ Arquivo salvo: {nome_arquivo}"
+            enviar_mensagem_telegram(mensagem)
+
+# Fim do processo
+enviar_mensagem_telegram("🎯 Importação concluída com sucesso!")
