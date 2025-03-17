@@ -155,7 +155,7 @@ SIGLAS_TIMES = {
     "Dallas Mavericks": "DAL",
     "Denver Nuggets": "DEN",
     "Detroit Pistons": "DET",
-    "Golden State Warriors": "GSW",
+    "Golden State Warriors": "GOS",
     "Houston Rockets": "HOU",
     "Indiana Pacers": "IND",
     "Los Angeles Clippers": "LAC",
