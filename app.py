@@ -178,54 +178,7 @@ SIGLAS_TIMES = {
     "Washington Wizards": "WAS",
 }
 
-SIGLAS_TIMES_REVERSE = {v: k for k, v in SIGLAS_TIMES.items()} # Criar o mapeamento reverso de sigla para nome completo
-
-
-# <<LÓGICA PARA RANKINGS>>
-
-import os
-import pandas as pd
-
-def processar_rankings(caminho_arquivo):
-    """
-    Processa o arquivo CSV para gerar rankings das duas tabelas.
-    """
-    df = pd.read_csv(caminho_arquivo)
-
-    colunas_tabela1 = ["TEAM", "dEFF"]  # Primeira tabela
-    colunas_tabela2 = ["TEAM_2", "dEFF_2"]  # Segunda tabela
-
-    df_tabela1 = df[colunas_tabela1]
-    df_tabela2 = df[colunas_tabela2]
-
-    df_tabela1_ordenado = df_tabela1.sort_values(by="dEFF", ascending=True)  # Ordenar a Tabela 1 com base na coluna dEFF (do menor para o maior)
-    df_tabela1_ordenado["Ranking"] = range(1, len(df_tabela1_ordenado) + 1)  # Adicionar uma coluna de ranking à Tabela 1
-
-    df_tabela2_ordenado = df_tabela2.sort_values(by="dEFF_2", ascending=True)
-    df_tabela2_ordenado["Ranking"] = range(1, len(df_tabela2_ordenado) + 1)
-
-    # Verifica se o diretório de saída existe, caso contrário, cria
-    diretorio_rankings = "Data/Rankings"
-    if not os.path.exists(diretorio_rankings):
-        os.makedirs(diretorio_rankings)
-
-    # Caminhos para salvar os arquivos
-    caminho_saida_tabela1 = os.path.join(diretorio_rankings, "ranking_tabela1.csv")
-    df_tabela1_ordenado.to_csv(caminho_saida_tabela1, index=False)
-    print(f"✅ Ranking da Tabela 1 salvo com sucesso em {caminho_saida_tabela1}!")
-
-    caminho_saida_tabela2 = os.path.join(diretorio_rankings, "ranking_tabela2.csv")
-    df_tabela2_ordenado.to_csv(caminho_saida_tabela2, index=False)
-    print(f"✅ Ranking da Tabela 2 salvo com sucesso em {caminho_saida_tabela2}!")
-
-    # Exibe os resultados no terminal
-    print("\nResultado Tabela 1:")
-    for index, row in df_tabela1_ordenado.iterrows():
-        print(f"{row['TEAM']} {row['Ranking']}")
-
-    print("\nResultado Tabela 2:")
-    for index, row in df_tabela2_ordenado.iterrows():
-        print(f"{row['TEAM_2']} {row['Ranking']}")
+SIGLAS_TIMES_REVERSE = {v: k for k, v in SIGLAS_TIMES.items()}
 
 
 # <<LÓGICA PARA ROTA FREQUÊNCIA>>

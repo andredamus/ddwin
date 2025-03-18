@@ -1,0 +1,9 @@
+# Ignorar ambiente virtual
+venv/
+.env/
+virtualenv/
+# Ignorar arquivos .csv
+*.csv
+data/players/*.csv
+data/rankings/*.csv
+data/teams/*.csv

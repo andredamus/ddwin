@@ -12,7 +12,7 @@ mkdir -p "$LOG_DIR"
 echo "=============================" >> "$LOG_FILE"
 echo "🕓 Início da execução: $(date)" >> "$LOG_FILE"
 
-# Corrigindo permissões dos arquivos de importação de jogadores
+# Corrigindo permissões dos arquivos de importação de processar_rankings
 echo "🔧 Corrigindo permissões dos arquivos importados..." >> "$LOG_FILE"
 find "$PROJETO_DIR/data/players" -type f -exec chmod 644 {} \; -exec echo "✔ Permissão corrigida: {}" >> "$LOG_FILE" \;
 
