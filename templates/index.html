@@ -202,6 +202,16 @@
             margin-bottom: 20px;
         }
 
+        .tabela-criterios th, .tabela-criterios td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .tabela-criterios th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+
         .tabela-criterios td:first-child {
             width: 200px;
         }
@@ -217,6 +227,7 @@
             flex-direction: column;
             align-items: center;
             margin-bottom: 10px;
+            width: 100%;
         }
 
         .tabelas-lado-a-lado {
@@ -285,10 +296,7 @@
         .tabela-pontostime th:nth-child(1),
         .tabela-pontostime td:nth-child(1),
         .tabela-pontostime th:nth-child(2),
-        .tabela-pontostime td:nth-child(2) {
-            width: 15% !important;
-        }
-
+        .tabela-pontostime td:nth-child(2),
         .tabela-pontostime th:nth-child(4),
         .tabela-pontostime td:nth-child(4) {
             width: 15% !important;
@@ -487,6 +495,7 @@
             .tabela-resultados,
             .tabela-pontostotais,
             .tabela-handicap,
+            .tabela-pontostime,
             .tabela-jogadores {
                 font-size: 10px; /* Reduz o tamanho da fonte para caber melhor */
                 width: 100%; /* Garante que a tabela ocupe toda a largura do container */
@@ -498,7 +507,9 @@
             .tabela-pontostotais th,
             .tabela-pontostotais td,
             .tabela-handicap th,
-            .tabela-handicap td {
+            .tabela-handicap td,
+            .tabela-pontostime th,
+            .tabela-pontostime td {
                 padding: 6px; /* Reduz o padding para economizar espaço */
                 white-space: nowrap; /* Evita quebra de texto nas células */
             }
@@ -510,6 +521,7 @@
             .cabecalho-tabela-resultados,
             .cabecalho-tabela-pontostotais,
             .cabecalho-tabela-handicap,
+            .cabecalho-tabela-pontostime,
             .cabecalho-tabela-jogadores {
                 background-color: #8a8a8a;
                 color: white;
@@ -520,24 +532,21 @@
             }
 
             /* Ajuste nas tabelas */
-            .tabela-criterios,
-            .tabela-pontostime {
+            .tabela-criterios {
                 width: 100%;
                 font-size: 12px;
                 border-collapse: collapse;
             }
 
             /* Ajuste nas células das tabelas */
-            .tabela-criterios td,
-            .tabela-pontostime td {
+            .tabela-criterios td {
                 padding: 8px;
                 font-size: 12px;
                 text-align: center; /* Melhor para leitura em telas pequenas */
                 border: 1px solid #ddd;
             }
 
-            .tabela-criterios th,
-            .tabela-pontostime th {
+            .tabela-criterios th {
                 padding: 8px;
                 font-size: 14px;
                 background-color: #f4f4f4;
@@ -554,18 +563,22 @@
             .tabela-pontostotais th:nth-child(4),
             .tabela-pontostotais td:nth-child(4),
             .tabela-handicap th:nth-child(4),
-            .tabela-handicap td:nth-child(4) {
-                width: 20% !important;
-            }
-
-            .tabela-pontostime th:nth-child(1),
-            .tabela-pontostime td:nth-child(1) {
-                width: 20% !important;
-            }
-
+            .tabela-handicap td:nth-child(4),
             .tabela-pontostime th:nth-child(4),
             .tabela-pontostime td:nth-child(4) {
                 width: 20% !important;
+            }
+
+            .mobile-header::before {
+                content: attr(data-mobile); /* Exibe o texto reduzido */
+                white-space: pre-wrap; /* Interpreta o \A como quebra de linha */
+                font-size: 12px;
+                display: block; /* Se quiser */
+                text-align: center; /* Se quiser */
+            }
+
+            .mobile-header {
+                font-size: 0; /* Oculta o texto original */
             }
 
             /* Ajuste das fontes no rodapé */
@@ -1290,85 +1303,82 @@
             <div class="tabela-pontostime-container">
                 <h3 class="titulos_3">{{ nome_visitante }}</h3>
                 <table class="tabela-pontostime">
-                    <tr>
-                        <th class="cabecalho-tabela-pontostime">Pontos Previstos (Ataque)</th>
-                        <th class="cabecalho-tabela-pontostime">Pontos Permitidos (Defesa)</th>
-                        <th class="cabecalho-tabela-pontostime" colspan="2">Ranking (Defesa)</th>
-                        <th class="cabecalho-tabela-pontostime">Valor</th>
-                        <th class="cabecalho-tabela-pontostime">Freq.</th>
-                        <th class="cabecalho-tabela-pontostime">Freq. %</th>
-                        <th class="cabecalho-tabela-pontostime">Análise</th>
-                    </tr>
-                    <tr>
-                        <th class="cabecalho-tabela-pontostime"></th>
-                        <th class="cabecalho-tabela-pontostime"></th>
-                        <th class="cabecalho-tabela-pontostime">Regular Season</th>
-                        <th class="cabecalho-tabela-pontostime">Last 5</th>
-                        <th class="cabecalho-tabela-pontostime"></th>
-                        <th class="cabecalho-tabela-pontostime"></th>
-                        <th class="cabecalho-tabela-pontostime"></th>
-                        <th class="cabecalho-tabela-pontostime"></th>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Pts&#10Prev.">Pontos Previstos (Ataque)</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Pts&#10Perm.">Pontos Permitidos (Defesa)</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" colspan="2" data-mobile="Rk Def.">Ranking (Defesa)</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Valor">Valor</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="L10">Últimas 10</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="L10&#10%">Últimas 10 %</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Res">Result.</th>
+                        </tr>
+                        <tr>
+                            <th class="cabecalho-tabela-pontostime mobile-header" data-mobile="RS">Regular Season</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" data-mobile="L5">Last 5</th>
+                        </tr>
+                    </thead>    
                 
                     <!-- Over -->
-                    <tr>
-                        <td colspan="8" style="background-color:#ffc333; font-weight:bold; text-align:center;">Over</td>
-                    </tr>
-                    <tr>
-                        <td id="pontos-previstos-visitante-over">
-                            {{ "%.2f"|format(((media_visitante['Tm'] if media_visitante and 'Tm' in media_visitante else 0) + (media_mandante['Opp'] if media_mandante and 'Opp' in media_mandante else 0)) / 2) }}
-                        </td>
-                        <td id="pontos-permitidos-visitante-over">
-                            {{ "%.2f"|format(media_mandante['Opp'] if media_mandante and 'Opp' in media_visitante else 0) }}
-                        </td>
-                        <td id="ranking-temp-visitante-over">-</td>
-                        <td id="ranking-last5-visitante-over">-</td>
-                        <td>
-                            <input
-                                type="number"
-                                step="0.01"
-                                class="input-sem-setas"
-                                style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
-                                id="input-visitante-over"
-                                onchange="calcularFrequencia(this, 'frequencia-visitante-over', 'percentual-visitante-over', '{{ nome_visitante }}', 'over')"
-                            />
-                        </td>
-                        <td id="frequencia-visitante-over">-</td>
-                        <td id="percentual-visitante-over">-</td>
-                        <td>
-                            <div id="semaforo-visitante-over" class="semaforo"></div>
-                        </td>
-                    </tr>
-                
-                    <!-- Under -->
-                    <tr>
-                        <td colspan="8" style="background-color:#ffc333; font-weight:bold; text-align:center;">Under</td>
-                    </tr>
-                    <tr>
-                        <td id="pontos-previstos-visitante-under">
-                            {{ "%.2f"|format(((media_visitante['Tm'] if media_visitante and 'Tm' in media_visitante else 0) + (media_mandante['Opp'] if media_mandante and 'Opp' in media_mandante else 0)) / 2) }}
-                        </td>
-                        <td id="pontos-permitidos-visitante-under">
-                            {{ "%.2f"|format(media_mandante['Opp'] if media_mandante and 'Opp' in media_mandante else 0) }}
-                        </td>
-                        <td id="ranking-temp-visitante-under">-</td>
-                        <td id="ranking-last5-visitante-under">-</td>
-                        <td>
-                            <input
-                                type="number"
-                                step="0.01"
-                                class="input-sem-setas"
-                                style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
-                                id="input-visitante-under"
-                                onchange="calcularFrequencia(this, 'frequencia-visitante-under', 'percentual-visitante-under', '{{ nome_visitante }}', 'under')"
-                            />
-                        </td>
-                        <td id="frequencia-visitante-under">-</td>
-                        <td id="percentual-visitante-under">-</td>
-                        <td>
-                            <div id="semaforo-visitante-under" class="semaforo"></div>
-                        </td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td colspan="8" style="background-color:#ffc333; font-weight:bold; text-align:center;">Over</td>
+                        </tr>
+                        <tr>
+                            <td id="pontos-previstos-visitante-over">
+                                {{ "%.2f"|format(((media_visitante['Tm'] if media_visitante and 'Tm' in media_visitante else 0) + (media_mandante['Opp'] if media_mandante and 'Opp' in media_mandante else 0)) / 2) }}
+                            </td>
+                            <td id="pontos-permitidos-visitante-over">
+                                {{ "%.2f"|format(media_mandante['Opp'] if media_mandante and 'Opp' in media_visitante else 0) }}
+                            </td>
+                            <td id="ranking-temp-visitante-over">-</td>
+                            <td id="ranking-last5-visitante-over">-</td>
+                            <td>
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    class="input-sem-setas"
+                                    style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
+                                    id="input-visitante-over"
+                                    onchange="calcularFrequencia(this, 'frequencia-visitante-over', 'percentual-visitante-over', '{{ nome_visitante }}', 'over')"
+                                />
+                            </td>
+                            <td id="frequencia-visitante-over">-</td>
+                            <td id="percentual-visitante-over">-</td>
+                            <td>
+                                <div id="semaforo-visitante-over" class="semaforo"></div>
+                            </td>
+                        </tr>   
+                        <!-- Under -->
+                        <tr>
+                            <td colspan="8" style="background-color:#ffc333; font-weight:bold; text-align:center;">Under</td>
+                        </tr>
+                        <tr>
+                            <td id="pontos-previstos-visitante-under">
+                                {{ "%.2f"|format(((media_visitante['Tm'] if media_visitante and 'Tm' in media_visitante else 0) + (media_mandante['Opp'] if media_mandante and 'Opp' in media_mandante else 0)) / 2) }}
+                            </td>
+                            <td id="pontos-permitidos-visitante-under">
+                                {{ "%.2f"|format(media_mandante['Opp'] if media_mandante and 'Opp' in media_mandante else 0) }}
+                            </td>
+                            <td id="ranking-temp-visitante-under">-</td>
+                            <td id="ranking-last5-visitante-under">-</td>
+                            <td>
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    class="input-sem-setas"
+                                    style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
+                                    id="input-visitante-under"
+                                    onchange="calcularFrequencia(this, 'frequencia-visitante-under', 'percentual-visitante-under', '{{ nome_visitante }}', 'under')"
+                                />
+                            </td>
+                            <td id="frequencia-visitante-under">-</td>
+                            <td id="percentual-visitante-under">-</td>
+                            <td>
+                                <div id="semaforo-visitante-under" class="semaforo"></div>
+                            </td>
+                        </tr>
+                    </tbody>    
                 </table>
                 <div id="frases-analise-visitante-over" class="frases-analise"></div>
                 <div id="frases-analise-visitante-under" class="frases-analise"></div>
@@ -1378,84 +1388,82 @@
             <div class="tabela-pontostime-container">
                 <h3 class="titulos_3">{{ nome_mandante }}</h3>
                 <table class="tabela-pontostime">
-                    <tr>
-                        <th class="cabecalho-tabela-pontostime">Pontos Previstos (Ataque)</th>
-                        <th class="cabecalho-tabela-pontostime">Pontos Permitidos (Defesa)</th>
-                        <th class="cabecalho-tabela-pontostime" colspan="2">Ranking (Defesa)</th>
-                        <th class="cabecalho-tabela-pontostime">Valor</th>
-                        <th class="cabecalho-tabela-pontostime">Freq.</th>
-                        <th class="cabecalho-tabela-pontostime">Freq. %</th>
-                        <th class="cabecalho-tabela-pontostime">Análise</th>
-                    </tr>
-                    <tr>
-                        <th class="cabecalho-tabela-pontostime"></th>
-                        <th class="cabecalho-tabela-pontostime"></th>
-                        <th class="cabecalho-tabela-pontostime">Regular Season</th>
-                        <th class="cabecalho-tabela-pontostime">Last 5</th>
-                        <th class="cabecalho-tabela-pontostime"></th>
-                        <th class="cabecalho-tabela-pontostime"></th>
-                        <th class="cabecalho-tabela-pontostime"></th>
-                        <th class="cabecalho-tabela-pontostime"></th>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Pts&#10Prev.">Pontos Previstos (Ataque)</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Pts&#10Perm.">Pontos Permitidos (Defesa)</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" colspan="2" data-mobile="Rk Def.">Ranking (Defesa)</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Valor">Valor</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="L10">Últimas 10</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="L10&#10%">Últimas 10 %</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Res">Result.</th>
+                        </tr>
+                        <tr>
+                            <th class="cabecalho-tabela-pontostime mobile-header" data-mobile="RS">Regular Season</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" data-mobile="L5">Last 5</th>
+                        </tr>
+                    </thead>
+
                     <!-- Over -->
-                    <tr>
-                        <td colspan="8" style="background-color:#ffc333; font-weight:bold; text-align:center;">Over</td>
-                    </tr>
-                    <tr>
-                        <td id="pontos-previstos-mandante-over">
-                            {{ "%.2f"|format(((media_mandante['Tm'] if media_mandante and 'Tm' in media_mandante else 0) + (media_visitante['Opp'] if media_visitante and 'Opp' in media_visitante else 0)) / 2) }}
-                        </td>
-                        <td id="pontos-permitidos-mandante-over">
-                            {{ "%.2f"|format(media_visitante['Opp'] if media_visitante and 'Opp' in media_visitante else 0) }}
-                        </td>
-                        <td id="ranking-temp-mandante-over">-</td>
-                        <td id="ranking-last5-mandante-over">-</td>
-                        <td>
-                            <input
-                                type="number"
-                                step="0.01"
-                                class="input-sem-setas"
-                                style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
-                                id="input-mandante-over"
-                                onchange="calcularFrequencia(this, 'frequencia-mandante-over', 'percentual-mandante-over', '{{ nome_mandante }}', 'over')"
-                            />
-                        </td>
-                        <td id="frequencia-mandante-over">-</td>
-                        <td id="percentual-mandante-over">-</td>
-                        <td>
-                            <div id="semaforo-mandante-over" class="semaforo"></div>
-                        </td>
-                    </tr>
-                
-                    <!-- Under -->
-                    <tr>
-                        <td colspan="8" style="background-color:#ffc333; font-weight:bold; text-align:center;">Under</td>
-                    </tr>
-                    <tr>
-                        <td id="pontos-previstos-mandante-under">
-                            {{ "%.2f"|format(((media_mandante['Tm'] if media_mandante and 'Tm' in media_mandante else 0) + (media_visitante['Opp'] if media_visitante and 'Opp' in media_visitante else 0)) / 2) }}
-                        </td>
-                        <td id="pontos-permitidos-mandante-under">
-                            {{ "%.2f"|format(media_visitante['Opp'] if media_visitante and 'Opp' in media_visitante else 0) }}
-                        </td>
-                        <td id="ranking-temp-mandante-under">-</td>
-                        <td id="ranking-last5-mandante-under">-</td>
-                        <td>
-                            <input
-                                type="number"
-                                step="0.01"
-                                class="input-sem-setas"
-                                style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
-                                id="input-mandante-under"
-                                onchange="calcularFrequencia(this, 'frequencia-mandante-under', 'percentual-mandante-under', '{{ nome_mandante }}', 'under')"
-                            />
-                        </td>
-                        <td id="frequencia-mandante-under">-</td>
-                        <td id="percentual-mandante-under">-</td>
-                        <td>
-                            <div id="semaforo-mandante-under" class="semaforo"></div>
-                        </td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td colspan="8" style="background-color:#ffc333; font-weight:bold; text-align:center;">Over</td>
+                        </tr>
+                        <tr>
+                            <td id="pontos-previstos-mandante-over">
+                                {{ "%.2f"|format(((media_mandante['Tm'] if media_mandante and 'Tm' in media_mandante else 0) + (media_visitante['Opp'] if media_visitante and 'Opp' in media_visitante else 0)) / 2) }}
+                            </td>
+                            <td id="pontos-permitidos-mandante-over">
+                                {{ "%.2f"|format(media_visitante['Opp'] if media_visitante and 'Opp' in media_visitante else 0) }}
+                            </td>
+                            <td id="ranking-temp-mandante-over">-</td>
+                            <td id="ranking-last5-mandante-over">-</td>
+                            <td>
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    class="input-sem-setas"
+                                    style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
+                                    id="input-mandante-over"
+                                    onchange="calcularFrequencia(this, 'frequencia-mandante-over', 'percentual-mandante-over', '{{ nome_mandante }}', 'over')"
+                                />
+                            </td>
+                            <td id="frequencia-mandante-over">-</td>
+                            <td id="percentual-mandante-over">-</td>
+                            <td>
+                                <div id="semaforo-mandante-over" class="semaforo"></div>
+                            </td>
+                        </tr>               
+                        <!-- Under -->
+                        <tr>
+                            <td colspan="8" style="background-color:#ffc333; font-weight:bold; text-align:center;">Under</td>
+                        </tr>
+                        <tr>
+                            <td id="pontos-previstos-mandante-under">
+                                {{ "%.2f"|format(((media_mandante['Tm'] if media_mandante and 'Tm' in media_mandante else 0) + (media_visitante['Opp'] if media_visitante and 'Opp' in media_visitante else 0)) / 2) }}
+                            </td>
+                            <td id="pontos-permitidos-mandante-under">
+                                {{ "%.2f"|format(media_visitante['Opp'] if media_visitante and 'Opp' in media_visitante else 0) }}
+                            </td>
+                            <td id="ranking-temp-mandante-under">-</td>
+                            <td id="ranking-last5-mandante-under">-</td>
+                            <td>
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    class="input-sem-setas"
+                                    style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
+                                    id="input-mandante-under"
+                                    onchange="calcularFrequencia(this, 'frequencia-mandante-under', 'percentual-mandante-under', '{{ nome_mandante }}', 'under')"
+                                />
+                            </td>
+                            <td id="frequencia-mandante-under">-</td>
+                            <td id="percentual-mandante-under">-</td>
+                            <td>
+                                <div id="semaforo-mandante-under" class="semaforo"></div>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
                 <div id="frases-analise-mandante-over" class="frases-analise"></div>
                 <div id="frases-analise-mandante-under" class="frases-analise"></div>
