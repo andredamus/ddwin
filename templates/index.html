@@ -2145,8 +2145,8 @@
             if (
                 pontosPrevistos <= valorAvaliar &&
                 pontosPermitidos <= valorAvaliar &&
-                rankingTemp > 20 &&
-                rankingLast5 > 20 &&
+                rankingTemp < 11 &&
+                rankingLast5 < 11 &&
                 freqPercentual >= 80
             ) {
                 console.log("Condição VERDE atendida!");
@@ -2159,8 +2159,8 @@
             if (
                 pontosPrevistos > valorAvaliar ||
                 pontosPermitidos > valorAvaliar ||
-                rankingTemp < 4 ||
-                rankingLast5 < 4 ||
+                rankingTemp < 25 ||
+                rankingLast5 < 25 ||
                 freqPercentual < 60
             ) {
                 console.log("Condição VERMELHO atendida!");
@@ -2173,11 +2173,11 @@
                 if (pontosPermitidos > valorAvaliar) {
                     frasesVermelho.push("Pontos permitidos maior que o valor avaliado");
                 }
-                if (rankingTemp < 4) {
-                    frasesVermelho.push("Defesa adversária muito forte na temporada regular");
+                if (rankingTemp < 25) {
+                    frasesVermelho.push("Defesa adversária muito fraca na temporada regular");
                 }
-                if (rankingLast5 < 4) {
-                    frasesVermelho.push("Defesa adversária muito forte nos últimos 5 jogos");
+                if (rankingLast5 < 25) {
+                    frasesVermelho.push("Defesa adversária muito fraca nos últimos 5 jogos");
                 }
                 if (freqPercentual < 60) {
                     frasesVermelho.push("Baixa frequência desse valor nos últimos 10 jogos");
@@ -2207,11 +2207,11 @@
                 if (valorAvaliar >= pontosPermitidos &&  valorAvaliar <= pontosPermitidos + 6) {
                     frasesAmarelo.push("Valor avaliado próximo dos pontos permitidos (diferença de até 6 pontos)");
                 }
-                if (rankingTemp > 3 && rankingTemp < 21) {
-                    frasesAmarelo.push("Atenção com a defesa adversária. Bons números na temporada regular");
+                if (rankingTemp > 10 && rankingTemp < 25) {
+                    frasesAmarelo.push("Atenção com a defesa adversária. Números regulares na temporada");
                 }
-                if (rankingLast5 > 3 && rankingLast5 < 21) {
-                    frasesAmarelo.push("Atenção com a defesa adversária. Bons números nos últimos 5 jogos");
+                if (rankingLast5 > 10 && rankingLast5 < 25) {
+                    frasesAmarelo.push("Atenção com a defesa adversária. Números regulares nos últimos 5 jogos");
                 }
                 if (freqPercentual > 60 && freqPercentual < 80) {
                     frasesAmarelo.push("Atenção para a frequência dessa pontuação nos últimos 10 jogos");
