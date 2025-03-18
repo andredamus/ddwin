@@ -13,7 +13,7 @@ TELEGRAM_CHAT_ID = "1700880989"
 # ========== FUNÇÃO PARA ENVIAR MENSAGEM NO TELEGRAM ==========
 def enviar_mensagem_telegram(mensagem):
     try:
-        url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
         payload = {
             "chat_id": TELEGRAM_CHAT_ID,
             "text": mensagem
