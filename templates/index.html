@@ -2159,8 +2159,8 @@
             if (
                 pontosPrevistos > valorAvaliar ||
                 pontosPermitidos > valorAvaliar ||
-                rankingTemp < 25 ||
-                rankingLast5 < 25 ||
+                rankingTemp > 25 ||
+                rankingLast5 > 25 ||
                 freqPercentual < 60
             ) {
                 console.log("Condição VERMELHO atendida!");
@@ -2173,10 +2173,10 @@
                 if (pontosPermitidos > valorAvaliar) {
                     frasesVermelho.push("Pontos permitidos maior que o valor avaliado");
                 }
-                if (rankingTemp < 25) {
+                if (rankingTemp > 25) {
                     frasesVermelho.push("Defesa adversária muito fraca na temporada regular");
                 }
-                if (rankingLast5 < 25) {
+                if (rankingLast5 > 25) {
                     frasesVermelho.push("Defesa adversária muito fraca nos últimos 5 jogos");
                 }
                 if (freqPercentual < 60) {
