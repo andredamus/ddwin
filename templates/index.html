@@ -1331,8 +1331,8 @@
                             <td id="pontos-permitidos-visitante-over">
                                 {{ "%.2f"|format(media_mandante['Opp'] if media_mandante and 'Opp' in media_visitante else 0) }}
                             </td>
-                            <td id="ranking-temp-visitante-over">{{ ranking_temp_mandante-over }}</td>
-                            <td id="ranking-last5-visitante-over">{{ ranking_last5_mandante-over }}</td>
+                            <td id="ranking-temp-visitante-over">{{ ranking_temp_mandante }}</td>
+                            <td id="ranking-last5-visitante-over">{{ ranking_last5_mandante }}</td>
                             <td>
                                 <input
                                     type="number"
@@ -1360,8 +1360,8 @@
                             <td id="pontos-permitidos-visitante-under">
                                 {{ "%.2f"|format(media_mandante['Opp'] if media_mandante and 'Opp' in media_mandante else 0) }}
                             </td>
-                            <td id="ranking-temp-visitante-over">{{ ranking_temp_mandante_under }}</td>
-                            <td id="ranking-last5-visitante-over">{{ ranking_last5_mandante_under }}</td>
+                            <td id="ranking-temp-visitante-over">{{ ranking_temp_mandante }}</td>
+                            <td id="ranking-last5-visitante-over">{{ ranking_last5_mandante }}</td>
                             <td>
                                 <input
                                     type="number"
@@ -1416,8 +1416,8 @@
                             <td id="pontos-permitidos-mandante-over">
                                 {{ "%.2f"|format(media_visitante['Opp'] if media_visitante and 'Opp' in media_visitante else 0) }}
                             </td>
-                            <td id="ranking-temp-mandante-over">{{ ranking_temp_visitante_over }}</td>
-                            <td id="ranking-last5-mandante-over">{{ ranking_last5_visitante_over }}</td>
+                            <td id="ranking-temp-mandante-over">{{ ranking_temp_visitante }}</td>
+                            <td id="ranking-last5-mandante-over">{{ ranking_last5_visitante }}</td>
                             <td>
                                 <input
                                     type="number"
@@ -1445,8 +1445,8 @@
                             <td id="pontos-permitidos-mandante-under">
                                 {{ "%.2f"|format(media_visitante['Opp'] if media_visitante and 'Opp' in media_visitante else 0) }}
                             </td>
-                            <td id="ranking-temp-mandante-over">{{ ranking_temp_visitante_under }}</td>
-                            <td id="ranking-last5-mandante-over">{{ ranking_last5_visitante_under }}</td>
+                            <td id="ranking-temp-mandante-over">{{ ranking_temp_visitante }}</td>
+                            <td id="ranking-last5-mandante-over">{{ ranking_last5_visitante }}</td>
                             <td>
                                 <input
                                     type="number"
