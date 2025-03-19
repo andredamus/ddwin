@@ -37,9 +37,8 @@ url = "https://www.nbastuffer.com/2024-2025-nba-team-stats/"
 
 def baixar_estatisticas():
     logs = []
-    logs.append("==============================")
     logs.append(f"🕓 Início da execução: {datetime.now()}")
-    logs.append(f"Acessando URL: {url}")
+    print(f"Acessando URL: {url}")
 
     try:
         # Lê todas as tabelas da página
@@ -53,7 +52,7 @@ def baixar_estatisticas():
             
             # Envia o log parcial e finaliza
             mensagem_final = "\n".join(logs)
-            enviar_telegram(f"📊 Rankings Atualização\n\n{mensagem_final}")
+            enviar_telegram(f"Atualização de Rankings \n\n{mensagem_final}")
             return
 
         # Primeira tabela: Estatísticas principais
@@ -71,7 +70,7 @@ def baixar_estatisticas():
         # Salvar o arquivo CSV
         tabela_completa.to_csv(nome_arquivo, index=False)
 
-        mensagem = f"✅ Estatísticas salvas com sucesso em {nome_arquivo}!"
+        mensagem = f"✅ {nome_arquivo}"
         print(mensagem)
         logs.append(mensagem)
 
@@ -80,12 +79,11 @@ def baixar_estatisticas():
         print(mensagem)
         logs.append(mensagem)
 
-    logs.append(f"✅ Fim da execução: {datetime.now()}")
-    logs.append("==============================")
+    logs.append(f"Fim da execução: {datetime.now()}")
 
     # Envia o log completo no Telegram
     mensagem_final = "\n".join(logs)
-    enviar_telegram(f"📊 Rankings Atualização\n\n{mensagem_final}")
+    enviar_telegram(f"Atualização de Rankings \n\n{mensagem_final}")
 
 if __name__ == "__main__":
     baixar_estatisticas()

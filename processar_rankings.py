@@ -73,10 +73,10 @@ def processar_rankings(caminho_arquivo):
 
         # Mensagem de sucesso para Telegram
         mensagem = (
-            "✅ Processamento de rankings concluído!\n\n"
-            f"- Ranking Tabela 1 salvo: ranking_tabela1.csv\n"
-            f"- Ranking Tabela 2 salvo: ranking_tabela2.csv\n"
-            f"🕒 Horário: {pd.Timestamp.now()}"
+            "Processamento de Rankings: Início da execução \n\n"
+            f"✅ Ranking temporada regular salvo: ranking_tabela1.csv\n"
+            f"✅ Ranking últimos 5 jogos salvo: ranking_tabela2.csv\n"
+            f"🕒 Fim da execução: {pd.Timestamp.now()}"
         )
         enviar_mensagem_telegram(mensagem)
 

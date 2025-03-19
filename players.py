@@ -3,6 +3,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from io import StringIO
 import os
+from datetime import datetime
 
 # Configuração do Telegram
 TELEGRAM_BOT_TOKEN = "7711386411:AAEZc_cIeYW33PsgJlNvWZb8V4nc7YhmcGM"
@@ -35,16 +36,16 @@ def baixar_tabela(filtro, criterio):
             df = pd.read_html(StringIO(str(tabela_certa)))[0]
             return df
         else:
-            mensagem = f"⚠️ Tabela não encontrada para {filtro} e {criterio}"
-            enviar_mensagem_telegram(mensagem)
+            logs.append(f"⚠️ Tabela não encontrada para {filtro} e {criterio}")
             return None
     else:
-        mensagem = f"❌ Erro ao acessar {url}: Código {response.status_code}"
-        enviar_mensagem_telegram(mensagem)
+        logs.append(f"❌ Erro ao acessar {url}: Código {response.status_code}")
         return None
 
 # Início do processo
-enviar_mensagem_telegram("🚀 Iniciando importação de estatísticas dos jogadores...")
+logs = []
+inicio_execucao = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+logs.append(f"🚀 Atualização de Jogadores: Início da execução: {inicio_execucao}\n")
 
 for filtro in filtros:
     for criterio in criterios:
@@ -53,8 +54,11 @@ for filtro in filtros:
             nome_filtro = "Last_5" if filtro == "Last_5_Games" else "Last_10" if filtro == "Last_10_Games" else filtro
             nome_arquivo = f"{caminho_pasta}tabela_{nome_filtro}_{criterio}.csv"
             tabela.to_csv(nome_arquivo, index=False)
-            mensagem = f"✅ Arquivo salvo: {nome_arquivo}"
-            enviar_mensagem_telegram(mensagem)
+            logs.append(f"✅ {nome_arquivo}")
 
-# Fim do processo
-enviar_mensagem_telegram("🎯 Importação concluída com sucesso!")
+fim_execucao = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+logs.append(f"🕒 Fim da execução: {fim_execucao}")
+
+# Enviar o log completo no Telegram
+mensagem_final = "\n".join(logs)
+enviar_mensagem_telegram(mensagem_final)

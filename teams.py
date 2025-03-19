@@ -39,21 +39,20 @@ os.makedirs(CAMINHO_PASTA, exist_ok=True)
 
 def baixar_gamelogs():
     logs = []
-    logs.append("==============================")
-    logs.append(f"🕓 Início da execução: {datetime.now()}")
+    logs.append(f"Atualização de times: Início da execução {datetime.now()}")
 
     for i, team in enumerate(times_nba):
         url = f"https://www.basketball-reference.com/teams/{team}/2025/gamelog/"
 
         try:
-            logs.append(f"🔗 Acessando: {url}")
+            print(f"🔗 Acessando: {url}")
             tabelas = pd.read_html(url)
             game_log = tabelas[0]
 
             nome_arquivo = os.path.join(CAMINHO_PASTA, f"{team}_gamelog.csv")
             game_log.to_csv(nome_arquivo, index=False)
 
-            mensagem = f"✅ {team} salvo com sucesso!"
+            mensagem = f"✅ {nome_arquivo}"
             print(mensagem)
             logs.append(mensagem)
 
@@ -65,12 +64,11 @@ def baixar_gamelogs():
             print(mensagem)
             logs.append(mensagem)
 
-    logs.append(f"✅ Fim da execução: {datetime.now()}")
-    logs.append("==============================")
+    logs.append(f"Fim da execução: {datetime.now()}")
 
     # Enviar log completo para o Telegram
     mensagem_final = "\n".join(logs)
-    enviar_telegram(f"🏀 Teams Atualização\n\n{mensagem_final}")
+    enviar_telegram(mensagem_final)
 
 if __name__ == "__main__":
     baixar_gamelogs()
