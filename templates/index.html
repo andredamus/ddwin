@@ -418,32 +418,42 @@
             border-radius: 8px;
         }
 
+        .desktop-nome {
+            display: inline !important;
+        }
+
+        .mobile-nome {
+            display: none !important;
+        }
+
         /* Responsividade */
         @media (max-width: 768px) {
-            /* Filtros */
+
+            .desktop-nome {
+                display: none !important;
+            }
+            .mobile-nome {
+                display: inline !important;
+            }
+
             .filtros-container {
                 display: flex;
                 flex-direction: column;
                 gap: 12px;
-                width: 100%; /* Ocupa toda a largura disponível */
-                
+                width: 100%;
             }
 
             .filtro {
                 width: 100%;
                 padding: 12px;
                 font-size: 14px;
-                box-sizing: border-box; /* Para garantir que o padding não quebre o layout */
+                box-sizing: border-box;
                 margin-top: 5px;
                 margin-bottom: 5px;
             }
 
-            .cabecalho-desktop, .linha-desktop {
-                display: none; /* Esconde o cabeçalho e a linha do desktop */
-            }
-
             .linha-mobile {
-                display: table-row; /* Exibe a linha mobile */
+                display: table-row;
             }
 
             .criterio-mobile {
@@ -455,7 +465,7 @@
             }
 
             .criterio-mobile:last-child {
-                border-bottom: none; /* Remove a borda do último item */
+                border-bottom: none;
             }
 
             .criterio-mobile span {
@@ -463,15 +473,35 @@
             }
 
             .criterio-mobile select {
-                width: 50%; /* Ajusta o tamanho do select */
+                width: 50%;
             }
 
-            /* Tabelas lado a lado */
+            .tabela-criterios {
+                width: 100%;
+                font-size: 12px;
+                border-collapse: collapse;
+            }
+
+            .tabela-criterios td {
+                padding: 8px;
+                font-size: 12px;
+                text-align: center;
+                border: 1px solid #ddd;
+            }
+
+            .tabela-criterios th {
+                padding: 8px;
+                font-size: 14px;
+                background-color: #f4f4f4;
+                text-align: center;
+                border: 1px solid #ddd;
+            }
+
             .tabelas-lado-a-lado {
-                flex-direction: column; /* Coloca as tabelas uma embaixo da outra */
-                gap: 20px; /* Espaçamento entre as tabelas */
-                align-items: center; /* Centraliza as tabelas */
-                width: 100%; /* Garante que o container ocupe toda a largura */
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+                width: 100%;
             }
 
             .tabela-resultados-container,
@@ -479,17 +509,9 @@
             .tabela-handicap-container,
             .tabela-pontostime-container,
             .tabela-jogadores-container {
-                max-width: 100%; /* Faz as tabelas ocuparem 100% da largura */
-                width: 100%; /* Garante que as tabelas não ultrapassem as margens */
-                overflow-x: auto; /* Adiciona scroll horizontal se necessário */
-            }
-
-            /* Ajuste no cabeçalho */
-            header h1 {
-                font-size: 1.75rem;
-                padding: 12px;
-                text-align: center;
-                margin: 0;
+                max-width: 100%;
+                width: 100%;
+                overflow-x: auto;
             }
 
             .tabela-resultados,
@@ -497,9 +519,9 @@
             .tabela-handicap,
             .tabela-pontostime,
             .tabela-jogadores {
-                font-size: 10px; /* Reduz o tamanho da fonte para caber melhor */
-                width: 100%; /* Garante que a tabela ocupe toda a largura do container */
-                min-width: 300px; /* Define uma largura mínima para evitar quebra de layout */
+                font-size:
+                width: 100%;
+                min-width: 300px;
             }
 
             .tabela-resultados th,
@@ -510,12 +532,41 @@
             .tabela-handicap td,
             .tabela-pontostime th,
             .tabela-pontostime td {
-                padding: 6px; /* Reduz o padding para economizar espaço */
-                white-space: nowrap; /* Evita quebra de texto nas células */
+                padding: 6px;
+                white-space: nowrap;
             }
 
             .tabela-resultados td:nth-child(1) {
-                font-size: 10px; /* Reduz o tamanho da fonte da primeira coluna */
+                font-size: 10px;
+            }
+
+            .tabela-handicap td:nth-child(1),
+            .tabela-pontostime td:nth-child(1) {
+                width: 100% !important;
+            }
+
+            .tabela-handicap td:nth-child(1) {
+                font-size: 11px;
+            }
+
+            .tabela-pontostotais th:nth-child(4),
+            .tabela-pontostotais td:nth-child(4),
+            .tabela-handicap th:nth-child(4),
+            .tabela-handicap td:nth-child(4),
+            .tabela-pontostime th:nth-child(4),
+            .tabela-pontostime td:nth-child(4) {
+                width: 20% !important;
+            }
+
+            .cabecalho-desktop, .linha-desktop {
+                display: none;
+            }
+
+            header h1 {
+                font-size: 1.75rem;
+                padding: 12px;
+                text-align: center;
+                margin: 0;
             }
 
             .cabecalho-tabela-resultados,
@@ -531,64 +582,24 @@
                 font-size: 11px;
             }
 
-            /* Ajuste nas tabelas */
-            .tabela-criterios {
-                width: 100%;
-                font-size: 12px;
-                border-collapse: collapse;
-            }
-
-            /* Ajuste nas células das tabelas */
-            .tabela-criterios td {
-                padding: 8px;
-                font-size: 12px;
-                text-align: center; /* Melhor para leitura em telas pequenas */
-                border: 1px solid #ddd;
-            }
-
-            .tabela-criterios th {
-                padding: 8px;
-                font-size: 14px;
-                background-color: #f4f4f4;
-                text-align: center;
-                border: 1px solid #ddd;
-            }
-
-            /* Ajuste de largura das tabelas */
-            .tabela-handicap td:nth-child(1),
-            .tabela-pontostime td:nth-child(1) {
-                width: 100% !important;
-            }
-
-            .tabela-pontostotais th:nth-child(4),
-            .tabela-pontostotais td:nth-child(4),
-            .tabela-handicap th:nth-child(4),
-            .tabela-handicap td:nth-child(4),
-            .tabela-pontostime th:nth-child(4),
-            .tabela-pontostime td:nth-child(4) {
-                width: 20% !important;
-            }
-
             .mobile-header::before {
-                content: attr(data-mobile); /* Exibe o texto reduzido */
-                white-space: pre-wrap; /* Interpreta o \A como quebra de linha */
+                content: attr(data-mobile);
+                white-space: pre-wrap;
                 font-size: 12px;
-                display: block; /* Se quiser */
-                text-align: center; /* Se quiser */
+                display: block;
+                text-align: center;
             }
 
             .mobile-header {
-                font-size: 0; /* Oculta o texto original */
+                font-size: 0;
             }
 
-            /* Ajuste das fontes no rodapé */
             footer {
                 font-size: 0.9rem;
                 padding: 12px 0;
                 text-align: center;
             }
 
-            /* Melhora na legibilidade de botões */
             button {
                 font-size: 14px;
                 padding: 10px 15px;
@@ -596,7 +607,6 @@
                 width: 100%;
             }
 
-            /* Ajustar imagens para o celular */
             img {
                 max-width: 100%;
                 height: auto;
@@ -605,7 +615,7 @@
 
         @media (min-width: 769px) {
             .linha-mobile {
-                display: none; /* Esconde a linha mobile */
+                display: none;
             }
         }
 
@@ -1198,7 +1208,9 @@
             </div>
 
             <!-- TABELA HANDICAP -->
-            <div class="tabela-handicap-container">
+            <div class="tabela-handicap-container"
+                data-nome-visitante="{{ nome_visitante }}"
+                data-nome-mandante="{{ nome_mandante }}">
                 <h2 class="titulo-handicap">Handicap</h2>
                 <table class="tabela-handicap">
                     <tr>
@@ -1209,7 +1221,10 @@
                         <th class="cabecalho-tabela-handicap">Análise</th>
                     </tr>
                     <tr>
-                        <td>{{ nome_visitante }}</td>
+                        <td>
+                            <span class="mobile-nome" id="mobile-nome-visitante"></span>
+                            <span class="desktop-nome">{{ nome_visitante }}</span>
+                        </td>
                         <td>
                             {% if media_mandante and media_visitante and 'Tm' in media_mandante and 'Tm' in media_visitante %}
                                 {% set diferenca = media_mandante['Tm'] - media_visitante['Tm'] %}
@@ -1248,7 +1263,10 @@
                         </td>  
                     </tr>
                     <tr>
-                        <td>{{ nome_mandante }}</td>
+                        <td>
+                            <span class="mobile-nome" id="mobile-nome-mandante"></span>
+                            <span class="desktop-nome">{{ nome_mandante }}</span>
+                        </td>
                         <td>
                             {% if media_visitante and media_mandante and 'Tm' in media_visitante and 'Tm' in media_mandante %}
                                 {% set diferenca = media_visitante['Tm'] - media_mandante['Tm'] %}
@@ -2259,6 +2277,23 @@
             "Utah Jazz": "Utah",
             "Washington Wizards": "Washington",
         };
+
+        // FUNÇÃO HANDICAP NOME MOBILE
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Seleciona a div que já existe e tem os dados dos times
+            const tabelaContainer = document.querySelector('.tabela-handicap-container');
+
+            const nomeVisitante = tabelaContainer.dataset.nomeVisitante;
+            const nomeMandante = tabelaContainer.dataset.nomeMandante;
+
+            const nomeCurtoVisitante = MAPEAMENTO_NOMES[nomeVisitante] || nomeVisitante;
+            const nomeCurtoMandante = MAPEAMENTO_NOMES[nomeMandante] || nomeMandante;
+
+            // Preenche direto nos spans já existentes
+            document.getElementById('mobile-nome-visitante').textContent = nomeCurtoVisitante;
+            document.getElementById('mobile-nome-mandante').textContent = nomeCurtoMandante;
+        });
 
         // FUNÇÃO RANKINGS
 
