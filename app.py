@@ -149,7 +149,6 @@ SIGLAS_TIMES = {
     "Atlanta Hawks": "ATL",
     "Boston Celtics": "BOS",
     "Brooklyn Nets": "BRK",
-    "Brooklyn Nets": "BKN",
     "Charlotte Hornets": "CHA",
     "Charlotte Hornets": "CHO",
     "Chicago Bulls": "CHI",
