@@ -522,8 +522,18 @@
         @media (max-width: 768px) {
 
             body {
+                padding: 0; /* Remove o padding no mobile */
+                padding-top: 0; /* Remove o padding-top no mobile */
+                max-width: 100%; /* Remove a limitação de largura no mobile */
+            }
+
+            html, body {
+                width: 100%;
+                min-height: 100vh;
                 margin: 0;
-                padding-top: 0px;
+                padding: 0;
+                overflow-x: hidden; /* Impede scroll horizontal */
+                background: linear-gradient(to bottom left, #3e3e3e, #111111) fixed; /* Fundo fixo */
             }
 
             header {
