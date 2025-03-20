@@ -483,9 +483,11 @@
         }
 
         .contact-button {
+            display: inline-block;
             background-color: #f6f6f6;
             color: #111111;
             border: none;
+            text-decoration: none;
             padding: 8px 50px;
             border-radius: 9999px;
             cursor: pointer;
@@ -1799,7 +1801,7 @@
                         <img src="{{ url_for('static', filename='images/youtube_white.png') }}" alt="YouTube" class="icon-img">
                     </a>
                 </div>
-                <button href="mailto:andredamus@gmail.com" class="contact-button">Contato</button>
+                <a href="mailto:andredamus@gmail.com" class="contact-button">Contato</a>
             </div>
         </div>
         
