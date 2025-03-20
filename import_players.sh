@@ -12,7 +12,7 @@ mkdir -p "$LOG_DIR"
 echo "=============================" >> "$LOG_FILE"
 echo "🕓 Início da execução: $(date)" >> "$LOG_FILE"
 
-# Corrigindo permissões dos arquivos de importação de processar_rankings
+# Corrigindo permissões dos arquivos de importação de jogadores
 echo "🔧 Corrigindo permissões dos arquivos importados..." >> "$LOG_FILE"
 find "$PROJETO_DIR/data/players" -type f -exec chmod 644 {} \; -exec echo "✔ Permissão corrigida: {}" >> "$LOG_FILE" \;
 
@@ -20,8 +20,8 @@ find "$PROJETO_DIR/data/players" -type f -exec chmod 644 {} \; -exec echo "✔ P
 source "$PROJETO_DIR/venv/bin/activate"
 
 # Executar o script Python e capturar a saída no log
-echo "🚀 Rodando players.py..." >> "$LOG_FILE"
-python3 "$PROJETO_DIR/players.py" >> "$LOG_FILE" 2>&1
+echo "🚀 Rodando players.py... $(date)" >> "$LOG_FILE"
+/home/andredamus/ddwin/venv/bin/python3 "$PROJETO_DIR/players.py" >> "$LOG_FILE" 2>&1
 
 # Desativar o ambiente virtual após a execução
 deactivate
