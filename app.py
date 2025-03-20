@@ -150,14 +150,12 @@ SIGLAS_TIMES = {
     "Boston Celtics": "BOS",
     "Brooklyn Nets": "BRK",
     "Charlotte Hornets": "CHA",
-    "Charlotte Hornets": "CHO",
     "Chicago Bulls": "CHI",
     "Cleveland Cavaliers": "CLE",
     "Dallas Mavericks": "DAL",
     "Denver Nuggets": "DEN",
     "Detroit Pistons": "DET",
     "Golden State Warriors": "GOS",
-    "Golden State Warriors": "GSW",
     "Houston Rockets": "HOU",
     "Indiana Pacers": "IND",
     "Los Angeles Clippers": "LAC",
@@ -170,10 +168,8 @@ SIGLAS_TIMES = {
     "New York Knicks": "NYK",
     "Oklahoma City Thunder": "OKC",
     "Orlando Magic": "ORL",
-    "Philadelphia 76ers": "PHI",
     "Philadelphia 76ers": "PHL",
     "Phoenix Suns": "PHX",
-    "Phoenix Suns": "PHO",
     "Portland Trail Blazers": "POR",
     "Sacramento Kings": "SAC",
     "San Antonio Spurs": "SAS",
@@ -181,6 +177,20 @@ SIGLAS_TIMES = {
     "Utah Jazz": "UTA",
     "Washington Wizards": "WAS",
 }
+
+SIGLAS_EQUIVALENTES = {
+    "BRK": "BRK",  # Correto
+    "BRN": "BRK",  # Alternativa do site
+    "CHA": "CHA",
+    "CHO": "CHA",
+    "GOS": "GOS",
+    "GSW": "GOS",
+    "PHL": "PHL",
+    "PHI": "PHL",
+    "PHX": "PHX",
+    "PHO": "PHX",
+}
+
 
 SIGLAS_TIMES_REVERSE = {v: k for k, v in SIGLAS_TIMES.items()}
 
@@ -410,7 +420,7 @@ def index_view():
             dados_jogadores_visitante = {}
             dados_jogadores_mandante = {}
 
-            # Obtém as siglas dos times
+            # Obtém as siglas dos times (PADRÃO)
             sigla_visitante = SIGLAS_TIMES.get(time_visitante, "")
             sigla_mandante = SIGLAS_TIMES.get(time_mandante, "")
 
@@ -425,40 +435,47 @@ def index_view():
                 # Nome do critério traduzido (vai servir como chave)
                 nome_criterio = criterios_traduzidos[criterio]
 
-                # Verifica se o critério do visitante atende à condição
+                # ------- VISITANTE -------
                 if visitante_criterio >= valor_criterio:
                     nome_arquivo = f"tabela_{filtro_jogadores}_{info['arquivo']}.csv"
-                    caminho_completo = os.path.join(PLAYERS_FOLDER, nome_arquivo)  # Usando o caminho absoluto
+                    caminho_completo = os.path.join(PLAYERS_FOLDER, nome_arquivo)
                     
                     if os.path.exists(caminho_completo):
                         df = pd.read_csv(caminho_completo)
 
-                        # Inicializa a lista se o critério ainda não foi adicionado no dicionário
                         if nome_criterio not in dados_jogadores_visitante:
                             dados_jogadores_visitante[nome_criterio] = []
 
-                        # Filtra os jogadores do time visitante
                         for _, row in df.iterrows():
-                            if row.iloc[2] == sigla_visitante:
+                            # Normaliza a sigla do CSV para a sigla padrão
+                            sigla_csv = row.iloc[2]
+                            sigla_normalizada = SIGLAS_EQUIVALENTES.get(sigla_csv, sigla_csv)
+
+                            # Compara com a sigla padronizada do visitante
+                            if sigla_normalizada == sigla_visitante:
                                 dados_jogadores_visitante[nome_criterio].append({
                                     "Player": row.iloc[1],
                                     "Media": row.iloc[info['coluna_media']]
                                 })
 
-                # Verifica se o critério do mandante atende à condição
+                # ------- MANDANTE -------
                 if mandante_criterio >= valor_criterio:
                     nome_arquivo = f"tabela_{filtro_jogadores}_{info['arquivo']}.csv"
-                    caminho_completo = os.path.join(PLAYERS_FOLDER, nome_arquivo)  # Usando o caminho absoluto
-                    
+                    caminho_completo = os.path.join(PLAYERS_FOLDER, nome_arquivo)
+
                     if os.path.exists(caminho_completo):
                         df = pd.read_csv(caminho_completo)
 
                         if nome_criterio not in dados_jogadores_mandante:
                             dados_jogadores_mandante[nome_criterio] = []
 
-                        # Filtra os jogadores do time mandante
                         for _, row in df.iterrows():
-                            if row.iloc[2] == sigla_mandante:
+                            # Normaliza a sigla do CSV para a sigla padrão
+                            sigla_csv = row.iloc[2]
+                            sigla_normalizada = SIGLAS_EQUIVALENTES.get(sigla_csv, sigla_csv)
+
+                            # Compara com a sigla padronizada do mandante
+                            if sigla_normalizada == sigla_mandante:
                                 dados_jogadores_mandante[nome_criterio].append({
                                     "Player": row.iloc[1],
                                     "Media": row.iloc[info['coluna_media']]
