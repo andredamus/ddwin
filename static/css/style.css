@@ -1,0 +1,988 @@
+
+/* -------------------------------
+        1. RESET
+-----------------------------------*/        
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(to bottom left, #3e3e3e, #111111);
+    color: #f6f6f6;
+    line-height: 1.6;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding-top: 160px; /* Ajuste o padding-top para começar após o header */
+}
+
+
+/* -------------------------------
+        2. HEADER
+-----------------------------------*/        
+
+.top-bar {
+    background-color: #111111;
+    height: 60px; /* Altura ajustada */
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    padding-right: 20px;
+    transition: top 0.3s ease-in-out;
+}
+
+.language-selector select {
+    background-color: #fffae6;
+    color: #111111;
+    border: none;
+    padding: 7px 15px;
+    font-size: 12px;
+    height: 40px; /* Altura ajustada */
+    margin: 0;
+    border-radius: 4px;
+}
+
+.language-selector i {
+    font-size: 18px; /* Tamanho do ícone de globo */
+}
+
+.language-option {
+    cursor: pointer;
+    opacity: 0.6; /* Opacidade para idiomas não selecionados */
+    transition: opacity 0.3s ease;
+}
+
+.language-option.active {
+    opacity: 1; /* Opacidade total para o idioma selecionado */
+    font-weight: bold;
+}
+
+.language-option:hover {
+    opacity: 1; /* Efeito ao passar o mouse */
+}
+
+header {
+    background-color: #21272c;
+    color: white;
+    height: 80px; /* Altura ajustada */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    width: 100%;
+    position: fixed;
+    top: 60px; /* Colocado abaixo do top-bar */
+    left: 0;
+    z-index: 999;
+    transition: top 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+header.sticky {
+    top: 0; /* Quando sticky, o header fica no topo */
+    background-color: #111111; /* Assume a cor do top-bar */
+}
+
+header .logo img {
+    height: 50px; /* Altura da logo ajustada */
+}
+
+.logo h4 {
+    margin-top: 0; /* Remove a margem superior */
+    margin-bottom: 0; /* Remove a margem inferior */
+    padding: 0; /* Remove o padding */
+    line-height: 0.3; /* Ajusta o espaçamento entre as linhas, se necessário */
+}
+
+header .header-nav ul {
+    list-style-type: none;
+    display: flex;
+    gap: 40px;
+    margin-right: 40px;
+}
+
+header .header-nav ul li a {
+    color: inherit;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bolder;
+    transition: color 0.3s ease;
+}
+
+header .header-nav ul li a:hover {
+    color: #ffcc00;
+    font-weight: bold;
+}
+
+
+/* -------------------------------
+        3. ESTILO GLOBAL
+-----------------------------------*/        
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url("/static/fonts/Montserrat-Regular.ttf") format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GloriaHallelujah-Regular';
+    src: url("/static/fonts/GloriaHallelujah-Regular.ttf") format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+h1, h2, h3, h4 {
+    text-align: center;
+
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+h4 {
+    font-size: 0.8rem;
+    font-family: 'GloriaHallelujah-Regular', sans-serif;
+}
+
+.filtros-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.filtro {
+    flex: 1 1 45%;
+    background-color: rgba(246, 246, 246, 1);
+    padding: 15px;
+    border: 1px solid #666;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.filtro label {
+    display: block;
+    text-align: center;
+    padding: 5px;
+    font-size: 18px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.titulos_1 {
+    text-align: center;
+    padding: 10px;
+    font-size: 18px;
+    width: 100%;
+    margin: 0 auto;
+    color: #111111;
+    font-weight: bold;
+}
+
+.titulos_2 {
+    text-align: center;
+    padding: 10px;
+    font-size: 18px;
+    width: 100%;
+    margin: 0 auto;
+    color: #111111;
+    font-weight: normal;
+}
+
+.titulos_3 {
+    /* Times */
+    text-align: center;
+    padding: 10px;
+    font-size: 22px;
+    width: 100%;
+    margin: 0 auto;
+    color: #CC9000;
+    font-weight: normal;
+}
+
+select,
+button {
+    padding: 5px;
+    font-size: 16px;
+    width: 100%;
+    border: 1.3px solid #ffc333;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+select {
+    color: #333 !important;
+}
+
+select:focus,
+button:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+button {
+    background-color: #CC9000;
+    color: #f6f6f6;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 8px 60px;
+    margin-top: 20px;
+    font-size: 18px;
+    display: block;
+    */
+}
+
+button:hover {
+    background-color: #ffb400;
+}
+
+
+/* -------------------------------
+        4. PÁGINA CAPA
+-----------------------------------*/        
+
+/* Seção principal */
+.hero {
+    position: relative;
+    height: 60vh;
+    background-color: #161616;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
+    text-align: center;
+    flex-direction: row;
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    width: 60%;
+    background-color: #161616;
+    color: white;
+    padding: 20px 40px;
+    overflow: hidden;
+    order: 1;
+}
+
+#background-video-wrapper {
+    position: relative;
+    width: 40%;
+    height: 93%;
+    margin: auto 20px auto 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    order: 2;
+}
+
+#background-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.hero-content h2 {
+    color: #f6f6f6;
+    font-weight: bold;
+    font-size: 34px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.hero-content p {
+    color: #f6f6f6;
+    font-size: 16px;
+    width: 93%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.highlight {
+    color: #cc9000;
+    font-weight: bold;
+    font-size: 42px;
+}
+
+/* Vídeo tutorial */
+.video-tutorial {
+    background-color: #ffb400;
+    color: #f6f6f6;
+    text-align: center;
+}
+
+.video-tutorial h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.video-container iframe {
+    max-width: 100%;
+    height: 450px;
+}
+
+
+/* -------------------------------
+        5. PÁGINA NBA
+-----------------------------------*/        
+
+.tabelas-criterios-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.tabela-criterios {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgba(246, 246, 246, 1);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: #111111;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.tabela-criterios th,
+.tabela-criterios td {
+    padding: 10px;
+    text-align: center;
+}
+
+.tabela-criterios th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+.tabela-criterios td:first-child {
+    width: 200px;
+}
+
+.tabela-criterios td:nth-child(1) {
+    background-color: #fffae6;
+    color: #111111;
+    font-weight: bold;
+}        
+
+.secao-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.tabelas-lado-a-lado {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0 auto;
+    gap: 30px;
+    box-sizing: border-box;
+    align-items: stretch;
+}
+
+.tabela-resultados-container,
+.tabela-pontostotais-container,
+.tabela-handicap-container,
+.tabela-pontostime-container,
+.tabela-jogadores-container {
+    flex: 1;
+    max-width: calc(50% - 15px);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.tabela-resultados,
+.tabela-jogadores {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    background-color: rgba(246, 246, 246, 1);
+    color: #111111;
+}
+
+.tabela-pontostotais,
+.tabela-pontostime,
+.tabela-handicap {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    background-color: rgba(246, 246, 246, 1);
+    color: #111111;
+    flex: 1;
+    padding: 10px;
+    line-height: 1.2;
+}
+
+.tabela-resultados td:nth-child(1),
+.tabela-pontostotais td:nth-child(1),
+.tabela-handicap td:nth-child(1) {
+    background-color: #fffae6;
+    color: #111111;
+    font-weight: bold;
+}
+
+.tabela-pontostotais th:nth-child(4),
+.tabela-pontostotais td:nth-child(4),
+.tabela-handicap th:nth-child(4),
+.tabela-handicap td:nth-child(4) {
+    width: 15% !important;
+}
+
+.tabela-pontostime th:nth-child(1),
+.tabela-pontostime td:nth-child(1),
+.tabela-pontostime th:nth-child(2),
+.tabela-pontostime td:nth-child(2),
+.tabela-pontostime th:nth-child(4),
+.tabela-pontostime td:nth-child(4) {
+    width: 15% !important;
+}
+
+.tabela-handicap th:nth-child(1),
+.tabela-handicap td:nth-child(1) {
+    width: 30% !important;
+}
+
+.tabela-jogadores th:nth-child(3),
+.tabela-jogadores td:nth-child(3) {
+    width: 15% !important;
+}        
+
+.titulo-principal,
+.titulo-resultados,
+.titulo-pontostotais,
+.titulo-handicap,
+.titulo-pontostime,
+.titulo-jogadores {
+    text-align: center;
+    font-size: 26px;
+    color: #f6f6f6;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}        
+
+.cabecalho-tabela-resultados,
+.cabecalho-tabela-pontostotais,
+.cabecalho-tabela-handicap,
+.cabecalho-tabela-jogadores {
+    background-color: #8a8a8a;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.cabecalho-tabela-pontostime {
+    background-color: #8a8a8a;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+    font-size: 14px;
+}
+
+th {
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #f0f0f0;
+}
+
+.disabled {
+    background-color: #d3d3d3;
+    pointer-events: none;
+}
+
+#carregarEstatisticas:disabled {
+    background-color: #a9a9a9;
+    color: #ffffff;
+    cursor: not-allowed;
+    opacity: 0.6;
+    margin-top: 10px;
+}
+
+#reiniciarPagina {
+    margin-bottom: 30px;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    border-color: #66afe9;
+    outline: none;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}                
+
+.semaforo {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid black;
+    margin: 0 auto;
+}
+
+.frases-analise {
+    margin-top: 10px;
+    color: #f6f6f6;
+    font-size: 14px;
+}
+
+.frases-analise p {
+    margin: 5px 0;
+}
+
+.desktop-nome {
+    display: inline !important;
+}
+
+.mobile-nome {
+    display: none !important;
+}
+
+
+/* -------------------------------
+        6. RODAPÉ
+-----------------------------------*/        
+
+.footer-container {
+    background-color: #21272c;
+    color: #fff;
+    padding: 40px 20px;
+    font-family: Arial, sans-serif;
+}
+
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-logo img {
+    height: 140px;
+    margin-left: 30px;
+    margin-top: 15px;
+}
+
+.footer-nav {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.footer-nav a {
+    color: #f6f6f6;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: bolder;
+}
+
+.footer-nav a:hover {
+    color: #9ca3af;
+}
+
+.footer-icons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.icon-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    transition: transform 0.3s, filter 0.3s;
+}
+
+.icon-img:hover {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+
+.icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    margin-right: 30px;
+}
+
+.icons a {
+    color: #9ca3af;
+    font-size: 24px;
+    transition: color 0.3s;
+}
+
+.icons a:hover {
+    color: #fff;
+}
+
+.contact-button {
+    display: inline-block;
+    background-color: #f6f6f6;
+    color: #111111;
+    border: none;
+    text-decoration: none;
+    padding: 8px 50px;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    margin-right: 30px;
+}
+
+.contact-button:hover {
+    background-color: #ffb400;
+}
+
+.footer-separator {
+    border: none;
+    border-top: 1px solid #374151;
+    margin: 40px 0 20px;
+}
+
+.footer-copy {
+    text-align: center;
+    color: #9ca3af;
+    font-size: 14px;
+}
+       
+
+/* -------------------------------
+        7. RESPONSIVIDADE
+-----------------------------------*/        
+
+@media (max-width: 768px) {
+
+    body {
+        padding: 0;
+        padding-top: 0;
+        max-width: 100%;
+    }
+
+    html, body {
+        width: 100%;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        background: linear-gradient(to bottom left, #3e3e3e, #111111) fixed;
+    }
+
+    header {
+        position: static;
+        transition: none !important;
+        margin-top: 0;
+        margin-bottom: 20px;
+        padding: 10px 0;
+        overflow: hidden;
+    }
+
+    header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: -1;
+        width: 100vw;
+        margin-left: -50vw;
+        left: 50%;
+    }
+
+    header h1 {
+        font-size: 1.75rem;
+        padding: 12px;
+        text-align: center;
+        margin: 0;
+    }
+
+    .desktop-nome {
+        display: none !important;
+    }
+
+    .mobile-nome {
+        display: inline !important;
+    }
+
+    .filtros-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .filtro {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+        box-sizing: border-box;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .cabecalho-desktop,
+    .linha-desktop {
+        display: none;
+    }
+
+    .linha-mobile {
+        display: table-row;
+    }
+
+    .criterio-mobile {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .criterio-mobile:last-child {
+        border-bottom: none;
+    }
+
+    .criterio-mobile span {
+        font-weight: bold;
+    }
+
+    .criterio-mobile select {
+        width: 50%;
+    }
+
+    .tabela-handicap td:nth-child(1) {
+        font-size: 11px;
+    }
+
+    .tabela-criterios {
+        width: 100%;
+        font-size: 12px;
+        border-collapse: collapse;
+    }
+
+    .tabela-criterios td {
+        padding: 8px;
+        font-size: 12px;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+
+    .tabela-criterios th {
+        padding: 8px;
+        font-size: 14px;
+        background-color: #f4f4f4;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+
+    .tabelas-lado-a-lado {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+        width: 100%;
+    }
+
+    .tabela-resultados-container,
+    .tabela-pontostotais-container,
+    .tabela-handicap-container,
+    .tabela-pontostime-container,
+    .tabela-jogadores-container {
+        max-width: 100%;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .tabela-resultados,
+    .tabela-pontostotais,
+    .tabela-handicap,
+    .tabela-pontostime,
+    .tabela-jogadores {
+        font-size: 10px;
+        width: 100%;
+        min-width: 300px;
+    }
+
+    .tabela-resultados th,
+    .tabela-resultados td,
+    .tabela-pontostotais th,
+    .tabela-pontostotais td,
+    .tabela-handicap th,
+    .tabela-handicap td,
+    .tabela-pontostime th,
+    .tabela-pontostime td {
+        padding: 6px;
+        white-space: nowrap;
+    }
+
+    .tabela-resultados td:nth-child(1) {
+        font-size: 10px;
+    }
+
+    .cabecalho-tabela-resultados,
+    .cabecalho-tabela-pontostotais,
+    .cabecalho-tabela-handicap,
+    .cabecalho-tabela-pontostime,
+    .cabecalho-tabela-jogadores {
+        background-color: #8a8a8a;
+        color: white;
+        padding: 6px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 11px;
+    }
+
+    .tabela-handicap td:nth-child(1),
+    .tabela-pontostime td:nth-child(1) {
+        width: 100% !important;
+    }
+
+    .tabela-pontostotais th:nth-child(4),
+    .tabela-pontostotais td:nth-child(4),
+    .tabela-handicap th:nth-child(4),
+    .tabela-handicap td:nth-child(4),
+    .tabela-pontostime th:nth-child(4),
+    .tabela-pontostime td:nth-child(4) {
+        width: 20% !important;
+    }
+
+    .mobile-header::before {
+        content: attr(data-mobile);
+        white-space: pre-wrap;
+        font-size: 12px;
+        display: block;
+        text-align: center;
+    }
+
+    .mobile-header {
+        font-size: 0;
+    }
+
+    footer {
+        font-size: 0.9rem;
+        padding: 12px 0;
+        text-align: center;
+    }
+
+    .footer-top {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-logo {
+        margin: 0 0 20px 0;
+    }
+
+    .footer-logo img {
+        height: 100px;
+        margin: 0;
+    }
+
+    .footer-nav {
+        flex-direction: column;
+        gap: 15px;
+        margin: 20px 0;
+    }
+
+    .footer-nav a {
+        font-size: 18px;
+    }
+
+    .footer-icons {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .icons {
+        justify-content: center;
+        margin: 0 0 20px 0;
+    }
+
+    .icon-img {
+        width: 30px;
+        height: 30px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 10px 15px;
+        margin: 10px 0;
+        width: 100%;
+    }
+
+    .contact-button {
+        margin: 0 0 20px 0;
+        padding: 10px 40px;
+    }
+
+    .footer-separator {
+        margin: 20px 0;
+    }
+
+    .footer-copy {
+        font-size: 12px;
+        padding: 0 10px;
+    }
+}
+
+@media (min-width: 769px) {
+    .linha-mobile {
+        display: none;
+    }
+}

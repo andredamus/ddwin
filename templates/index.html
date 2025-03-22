@@ -1,808 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DDWin Sports</title>
-    <style>
-        @font-face {
-            font-family: 'Montserrat';
-            src: url("{{ url_for('static', filename='fonts/Montserrat-Regular.ttf') }}") format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
 
-        @font-face {
-            font-family: 'GloriaHallelujah-Regular';
-            src: url("{{ url_for('static', filename='fonts/GloriaHallelujah-Regular.ttf') }}") format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Montserrat';
-            background: linear-gradient(to bottom left, #3e3e3e, #111111);
-            color: #f6f6f6;
-            line-height: 1.6;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            min-height: 100vh;
-            transition: margin-top 0.3s ease;
-            padding-top: 120px;
-        }
-
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 10px 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: #f6f6f6;
-            transition: top 0.3s ease-in-out;
-        }
-
-        header img.logo {
-            width: 300px;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-            margin-bottom: 10px;
-        }
-
-        header h1 {
-            font-size: 2rem;
-            text-align: center;
-            margin: 0;
-        }
-
-        body.hide-header {
-            padding-top: 0;
-        }
-
-        body.hide-header header {
-            top: -100px;
-        }
-
-        h1, h2, h3, h4 {
-            text-align: center;
-        }
-
-        h3 {
-            font-size: 1.5rem;
-        }
-
-        h4 {
-            font-size: 1rem;
-            font-family: 'GloriaHallelujah-Regular', sans-serif;
-        }
-    
-        .filtros-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        .filtro {
-            flex: 1 1 45%;
-            background-color: rgba(246, 246, 246, 1);
-            padding: 15px;
-            border: 1px solid #666;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(5px);
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        .filtro label {
-            display: block;
-            text-align: center;
-            padding: 5px;
-            font-size: 18px;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        .titulos_1 {
-            text-align: center;
-            padding: 10px;
-            font-size: 18px;
-            width: 100%;
-            margin: 0 auto;
-            color: #111111;
-            font-weight: bold;
-        }
-
-        .titulos_2 {
-            text-align: center;
-            padding: 10px;
-            font-size: 18px;
-            width: 100%;
-            margin: 0 auto;
-            color: #111111;
-            font-weight: normal;
-        }
-
-        .titulos_3 { /* Times */
-            text-align: center;
-            padding: 10px;
-            font-size: 22px;
-            width: 100%;
-            margin: 0 auto;
-            color: #CC9000;
-            font-weight: normal;
-        }
-
-        select, button {
-            padding: 5px;
-            font-size: 16px;
-            width: 100%;
-            border: 1.3px solid #ffc333;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-
-        select {
-            color: #8a8a8a !important;
-        }
-
-        select:focus, button:focus {
-            border-color: #007BFF;
-            outline: none;
-        }
-
-        button {
-            background-color: #CC9000;
-            color: #f6f6f6;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            padding: 8px 60px;
-            margin-top: 20px;
-            font-size: 18px;
-            display: block;
-            */
-        }
-    
-        button:hover {
-            background-color: #ffb400;
-        }
-    
-        .tabelas-criterios-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-    
-        .tabela-criterios {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: rgba(246, 246, 246, 1);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            color: #111111;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        .tabela-criterios th, .tabela-criterios td {
-            padding: 10px;
-            text-align: center;
-        }
-
-        .tabela-criterios th {
-            background-color: #f0f0f0;
-            font-weight: bold;
-        }
-
-        .tabela-criterios td:first-child {
-            width: 200px;
-        }
-
-        .tabela-criterios td:nth-child(1) {
-            background-color: #fffae6;
-            color: #111111;
-            font-weight: bold;
-        }
-        
-        .secao-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 10px;
-            width: 100%;
-        }
-
-        .tabelas-lado-a-lado {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            margin: 0 auto;
-            gap: 30px;
-            box-sizing: border-box;
-            align-items: stretch;
-        }
-
-        .tabela-resultados-container,
-        .tabela-pontostotais-container,
-        .tabela-handicap-container,
-        .tabela-pontostime-container,
-        .tabela-jogadores-container {
-            flex: 1;
-            max-width: calc(50% - 15px);
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .tabela-resultados,
-        .tabela-jogadores {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            box-sizing: border-box;
-            background-color: rgba(246, 246, 246, 1);
-            color: #111111;
-        }
-
-        .tabela-pontostotais,
-        .tabela-pontostime,
-        .tabela-handicap {
-            width: 100%;
-            table-layout: fixed;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            box-sizing: border-box;
-            background-color: rgba(246, 246, 246, 1);
-            color: #111111;
-            flex: 1;
-            padding: 10px;
-            line-height: 1.2;
-        }
-
-        .tabela-resultados td:nth-child(1),
-        .tabela-pontostotais td:nth-child(1),
-        .tabela-handicap td:nth-child(1) {
-            background-color: #fffae6;
-            color: #111111;
-            font-weight: bold;
-        }
-
-        .tabela-pontostotais th:nth-child(4),
-        .tabela-pontostotais td:nth-child(4),
-        .tabela-handicap th:nth-child(4),
-        .tabela-handicap td:nth-child(4) {
-            width: 15% !important;
-        }
-
-        .tabela-pontostime th:nth-child(1),
-        .tabela-pontostime td:nth-child(1),
-        .tabela-pontostime th:nth-child(2),
-        .tabela-pontostime td:nth-child(2),
-        .tabela-pontostime th:nth-child(4),
-        .tabela-pontostime td:nth-child(4) {
-            width: 15% !important;
-        }
-
-        .tabela-handicap th:nth-child(1),
-        .tabela-handicap td:nth-child(1) {
-            width: 30% !important;
-        }
-
-        .tabela-jogadores th:nth-child(3),
-        .tabela-jogadores td:nth-child(3) {
-            width: 15% !important;
-        }
-
-        .titulo-resultados,
-        .titulo-pontostotais,
-        .titulo-handicap,
-        .titulo-pontostime,
-        .titulo-jogadores {
-            text-align: center;
-            font-size: 26px;
-            color: #f6f6f6;
-            font-weight: bold;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        .cabecalho-tabela-resultados,
-        .cabecalho-tabela-pontostotais,
-        .cabecalho-tabela-handicap,
-        .cabecalho-tabela-jogadores {
-            background-color: #8a8a8a;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .cabecalho-tabela-pontostime {
-            background-color: #8a8a8a;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 12px;
-        }
-
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        th {
-            font-size: 12px;
-            font-weight: bold;
-            background-color: #f0f0f0;
-        }
-    
-        .disabled {
-            background-color: #d3d3d3;
-            pointer-events: none;
-        }
-    
-        #carregarEstatisticas:disabled {
-            background-color: #a9a9a9;
-            color: #ffffff;
-            cursor: not-allowed;
-            opacity: 0.6;
-            margin-top: 10px;
-        }
-
-        #reiniciarPagina {
-        margin-bottom: 30px;
-        }
-
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-            border-color: #66afe9;
-            outline: none;
-        }
-
-        input[type="number"] {
-            -moz-appearance: textfield;
-            appearance: textfield;
-        }
-
-        .semaforo {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 1px solid black;
-            margin: 0 auto;
-        }
-
-        .frases-analise {
-            margin-top: 10px;
-            color:#f6f6f6;
-            font-size: 14px;
-        }
-
-        .frases-analise p {
-            margin: 5px 0;
-        }
-
-        .footer-container {
-            background-color: #21272c;
-            color: #fff;
-            padding: 40px 20px;
-            font-family: Arial, sans-serif;
-        }
-
-        .footer-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-logo img {
-            height: 140px;
-            margin-left: 30px;
-            margin-top: 15px;
-        }
-
-        .footer-nav {
-            display: flex;
-            gap: 30px;
-            align-items: center;
-            margin-top: 30px;
-        }
-
-        .footer-nav a {
-            color: #f6f6f6;
-            text-decoration: none;
-            font-size: 22px;
-            font-weight: bolder;
-        }
-
-        .footer-nav a:hover {
-            color: #9ca3af;
-        }
-
-        .footer-icons {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .icon-img {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-            transition: transform 0.3s, filter 0.3s;
-        }
-
-        .icon-img:hover {
-            transform: scale(1.1);
-            filter: brightness(1.2);
-        }
-
-        .icons {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
-            margin-right: 30px;
-        }
-
-        .icons a {
-            color: #9ca3af;
-            font-size: 24px;
-            transition: color 0.3s;
-        }
-
-        .icons a:hover {
-            color: #fff;
-        }
-
-        .contact-button {
-            display: inline-block;
-            background-color: #f6f6f6;
-            color: #111111;
-            border: none;
-            text-decoration: none;
-            padding: 8px 50px;
-            border-radius: 9999px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            font-weight: bold;
-            margin-right: 30px;
-        }
-
-        .contact-button:hover {
-            background-color: #ffb400;
-        }
-
-        .footer-separator {
-            border: none;
-            border-top: 1px solid #374151;
-            margin: 40px 0 20px;
-        }
-
-        .footer-copy {
-            text-align: center;
-            color: #9ca3af;
-            font-size: 14px;
-        }
-
-        .desktop-nome {
-            display: inline !important;
-        }
-
-        .mobile-nome {
-            display: none !important;
-        }
-
-        /* Responsividade */
-        @media (max-width: 768px) {
-
-            body {
-                padding: 0; /* Remove o padding no mobile */
-                padding-top: 0; /* Remove o padding-top no mobile */
-                max-width: 100%; /* Remove a limitação de largura no mobile */
-            }
-
-            html, body {
-                width: 100%;
-                min-height: 100vh;
-                margin: 0;
-                padding: 0;
-                overflow-x: hidden; /* Impede scroll horizontal */
-                background: linear-gradient(to bottom left, #3e3e3e, #111111) fixed; /* Fundo fixo */
-            }
-
-            header {
-                position: static;
-                transition: none !important;
-                margin-top: 0;
-                margin-bottom: 20px;
-                padding: 10px 0;
-                overflow: hidden;
-            }
-
-            header::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background-color: rgba(0, 0, 0, 0.7);
-                z-index: -1;
-                width: 100vw;
-                margin-left: -50vw; /* Centraliza o pseudo-elemento */
-                left: 50%; /* Centraliza o pseudo-elemento */
-            }
-
-            .desktop-nome {
-                display: none !important;
-            }
-
-            .mobile-nome {
-                display: inline !important;
-            }
-
-            .filtros-container {
-                display: flex;
-                flex-direction: column;
-                gap: 12px;
-                width: 100%;
-            }
-
-            .filtro {
-                width: 100%;
-                padding: 12px;
-                font-size: 14px;
-                box-sizing: border-box;
-                margin-top: 5px;
-                margin-bottom: 5px;
-            }
-
-            .linha-mobile {
-                display: table-row;
-            }
-
-            .criterio-mobile {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 8px;
-                border-bottom: 1px solid #ddd;
-            }
-
-            .criterio-mobile:last-child {
-                border-bottom: none;
-            }
-
-            .criterio-mobile span {
-                font-weight: bold;
-            }
-
-            .criterio-mobile select {
-                width: 50%;
-            }
-
-            .tabela-criterios {
-                width: 100%;
-                font-size: 12px;
-                border-collapse: collapse;
-            }
-
-            .tabela-criterios td {
-                padding: 8px;
-                font-size: 12px;
-                text-align: center;
-                border: 1px solid #ddd;
-            }
-
-            .tabela-criterios th {
-                padding: 8px;
-                font-size: 14px;
-                background-color: #f4f4f4;
-                text-align: center;
-                border: 1px solid #ddd;
-            }
-
-            .tabelas-lado-a-lado {
-                flex-direction: column;
-                gap: 20px;
-                align-items: center;
-                width: 100%;
-            }
-
-            .tabela-resultados-container,
-            .tabela-pontostotais-container,
-            .tabela-handicap-container,
-            .tabela-pontostime-container,
-            .tabela-jogadores-container {
-                max-width: 100%;
-                width: 100%;
-                overflow-x: auto;
-            }
-
-            .tabela-resultados,
-            .tabela-pontostotais,
-            .tabela-handicap,
-            .tabela-pontostime,
-            .tabela-jogadores {
-                font-size:
-                width: 100%;
-                min-width: 300px;
-            }
-
-            .tabela-resultados th,
-            .tabela-resultados td,
-            .tabela-pontostotais th,
-            .tabela-pontostotais td,
-            .tabela-handicap th,
-            .tabela-handicap td,
-            .tabela-pontostime th,
-            .tabela-pontostime td {
-                padding: 6px;
-                white-space: nowrap;
-            }
-
-            .tabela-resultados td:nth-child(1) {
-                font-size: 10px;
-            }
-
-            .tabela-handicap td:nth-child(1),
-            .tabela-pontostime td:nth-child(1) {
-                width: 100% !important;
-            }
-
-            .tabela-handicap td:nth-child(1) {
-                font-size: 11px;
-            }
-
-            .tabela-pontostotais th:nth-child(4),
-            .tabela-pontostotais td:nth-child(4),
-            .tabela-handicap th:nth-child(4),
-            .tabela-handicap td:nth-child(4),
-            .tabela-pontostime th:nth-child(4),
-            .tabela-pontostime td:nth-child(4) {
-                width: 20% !important;
-            }
-
-            .cabecalho-desktop, .linha-desktop {
-                display: none;
-            }
-
-            header h1 {
-                font-size: 1.75rem;
-                padding: 12px;
-                text-align: center;
-                margin: 0;
-            }
-
-            .cabecalho-tabela-resultados,
-            .cabecalho-tabela-pontostotais,
-            .cabecalho-tabela-handicap,
-            .cabecalho-tabela-pontostime,
-            .cabecalho-tabela-jogadores {
-                background-color: #8a8a8a;
-                color: white;
-                padding: 6px;
-                text-align: center;
-                font-weight: bold;
-                font-size: 11px;
-            }
-
-            .mobile-header::before {
-                content: attr(data-mobile);
-                white-space: pre-wrap;
-                font-size: 12px;
-                display: block;
-                text-align: center;
-            }
-
-            .mobile-header {
-                font-size: 0;
-            }
-
-            footer {
-                font-size: 0.9rem;
-                padding: 12px 0;
-                text-align: center;
-            }
-
-            button {
-                font-size: 14px;
-                padding: 10px 15px;
-                margin: 10px 0;
-                width: 100%;
-            }
-
-            .footer-top {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-
-            .footer-logo {
-                margin: 0 0 20px 0;
-            }
-
-            .footer-logo img {
-                height: 100px;
-                margin: 0;
-            }
-
-            .footer-nav {
-                flex-direction: column;
-                gap: 15px;
-                margin: 20px 0;
-            }
-
-            .footer-nav a {
-                font-size: 18px;
-            }
-
-            .footer-icons {
-                margin-top: 20px;
-                margin-bottom: 20px;
-            }
-
-            .icons {
-                justify-content: center;
-                margin: 0 0 20px 0;
-            }
-
-            .icon-img {
-                width: 30px;
-                height: 30px;
-            }
-
-            .contact-button {
-                margin: 0 0 20px 0;
-                padding: 10px 40px;
-            }
-
-            .footer-separator {
-                margin: 20px 0;
-            }
-
-            .footer-copy {
-                font-size: 12px;
-                padding: 0 10px;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .linha-mobile {
-                display: none;
-            }
-        }
-
-    </style>    
-    
     <script>
         function toggleCriteria() {
             var selectElement = document.getElementById("criterio");
@@ -814,7 +20,7 @@
             var roubosInput = document.querySelector('[name="criterio_roubos"]');
             var bloqueiosInput = document.querySelector('[name="criterio_bloqueios"]');
             var carregarEstatisticasButton = document.querySelector('button[type="submit"]');
-    
+
             if (selectElement.value === "damus_sports") {
                 criteriaInputs.forEach(input => {
                     input.setAttribute("disabled", "true");
@@ -848,7 +54,7 @@
                     input.classList.remove("disabled");
 
                     if (input.value === "") {
-                    input.value = 0.0;
+                        input.value = 0.0;
                     }
                 });
 
@@ -884,7 +90,7 @@
                 trespontosInput.removeAttribute("disabled");
                 roubosInput.removeAttribute("disabled");
                 bloqueiosInput.removeAttribute("disabled");
-                
+
                 pontosInput.classList.remove("disabled");
                 rebotesInput.classList.remove("disabled");
                 assistenciasInput.classList.remove("disabled");
@@ -894,7 +100,7 @@
             }
 
             if (carregarEstatisticasButton) {
-                carregarEstatisticasButton.addEventListener("click", function() {
+                carregarEstatisticasButton.addEventListener("click", function () {
                     const criterioSelecionado = document.getElementById("criterio").value;
 
                     setTimeout(() => {
@@ -905,21 +111,17 @@
             }
         }
 
-        window.onload = function() {
+        window.onload = function () {
             toggleCriteria();
         };
     </script>
-
 </head>
 
 <body>
 
-    <header>
-        <img src="{{ url_for('static', filename='images/Logo-ddwin.png') }}" alt="Logomarca" class="logo">
-        <h4>A vantagem que você precisa</h4>
-    </header>
-        
-    <h3>NBA: Matchup Ataque x Defesa</h3>
+    {% include 'header.html' %}
+
+    <h2 class="titulo-principal">NBA: Matchup Ataque x Defesa</h2>
     <form method="POST">
 
         <!-- FILTRO TIME VISITANTE | TIME MANDANTE -->
@@ -930,26 +132,26 @@
                 <select name="away_team" id="away_team">
                     <option value="" disabled selected>Clique aqui para definir o time visitante</option>
                     {% for team in nba_teams %}
-                        <option value="{{ team['id'] }}" {% if team['id'] == time_visitante %}selected{% endif %}>
-                            {{ team['full_name'] }}
-                        </option>
+                    <option value="{{ team['id'] }}" {% if team['id']==time_visitante %}selected{% endif %}>
+                        {{ team['full_name'] }}
+                    </option>
                     {% endfor %}
                 </select>
             </div>
-            
+
             <div class="filtro">
                 <label for="home_team" class="titulos_1">Time Mandante:</label>
                 <select name="home_team" id="home_team">
                     <option value="" disabled selected>Clique aqui para definir o time mandante</option>
                     {% for team in nba_teams %}
-                        <option value="{{ team['id'] }}" {% if team['id'] == time_mandante %}selected{% endif %}>
-                            {{ team['full_name'] }}
-                        </option>
+                    <option value="{{ team['id'] }}" {% if team['id']==time_mandante %}selected{% endif %}>
+                        {{ team['full_name'] }}
+                    </option>
                     {% endfor %}
                 </select>
             </div>
         </div>
-        
+
         <div class="filtros-container">
 
             <!-- FILTRO DE ESCOLHA DE CRITÉRIO -->
@@ -957,9 +159,12 @@
             <div class="filtro">
                 <label for="criterio" class="titulos_2">Escolha o critério:</label>
                 <select name="criterio" id="criterio" onchange="toggleCriteria()">
-                    <option value="0" {% if criterio == '0' %}selected{% endif %}>Clique aqui para definir o critério</option>
-                    <option value="damus_sports" {% if criterio == 'damus_sports' %}selected{% endif %}>Critério DDWin Sports</option>
-                    <option value="outro_criterio" {% if criterio == 'outro_criterio' %}selected{% endif %}>Critério Personalizado</option>
+                    <option value="0" {% if criterio=='0' %}selected{% endif %}>Clique aqui para definir o critério
+                    </option>
+                    <option value="damus_sports" {% if criterio=='damus_sports' %}selected{% endif %}>Critério Damus
+                        Sports</option>
+                    <option value="outro_criterio" {% if criterio=='outro_criterio' %}selected{% endif %}>Critério
+                        Personalizado</option>
                 </select>
             </div>
 
@@ -968,16 +173,16 @@
             <div class="filtro">
                 <label for="filter" class="titulos_2">Filtro de Jogos:</label>
                 <select name="filter" id="filter">
-                    <option value="regular" {% if filtro == 'regular' %}selected{% endif %}>Temporada Regular</option>
-                    <option value="last_10" {% if filtro == 'last_10' %}selected{% endif %}>Últimos 10 Jogos</option>
-                    <option value="last_9" {% if filtro == 'last_9' %}selected{% endif %}>Últimos 9 Jogos</option>
-                    <option value="last_8" {% if filtro == 'last_8' %}selected{% endif %}>Últimos 8 Jogos</option>
-                    <option value="last_7" {% if filtro == 'last_7' %}selected{% endif %}>Últimos 7 Jogos</option>
-                    <option value="last_6" {% if filtro == 'last_6' %}selected{% endif %}>Últimos 6 Jogos</option>
-                    <option value="last_5" {% if filtro == 'last_5' %}selected{% endif %}>Últimos 5 Jogos</option>
-                    <option value="last_4" {% if filtro == 'last_4' %}selected{% endif %}>Últimos 4 Jogos</option>
-                    <option value="last_3" {% if filtro == 'last_3' %}selected{% endif %}>Últimos 3 Jogos</option>
-                    <option value="last_2" {% if filtro == 'last_2' %}selected{% endif %}>Últimos 2 Jogos</option>
+                    <option value="regular" {% if filtro=='regular' %}selected{% endif %}>Temporada Regular</option>
+                    <option value="last_10" {% if filtro=='last_10' %}selected{% endif %}>Últimos 10 Jogos</option>
+                    <option value="last_9" {% if filtro=='last_9' %}selected{% endif %}>Últimos 9 Jogos</option>
+                    <option value="last_8" {% if filtro=='last_8' %}selected{% endif %}>Últimos 8 Jogos</option>
+                    <option value="last_7" {% if filtro=='last_7' %}selected{% endif %}>Últimos 7 Jogos</option>
+                    <option value="last_6" {% if filtro=='last_6' %}selected{% endif %}>Últimos 6 Jogos</option>
+                    <option value="last_5" {% if filtro=='last_5' %}selected{% endif %}>Últimos 5 Jogos</option>
+                    <option value="last_4" {% if filtro=='last_4' %}selected{% endif %}>Últimos 4 Jogos</option>
+                    <option value="last_3" {% if filtro=='last_3' %}selected{% endif %}>Últimos 3 Jogos</option>
+                    <option value="last_2" {% if filtro=='last_2' %}selected{% endif %}>Últimos 2 Jogos</option>
                 </select>
             </div>
         </div>
@@ -987,9 +192,11 @@
         <div class="filtro">
             <label for="filter_jogadores" class="titulos_2">Filtro de Jogadores:</label>
             <select name="filter_jogadores" id="filter_jogadores">
-                <option value="regular" {% if filtro_jogadores == 'regular' %}selected{% endif %}>Temporada Regular</option>
-                <option value="Last_10" {% if filtro_jogadores == 'Last_10' %}selected{% endif %}>Últimos 10 Jogos</option>
-                <option value="Last_5" {% if filtro_jogadores == 'Last_5' %}selected{% endif %}>Últimos 5 Jogos</option>
+                <option value="regular" {% if filtro_jogadores=='regular' %}selected{% endif %}>Temporada Regular
+                </option>
+                <option value="last_10" {% if filtro_jogadores=='last_10' %}selected{% endif %}>Últimos 10 Jogos
+                </option>
+                <option value="last_5" {% if filtro_jogadores=='last_5' %}selected{% endif %}>Últimos 5 Jogos</option>
             </select>
         </div>
 
@@ -1018,95 +225,101 @@
                         <td>
                             <select name="criterio_pontos" class="criterio-input">
                                 {% for valor in valores_criterios %}
-                                    <option value="{{ valor }}" {% if criterios_selecionados["Pontos"] == valor %}selected{% endif %}>
-                                        {% if valor == "menor que -10" %}
-                                            Menor que -10
-                                        {% elif valor == "maior que 10" %}
-                                            Maior que 10
-                                        {% else %}
-                                            {{ valor }}
-                                        {% endif %}
-                                    </option>
+                                <option value="{{ valor }}" {% if criterios_selecionados["Pontos"]==valor %}selected{%
+                                    endif %}>
+                                    {% if valor == "menor que -10" %}
+                                    Menor que -10
+                                    {% elif valor == "maior que 10" %}
+                                    Maior que 10
+                                    {% else %}
+                                    {{ valor }}
+                                    {% endif %}
+                                </option>
                                 {% endfor %}
                             </select>
                         </td>
                         <td>
                             <select name="criterio_rebotes" class="criterio-input">
                                 {% for valor in valores_criterios %}
-                                    <option value="{{ valor }}" {% if criterios_selecionados["Rebotes"] == valor %}selected{% endif %}>
-                                        {% if valor == "menor que -10" %}
-                                            Menor que -10
-                                        {% elif valor == "maior que 10" %}
-                                            Maior que 10
-                                        {% else %}
-                                            {{ valor }}
-                                        {% endif %}
-                                    </option>
+                                <option value="{{ valor }}" {% if criterios_selecionados["Rebotes"]==valor %}selected{%
+                                    endif %}>
+                                    {% if valor == "menor que -10" %}
+                                    Menor que -10
+                                    {% elif valor == "maior que 10" %}
+                                    Maior que 10
+                                    {% else %}
+                                    {{ valor }}
+                                    {% endif %}
+                                </option>
                                 {% endfor %}
                             </select>
                         </td>
                         <td>
                             <select name="criterio_assistencias" class="criterio-input">
                                 {% for valor in valores_criterios %}
-                                    <option value="{{ valor }}" {% if criterios_selecionados["Assistências"] == valor %}selected{% endif %}>
-                                        {% if valor == "menor que -10" %}
-                                            Menor que -10
-                                        {% elif valor == "maior que 10" %}
-                                            Maior que 10
-                                        {% else %}
-                                            {{ valor }}
-                                        {% endif %}
-                                    </option>
+                                <option value="{{ valor }}" {% if criterios_selecionados["Assistências"]==valor
+                                    %}selected{% endif %}>
+                                    {% if valor == "menor que -10" %}
+                                    Menor que -10
+                                    {% elif valor == "maior que 10" %}
+                                    Maior que 10
+                                    {% else %}
+                                    {{ valor }}
+                                    {% endif %}
+                                </option>
                                 {% endfor %}
                             </select>
                         </td>
                         <td>
                             <select name="criterio_trespontos" class="criterio-input">
                                 {% for valor in valores_criterios %}
-                                    <option value="{{ valor }}" {% if criterios_selecionados["Três Pontos"] == valor %}selected{% endif %}>
-                                        {% if valor == "menor que -10" %}
-                                            Menor que -10
-                                        {% elif valor == "maior que 10" %}
-                                            Maior que 10
-                                        {% else %}
-                                            {{ valor }}
-                                        {% endif %}
-                                    </option>
+                                <option value="{{ valor }}" {% if criterios_selecionados["Três Pontos"]==valor
+                                    %}selected{% endif %}>
+                                    {% if valor == "menor que -10" %}
+                                    Menor que -10
+                                    {% elif valor == "maior que 10" %}
+                                    Maior que 10
+                                    {% else %}
+                                    {{ valor }}
+                                    {% endif %}
+                                </option>
                                 {% endfor %}
                             </select>
                         </td>
                         <td>
                             <select name="criterio_roubos" class="criterio-input">
                                 {% for valor in valores_criterios %}
-                                    <option value="{{ valor }}" {% if criterios_selecionados["Roubos"] == valor %}selected{% endif %}>
-                                        {% if valor == "menor que -10" %}
-                                            Menor que -10
-                                        {% elif valor == "maior que 10" %}
-                                            Maior que 10
-                                        {% else %}
-                                            {{ valor }}
-                                        {% endif %}
-                                    </option>
+                                <option value="{{ valor }}" {% if criterios_selecionados["Roubos"]==valor %}selected{%
+                                    endif %}>
+                                    {% if valor == "menor que -10" %}
+                                    Menor que -10
+                                    {% elif valor == "maior que 10" %}
+                                    Maior que 10
+                                    {% else %}
+                                    {{ valor }}
+                                    {% endif %}
+                                </option>
                                 {% endfor %}
                             </select>
                         </td>
                         <td>
                             <select name="criterio_bloqueios" class="criterio-input">
                                 {% for valor in valores_criterios %}
-                                    <option value="{{ valor }}" {% if criterios_selecionados["Bloqueios"] == valor %}selected{% endif %}>
-                                        {% if valor == "menor que -10" %}
-                                            Menor que -10
-                                        {% elif valor == "maior que 10" %}
-                                            Maior que 10
-                                        {% else %}
-                                            {{ valor }}
-                                        {% endif %}
-                                    </option>
+                                <option value="{{ valor }}" {% if criterios_selecionados["Bloqueios"]==valor
+                                    %}selected{% endif %}>
+                                    {% if valor == "menor que -10" %}
+                                    Menor que -10
+                                    {% elif valor == "maior que 10" %}
+                                    Maior que 10
+                                    {% else %}
+                                    {{ valor }}
+                                    {% endif %}
+                                </option>
                                 {% endfor %}
                             </select>
                         </td>
                     </tr>
-        
+
                     <!-- Linha para mobile -->
                     <tr class="linha-mobile">
                         <td colspan="7">
@@ -1114,15 +327,16 @@
                                 <span>Pontos</span>
                                 <select name="criterio_pontos" class="criterio-input">
                                     {% for valor in valores_criterios %}
-                                        <option value="{{ valor }}" {% if criterios_selecionados["Pontos"] == valor %}selected{% endif %}>
-                                            {% if valor == "menor que -10" %}
-                                                Menor que -10
-                                            {% elif valor == "maior que 10" %}
-                                                Maior que 10
-                                            {% else %}
-                                                {{ valor }}
-                                            {% endif %}
-                                        </option>
+                                    <option value="{{ valor }}" {% if criterios_selecionados["Pontos"]==valor
+                                        %}selected{% endif %}>
+                                        {% if valor == "menor que -10" %}
+                                        Menor que -10
+                                        {% elif valor == "maior que 10" %}
+                                        Maior que 10
+                                        {% else %}
+                                        {{ valor }}
+                                        {% endif %}
+                                    </option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -1130,15 +344,16 @@
                                 <span>Rebotes</span>
                                 <select name="criterio_rebotes" class="criterio-input">
                                     {% for valor in valores_criterios %}
-                                        <option value="{{ valor }}" {% if criterios_selecionados["Rebotes"] == valor %}selected{% endif %}>
-                                            {% if valor == "menor que -10" %}
-                                                Menor que -10
-                                            {% elif valor == "maior que 10" %}
-                                                Maior que 10
-                                            {% else %}
-                                                {{ valor }}
-                                            {% endif %}
-                                        </option>
+                                    <option value="{{ valor }}" {% if criterios_selecionados["Rebotes"]==valor
+                                        %}selected{% endif %}>
+                                        {% if valor == "menor que -10" %}
+                                        Menor que -10
+                                        {% elif valor == "maior que 10" %}
+                                        Maior que 10
+                                        {% else %}
+                                        {{ valor }}
+                                        {% endif %}
+                                    </option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -1146,15 +361,16 @@
                                 <span>Assistências</span>
                                 <select name="criterio_assistencias" class="criterio-input">
                                     {% for valor in valores_criterios %}
-                                        <option value="{{ valor }}" {% if criterios_selecionados["Assistências"] == valor %}selected{% endif %}>
-                                            {% if valor == "menor que -10" %}
-                                                Menor que -10
-                                            {% elif valor == "maior que 10" %}
-                                                Maior que 10
-                                            {% else %}
-                                                {{ valor }}
-                                            {% endif %}
-                                        </option>
+                                    <option value="{{ valor }}" {% if criterios_selecionados["Assistências"]==valor
+                                        %}selected{% endif %}>
+                                        {% if valor == "menor que -10" %}
+                                        Menor que -10
+                                        {% elif valor == "maior que 10" %}
+                                        Maior que 10
+                                        {% else %}
+                                        {{ valor }}
+                                        {% endif %}
+                                    </option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -1162,15 +378,16 @@
                                 <span>Três Pontos</span>
                                 <select name="criterio_trespontos" class="criterio-input">
                                     {% for valor in valores_criterios %}
-                                        <option value="{{ valor }}" {% if criterios_selecionados["Três Pontos"] == valor %}selected{% endif %}>
-                                            {% if valor == "menor que -10" %}
-                                                Menor que -10
-                                            {% elif valor == "maior que 10" %}
-                                                Maior que 10
-                                            {% else %}
-                                                {{ valor }}
-                                            {% endif %}
-                                        </option>
+                                    <option value="{{ valor }}" {% if criterios_selecionados["Três Pontos"]==valor
+                                        %}selected{% endif %}>
+                                        {% if valor == "menor que -10" %}
+                                        Menor que -10
+                                        {% elif valor == "maior que 10" %}
+                                        Maior que 10
+                                        {% else %}
+                                        {{ valor }}
+                                        {% endif %}
+                                    </option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -1178,15 +395,16 @@
                                 <span>Roubos</span>
                                 <select name="criterio_roubos" class="criterio-input">
                                     {% for valor in valores_criterios %}
-                                        <option value="{{ valor }}" {% if criterios_selecionados["Roubos"] == valor %}selected{% endif %}>
-                                            {% if valor == "menor que -10" %}
-                                                Menor que -10
-                                            {% elif valor == "maior que 10" %}
-                                                Maior que 10
-                                            {% else %}
-                                                {{ valor }}
-                                            {% endif %}
-                                        </option>
+                                    <option value="{{ valor }}" {% if criterios_selecionados["Roubos"]==valor
+                                        %}selected{% endif %}>
+                                        {% if valor == "menor que -10" %}
+                                        Menor que -10
+                                        {% elif valor == "maior que 10" %}
+                                        Maior que 10
+                                        {% else %}
+                                        {{ valor }}
+                                        {% endif %}
+                                    </option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -1194,15 +412,16 @@
                                 <span>Bloqueios</span>
                                 <select name="criterio_bloqueios" class="criterio-input">
                                     {% for valor in valores_criterios %}
-                                        <option value="{{ valor }}" {% if criterios_selecionados["Bloqueios"] == valor %}selected{% endif %}>
-                                            {% if valor == "menor que -10" %}
-                                                Menor que -10
-                                            {% elif valor == "maior que 10" %}
-                                                Maior que 10
-                                            {% else %}
-                                                {{ valor }}
-                                            {% endif %}
-                                        </option>
+                                    <option value="{{ valor }}" {% if criterios_selecionados["Bloqueios"]==valor
+                                        %}selected{% endif %}>
+                                        {% if valor == "menor que -10" %}
+                                        Menor que -10
+                                        {% elif valor == "maior que 10" %}
+                                        Maior que 10
+                                        {% else %}
+                                        {{ valor }}
+                                        {% endif %}
+                                    </option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -1211,15 +430,15 @@
                 </tbody>
             </table>
         </div>
-        
+
         <!-- BOTÃO CARREGAR ESTATÍSTICA | REINICIAR PÁGINA -->
 
         <button type="submit" id="carregarEstatisticas" disabled>Carregar Estatísticas</button>
         <button type="button" id="reiniciarPagina">Reiniciar Página</button>
 
         <script>
-            document.getElementById("reiniciarPagina").addEventListener("click", function() {
-            window.location.href = window.location.pathname;
+            document.getElementById("reiniciarPagina").addEventListener("click", function () {
+                window.location.href = window.location.pathname;
             });
         </script>
 
@@ -1237,7 +456,7 @@
                     botao.setAttribute("disabled", "true");
                 }
             }
-    
+
             document.getElementById("home_team").addEventListener("change", verificarCampos);
             document.getElementById("away_team").addEventListener("change", verificarCampos);
             document.getElementById("criterio").addEventListener("change", verificarCampos);
@@ -1263,35 +482,36 @@
                 <th class="cabecalho-tabela-resultados">Matchup</th>
             </tr>
             {% set criterios = {
-                "pontos": ["Tm", "Opp"],
-                "rebotes": ["Trb", "Trbc"],
-                "assistencias": ["Ast", "Astp"],
-                "trespontos": ["3pt", "3ptp"],
-                "roubos": ["Stl", "Stlp"],
-                "bloqueios": ["Blk", "Blkp"]
+            "pontos": ["Tm", "Opp"],
+            "rebotes": ["Trb", "Trbc"],
+            "assistencias": ["Ast", "Astp"],
+            "trespontos": ["3pt", "3ptp"],
+            "roubos": ["Stl", "Stlp"],
+            "bloqueios": ["Blk", "Blkp"]
             } %}
 
             {% set criterios_traduzidos = {
-                "pontos": "Pontos",
-                "rebotes": "Rebotes",
-                "assistencias": "Assistências",
-                "trespontos": "Três Pontos",
-                "roubos": "Roubos",
-                "bloqueios": "Bloqueios"
+            "pontos": "Pontos",
+            "rebotes": "Rebotes",
+            "assistencias": "Assistências",
+            "trespontos": "Três Pontos",
+            "roubos": "Roubos",
+            "bloqueios": "Bloqueios"
             } %}
 
             {% for criterio, colunas in criterios.items() %}
             <tr>
                 <td>{{ criterios_traduzidos[criterio] }}</td>
                 <td>{{ (media_time[colunas[0]] if media_time and colunas[0] in media_time else 0) | round(2) }}</td>
-                <td>{{ "%.2f"|format(((media_time[colunas[0]] if media_time and colunas[0] in media_time else 0) + (media_oponente[colunas[1]] if media_oponente and colunas[1] in media_oponente else 0)) / 2) }}</td>
+                <td>{{ "%.2f"|format(((media_time[colunas[0]] if media_time and colunas[0] in media_time else 0) +
+                    (media_oponente[colunas[1]] if media_oponente and colunas[1] in media_oponente else 0)) / 2) }}</td>
                 <td>{{ "%.2f"|format(resultado_matchup[tipo + "_" + criterio] or 0) }}</td>
                 <td>
                     {% set criterio_var = "criterio_" + criterio %}
                     {% if (resultado_matchup[tipo + "_" + criterio] or 0) >= (valores_criterio[criterio_var] | float) %}
-                        <div class="semaforo" style="background-color: green; display: inline-block;"></div>
+                    <div class="semaforo" style="background-color: green; display: inline-block;"></div>
                     {% else %}
-                        <div class="semaforo" style="background-color: red; display: inline-block;"></div>
+                    <div class="semaforo" style="background-color: red; display: inline-block;"></div>
                     {% endif %}
                 </td>
             </tr>
@@ -1303,8 +523,10 @@
     <div class="secao-container">
         <h2 class="titulo-resultados">Resultados do Matchup Ataque x Defesa</h2>
         <div class="tabelas-lado-a-lado">
-            {{ render_table(nome_visitante, media_visitante, media_mandante, resultado_matchup, criterio_pontos, 'visitante') }}
-            {{ render_table(nome_mandante, media_mandante, media_visitante, resultado_matchup, criterio_pontos, 'mandante') }}
+            {{ render_table(nome_visitante, media_visitante, media_mandante, resultado_matchup, criterio_pontos,
+            'visitante') }}
+            {{ render_table(nome_mandante, media_mandante, media_visitante, resultado_matchup, criterio_pontos,
+            'mandante') }}
         </div>
     </div>
 
@@ -1323,65 +545,61 @@
                         <th class="cabecalho-tabela-pontostotais">Média</th>
                         <th class="cabecalho-tabela-pontostotais">Projeção</th>
                         <th class="cabecalho-tabela-pontostotais">Valor</th>
-                        <th class="cabecalho-tabela-pontostotais">Análise</th>
+                        <th class="cabecalho-tabela-pontostotais mobile-header" data-mobile="Res.">Resultado</th>
                     </tr>
                     <tr>
                         <td>Over</td>
                         <td>
-                            {% if media_visitante and media_mandante and 'Tm' in media_visitante and 'Tm' in media_mandante %}
-                                {{ "%.2f"|format(media_visitante['Tm'] + media_mandante['Tm']) }}
+                            {% if media_visitante and media_mandante and 'Tm' in media_visitante and 'Tm' in
+                            media_mandante %}
+                            {{ "%.2f"|format(media_visitante['Tm'] + media_mandante['Tm']) }}
                             {% else %}
-                                0
+                            0
                             {% endif %}
-                        </td>                        
+                        </td>
                         <td id="totalprojecaoover">
-                            {% if media_visitante and media_mandante and 'Tm' in media_visitante and 'Opp' in media_mandante and 'Tm' in media_mandante and 'Opp' in media_visitante %}
-                                {{ "%.2f"|format(((media_visitante['Tm'] + media_mandante['Opp']) / 2) + ((media_mandante['Tm'] + media_visitante['Opp']) / 2)) }}
+                            {% if media_visitante and media_mandante and 'Tm' in media_visitante and 'Opp' in
+                            media_mandante and 'Tm' in media_mandante and 'Opp' in media_visitante %}
+                            {{ "%.2f"|format(((media_visitante['Tm'] + media_mandante['Opp']) / 2) +
+                            ((media_mandante['Tm'] + media_visitante['Opp']) / 2)) }}
                             {% else %}
-                                0
+                            0
                             {% endif %}
-                        </td>                        
+                        </td>
                         <td>
-                            <input
-                                type="number"
-                                step="0.01"
-                                class="input-sem-setas"
+                            <input type="number" step="0.01" class="input-sem-setas"
                                 style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
-                                id="input-totalpontos-over"
-                                onchange="analisarPontosTotaisOver()"
-                            />
+                                id="input-totalpontos-over" onchange="analisarPontosTotaisOver()" />
                         <td>
                             <div id="semaforo-totalpontos-over" class="semaforo"></div>
-                        </td>                        
+                        </td>
                     </tr>
                     <tr>
                         <td>Under</td>
                         <td>
-                            {% if media_visitante and media_mandante and 'Tm' in media_visitante and 'Tm' in media_mandante %}
-                                {{ "%.2f"|format(media_visitante['Tm'] + media_mandante['Tm']) }}
+                            {% if media_visitante and media_mandante and 'Tm' in media_visitante and 'Tm' in
+                            media_mandante %}
+                            {{ "%.2f"|format(media_visitante['Tm'] + media_mandante['Tm']) }}
                             {% else %}
-                                0
+                            0
                             {% endif %}
-                        </td>                        
+                        </td>
                         <td id="totalprojecaounder">
-                            {% if media_visitante and media_mandante and 'Tm' in media_visitante and 'Opp' in media_mandante and 'Tm' in media_mandante and 'Opp' in media_visitante %}
-                                {{ "%.2f"|format(((media_visitante['Tm'] + media_mandante['Opp']) / 2) + ((media_mandante['Tm'] + media_visitante['Opp']) / 2)) }}
+                            {% if media_visitante and media_mandante and 'Tm' in media_visitante and 'Opp' in
+                            media_mandante and 'Tm' in media_mandante and 'Opp' in media_visitante %}
+                            {{ "%.2f"|format(((media_visitante['Tm'] + media_mandante['Opp']) / 2) +
+                            ((media_mandante['Tm'] + media_visitante['Opp']) / 2)) }}
                             {% else %}
-                                0
+                            0
                             {% endif %}
-                        </td>                       
+                        </td>
                         <td>
-                            <input
-                                type="number"
-                                step="0.01"
-                                class="input-sem-setas"
+                            <input type="number" step="0.01" class="input-sem-setas"
                                 style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
-                                id="input-totalpontos-under"
-                                onchange="analisarPontosTotaisUnder()"
-                            />
+                                id="input-totalpontos-under" onchange="analisarPontosTotaisUnder()" />
                         <td>
                             <div id="semaforo-totalpontos-under" class="semaforo"></div>
-                        </td>                        
+                        </td>
                     </tr>
                 </table>
                 <div id="frases-analise-totalpontos-over" class="frases-analise"></div>
@@ -1389,17 +607,17 @@
             </div>
 
             <!-- TABELA HANDICAP -->
-            <div class="tabela-handicap-container"
-                data-nome-visitante="{{ nome_visitante }}"
+
+            <div class="tabela-handicap-container" data-nome-visitante="{{ nome_visitante }}"
                 data-nome-mandante="{{ nome_mandante }}">
                 <h2 class="titulo-handicap">Handicap</h2>
                 <table class="tabela-handicap">
                     <tr>
                         <th class="cabecalho-tabela-handicap">Time</th>
                         <th class="cabecalho-tabela-handicap">Média</th>
-                        <th class="cabecalho-tabela-handicap">Projeção</th>
+                        <th class="cabecalho-tabela-handicap mobile-header" data-mobile="Proj.">Projeção</th>
                         <th class="cabecalho-tabela-handicap">Valor</th>
-                        <th class="cabecalho-tabela-handicap">Análise</th>
+                        <th class="cabecalho-tabela-handicap mobile-header" data-mobile="Res.">Resultado</th>
                     </tr>
                     <tr>
                         <td>
@@ -1407,41 +625,39 @@
                             <span class="desktop-nome">{{ nome_visitante }}</span>
                         </td>
                         <td>
-                            {% if media_mandante and media_visitante and 'Tm' in media_mandante and 'Tm' in media_visitante %}
-                                {% set diferenca = media_mandante['Tm'] - media_visitante['Tm'] %}
-                                {% if diferenca > 0 %}
-                                    +{{ "%.1f"|format(diferenca) }}
-                                {% else %}
-                                    {{ "%.1f"|format(diferenca) }}
-                                {% endif %}
+                            {% if media_mandante and media_visitante and 'Tm' in media_mandante and 'Tm' in
+                            media_visitante %}
+                            {% set diferenca = media_mandante['Tm'] - media_visitante['Tm'] %}
+                            {% if diferenca > 0 %}
+                            +{{ "%.1f"|format(diferenca) }}
                             {% else %}
-                                0
+                            {{ "%.1f"|format(diferenca) }}
+                            {% endif %}
+                            {% else %}
+                            0
                             {% endif %}
                         </td>
                         <td id="totalprojecaohandicapvisitante">
-                            {% if media_mandante and media_visitante and 'Tm' in media_mandante and 'Opp' in media_visitante and 'Tm' in media_visitante and 'Opp' in media_mandante %}
-                                {% set diferenca = ((media_mandante['Tm'] + media_visitante['Opp']) / 2) - ((media_visitante['Tm'] + media_mandante['Opp']) / 2) %}
-                                {% if diferenca > 0 %}
-                                    +{{ "%.1f"|format(diferenca) }}
-                                {% else %}
-                                    {{ "%.1f"|format(diferenca) }}
-                                {% endif %}
+                            {% if media_mandante and media_visitante and 'Tm' in media_mandante and 'Opp' in
+                            media_visitante and 'Tm' in media_visitante and 'Opp' in media_mandante %}
+                            {% set diferenca = ((media_mandante['Tm'] + media_visitante['Opp']) / 2) -
+                            ((media_visitante['Tm'] + media_mandante['Opp']) / 2) %}
+                            {% if diferenca > 0 %}
+                            +{{ "%.1f"|format(diferenca) }}
                             {% else %}
-                                0
+                            {{ "%.1f"|format(diferenca) }}
+                            {% endif %}
+                            {% else %}
+                            0
                             {% endif %}
                         </td>
                         <td>
-                            <input
-                                type="number"
-                                step="0.01"
-                                class="input-sem-setas"
+                            <input type="number" step="0.01" class="input-sem-setas"
                                 style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
-                                id="input-handicap-visitante"
-                                onchange="analisarHandicapVisitante()"
-                            />
+                                id="input-handicap-visitante" onchange="analisarHandicapVisitante()" />
                         <td>
                             <div id="semaforo-handicap-visitante" class="semaforo"></div>
-                        </td>  
+                        </td>
                     </tr>
                     <tr>
                         <td>
@@ -1449,41 +665,39 @@
                             <span class="desktop-nome">{{ nome_mandante }}</span>
                         </td>
                         <td>
-                            {% if media_visitante and media_mandante and 'Tm' in media_visitante and 'Tm' in media_mandante %}
-                                {% set diferenca = media_visitante['Tm'] - media_mandante['Tm'] %}
-                                {% if diferenca > 0 %}
-                                    +{{ "%.1f"|format(diferenca) }}
-                                {% else %}
-                                    {{ "%.1f"|format(diferenca) }}
-                                {% endif %}
+                            {% if media_visitante and media_mandante and 'Tm' in media_visitante and 'Tm' in
+                            media_mandante %}
+                            {% set diferenca = media_visitante['Tm'] - media_mandante['Tm'] %}
+                            {% if diferenca > 0 %}
+                            +{{ "%.1f"|format(diferenca) }}
                             {% else %}
-                                0
+                            {{ "%.1f"|format(diferenca) }}
+                            {% endif %}
+                            {% else %}
+                            0
                             {% endif %}
                         </td>
                         <td id="totalprojecaohandicapmandante">
-                            {% if media_visitante and media_mandante and 'Tm' in media_visitante and 'Opp' in media_mandante and 'Tm' in media_mandante and 'Opp' in media_visitante %}
-                                {% set diferenca = ((media_visitante['Tm'] + media_mandante['Opp']) / 2) - ((media_mandante['Tm'] + media_visitante['Opp']) / 2) %}
-                                {% if diferenca > 0 %}
-                                    +{{ "%.1f"|format(diferenca) }}
-                                {% else %}
-                                    {{ "%.1f"|format(diferenca) }}
-                                {% endif %}
+                            {% if media_visitante and media_mandante and 'Tm' in media_visitante and 'Opp' in
+                            media_mandante and 'Tm' in media_mandante and 'Opp' in media_visitante %}
+                            {% set diferenca = ((media_visitante['Tm'] + media_mandante['Opp']) / 2) -
+                            ((media_mandante['Tm'] + media_visitante['Opp']) / 2) %}
+                            {% if diferenca > 0 %}
+                            +{{ "%.1f"|format(diferenca) }}
                             {% else %}
-                                0
+                            {{ "%.1f"|format(diferenca) }}
+                            {% endif %}
+                            {% else %}
+                            0
                             {% endif %}
                         </td>
                         <td>
-                            <input
-                                type="number"
-                                step="0.01"
-                                class="input-sem-setas"
+                            <input type="number" step="0.01" class="input-sem-setas"
                                 style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
-                                id="input-handicap-mandante"
-                                onchange="analisarHandicapMandante()"
-                            />
+                                id="input-handicap-mandante" onchange="analisarHandicapMandante()" />
                         <td>
                             <div id="semaforo-handicap-mandante" class="semaforo"></div>
-                        </td>  
+                        </td>
                     </tr>
                 </table>
                 <div id="frases-analise-handicap-visitante" class="frases-analise"></div>
@@ -1504,72 +718,79 @@
                 <table class="tabela-pontostime">
                     <thead>
                         <tr>
-                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Pts&#10Prev.">Pontos Previstos (Ataque)</th>
-                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Pts&#10Perm.">Pontos Permitidos (Defesa)</th>
-                            <th class="cabecalho-tabela-pontostime mobile-header" colspan="2" data-mobile="Rk Def.">Ranking (Defesa)</th>
-                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Valor">Valor</th>
-                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="L10">Últimas 10</th>
-                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="L10&#10%">Últimas 10 %</th>
-                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Res">Result.</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2"
+                                data-mobile="Pts&#10Prev.">Pontos Previstos (Ataque)</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2"
+                                data-mobile="Pts&#10Perm.">Pontos Permitidos (Defesa)</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" colspan="2" data-mobile="Rk Def.">
+                                Ranking (Defesa)</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Valor">Valor
+                            </th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="L10">Últimas
+                                10</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="L10&#10%">
+                                Últimas 10 %</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Res">Result.
+                            </th>
                         </tr>
                         <tr>
                             <th class="cabecalho-tabela-pontostime mobile-header" data-mobile="RS">Regular Season</th>
                             <th class="cabecalho-tabela-pontostime mobile-header" data-mobile="L5">Last 5</th>
                         </tr>
-                    </thead>    
-                
+                    </thead>
+
                     <!-- Over -->
                     <tbody>
                         <tr>
-                            <td colspan="8" style="background-color:#ffc333; font-weight:bold; text-align:center;">Over</td>
+                            <td colspan="8" style="background-color:#ffc333; font-weight:bold; text-align:center;">Over
+                            </td>
                         </tr>
                         <tr>
                             <td id="pontos-previstos-visitante-over">
-                                {{ "%.2f"|format(((media_visitante['Tm'] if media_visitante and 'Tm' in media_visitante else 0) + (media_mandante['Opp'] if media_mandante and 'Opp' in media_mandante else 0)) / 2) }}
+                                {{ "%.2f"|format(((media_visitante['Tm'] if media_visitante and 'Tm' in media_visitante
+                                else 0) + (media_mandante['Opp'] if media_mandante and 'Opp' in media_mandante else 0))
+                                / 2) }}
                             </td>
                             <td id="pontos-permitidos-visitante-over">
-                                {{ "%.2f"|format(media_mandante['Opp'] if media_mandante and 'Opp' in media_visitante else 0) }}
+                                {{ "%.2f"|format(media_mandante['Opp'] if media_mandante and 'Opp' in media_visitante
+                                else 0) }}
                             </td>
-                            <td id="ranking-temp-visitante-over">{{ ranking_temp_mandante }}</td>
-                            <td id="ranking-last5-visitante-over">{{ ranking_last5_mandante }}</td>
+                            <td id="ranking-temp-visitante-over">-</td>
+                            <td id="ranking-last5-visitante-over">-</td>
                             <td>
-                                <input
-                                    type="number"
-                                    step="0.01"
-                                    class="input-sem-setas"
+                                <input type="number" step="0.01" class="input-sem-setas"
                                     style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
                                     id="input-visitante-over"
-                                    onchange="calcularFrequencia(this, 'frequencia-visitante-over', 'percentual-visitante-over', '{{ nome_visitante }}', 'over')"
-                                />
+                                    onchange="calcularFrequencia(this, 'frequencia-visitante-over', 'percentual-visitante-over', '{{ nome_visitante }}', 'over')" />
                             </td>
                             <td id="frequencia-visitante-over">-</td>
                             <td id="percentual-visitante-over">-</td>
                             <td>
                                 <div id="semaforo-visitante-over" class="semaforo"></div>
                             </td>
-                        </tr>   
+                        </tr>
                         <!-- Under -->
                         <tr>
-                            <td colspan="8" style="background-color:#ffc333; font-weight:bold; text-align:center;">Under</td>
+                            <td colspan="8" style="background-color:#ffc333; font-weight:bold; text-align:center;">Under
+                            </td>
                         </tr>
                         <tr>
                             <td id="pontos-previstos-visitante-under">
-                                {{ "%.2f"|format(((media_visitante['Tm'] if media_visitante and 'Tm' in media_visitante else 0) + (media_mandante['Opp'] if media_mandante and 'Opp' in media_mandante else 0)) / 2) }}
+                                {{ "%.2f"|format(((media_visitante['Tm'] if media_visitante and 'Tm' in media_visitante
+                                else 0) + (media_mandante['Opp'] if media_mandante and 'Opp' in media_mandante else 0))
+                                / 2) }}
                             </td>
                             <td id="pontos-permitidos-visitante-under">
-                                {{ "%.2f"|format(media_mandante['Opp'] if media_mandante and 'Opp' in media_mandante else 0) }}
+                                {{ "%.2f"|format(media_mandante['Opp'] if media_mandante and 'Opp' in media_mandante
+                                else 0) }}
                             </td>
-                            <td id="ranking-temp-visitante-under">{{ ranking_temp_mandante }}</td>
-                            <td id="ranking-last5-visitante-under">{{ ranking_last5_mandante }}</td>
+                            <td id="ranking-temp-visitante-under">-</td>
+                            <td id="ranking-last5-visitante-under">-</td>
                             <td>
-                                <input
-                                    type="number"
-                                    step="0.01"
-                                    class="input-sem-setas"
+                                <input type="number" step="0.01" class="input-sem-setas"
                                     style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
                                     id="input-visitante-under"
-                                    onchange="calcularFrequencia(this, 'frequencia-visitante-under', 'percentual-visitante-under', '{{ nome_visitante }}', 'under')"
-                                />
+                                    onchange="calcularFrequencia(this, 'frequencia-visitante-under', 'percentual-visitante-under', '{{ nome_visitante }}', 'under')" />
                             </td>
                             <td id="frequencia-visitante-under">-</td>
                             <td id="percentual-visitante-under">-</td>
@@ -1577,7 +798,7 @@
                                 <div id="semaforo-visitante-under" class="semaforo"></div>
                             </td>
                         </tr>
-                    </tbody>    
+                    </tbody>
                 </table>
                 <div id="frases-analise-visitante-over" class="frases-analise"></div>
                 <div id="frases-analise-visitante-under" class="frases-analise"></div>
@@ -1589,13 +810,20 @@
                 <table class="tabela-pontostime">
                     <thead>
                         <tr>
-                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Pts&#10Prev.">Pontos Previstos (Ataque)</th>
-                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Pts&#10Perm.">Pontos Permitidos (Defesa)</th>
-                            <th class="cabecalho-tabela-pontostime mobile-header" colspan="2" data-mobile="Rk Def.">Ranking (Defesa)</th>
-                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Valor">Valor</th>
-                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="L10">Últimas 10</th>
-                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="L10&#10%">Últimas 10 %</th>
-                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Res">Result.</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2"
+                                data-mobile="Pts&#10Prev.">Pontos Previstos (Ataque)</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2"
+                                data-mobile="Pts&#10Perm.">Pontos Permitidos (Defesa)</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" colspan="2" data-mobile="Rk Def.">
+                                Ranking (Defesa)</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Valor">Valor
+                            </th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="L10">Últimas
+                                10</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="L10&#10%">
+                                Últimas 10 %</th>
+                            <th class="cabecalho-tabela-pontostime mobile-header" rowspan="2" data-mobile="Res">Result.
+                            </th>
                         </tr>
                         <tr>
                             <th class="cabecalho-tabela-pontostime mobile-header" data-mobile="RS">Regular Season</th>
@@ -1606,55 +834,55 @@
                     <!-- Over -->
                     <tbody>
                         <tr>
-                            <td colspan="8" style="background-color:#ffc333; font-weight:bold; text-align:center;">Over</td>
+                            <td colspan="8" style="background-color:#ffc333; font-weight:bold; text-align:center;">Over
+                            </td>
                         </tr>
                         <tr>
                             <td id="pontos-previstos-mandante-over">
-                                {{ "%.2f"|format(((media_mandante['Tm'] if media_mandante and 'Tm' in media_mandante else 0) + (media_visitante['Opp'] if media_visitante and 'Opp' in media_visitante else 0)) / 2) }}
+                                {{ "%.2f"|format(((media_mandante['Tm'] if media_mandante and 'Tm' in media_mandante
+                                else 0) + (media_visitante['Opp'] if media_visitante and 'Opp' in media_visitante else
+                                0)) / 2) }}
                             </td>
                             <td id="pontos-permitidos-mandante-over">
-                                {{ "%.2f"|format(media_visitante['Opp'] if media_visitante and 'Opp' in media_visitante else 0) }}
+                                {{ "%.2f"|format(media_visitante['Opp'] if media_visitante and 'Opp' in media_visitante
+                                else 0) }}
                             </td>
-                            <td id="ranking-temp-mandante-over">{{ ranking_temp_visitante }}</td>
-                            <td id="ranking-last5-mandante-over">{{ ranking_last5_visitante }}</td>
+                            <td id="ranking-temp-mandante-over">-</td>
+                            <td id="ranking-last5-mandante-over">-</td>
                             <td>
-                                <input
-                                    type="number"
-                                    step="0.01"
-                                    class="input-sem-setas"
+                                <input type="number" step="0.01" class="input-sem-setas"
                                     style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
                                     id="input-mandante-over"
-                                    onchange="calcularFrequencia(this, 'frequencia-mandante-over', 'percentual-mandante-over', '{{ nome_mandante }}', 'over')"
-                                />
+                                    onchange="calcularFrequencia(this, 'frequencia-mandante-over', 'percentual-mandante-over', '{{ nome_mandante }}', 'over')" />
                             </td>
                             <td id="frequencia-mandante-over">-</td>
                             <td id="percentual-mandante-over">-</td>
                             <td>
                                 <div id="semaforo-mandante-over" class="semaforo"></div>
                             </td>
-                        </tr>               
+                        </tr>
                         <!-- Under -->
                         <tr>
-                            <td colspan="8" style="background-color:#ffc333; font-weight:bold; text-align:center;">Under</td>
+                            <td colspan="8" style="background-color:#ffc333; font-weight:bold; text-align:center;">Under
+                            </td>
                         </tr>
                         <tr>
                             <td id="pontos-previstos-mandante-under">
-                                {{ "%.2f"|format(((media_mandante['Tm'] if media_mandante and 'Tm' in media_mandante else 0) + (media_visitante['Opp'] if media_visitante and 'Opp' in media_visitante else 0)) / 2) }}
+                                {{ "%.2f"|format(((media_mandante['Tm'] if media_mandante and 'Tm' in media_mandante
+                                else 0) + (media_visitante['Opp'] if media_visitante and 'Opp' in media_visitante else
+                                0)) / 2) }}
                             </td>
                             <td id="pontos-permitidos-mandante-under">
-                                {{ "%.2f"|format(media_visitante['Opp'] if media_visitante and 'Opp' in media_visitante else 0) }}
+                                {{ "%.2f"|format(media_visitante['Opp'] if media_visitante and 'Opp' in media_visitante
+                                else 0) }}
                             </td>
-                            <td id="ranking-temp-mandante-under">{{ ranking_temp_visitante }}</td>
-                            <td id="ranking-last5-mandante-under">{{ ranking_last5_visitante }}</td>
+                            <td id="ranking-temp-mandante-under">-</td>
+                            <td id="ranking-last5-mandante-under">-</td>
                             <td>
-                                <input
-                                    type="number"
-                                    step="0.01"
-                                    class="input-sem-setas"
+                                <input type="number" step="0.01" class="input-sem-setas"
                                     style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
                                     id="input-mandante-under"
-                                    onchange="calcularFrequencia(this, 'frequencia-mandante-under', 'percentual-mandante-under', '{{ nome_mandante }}', 'under')"
-                                />
+                                    onchange="calcularFrequencia(this, 'frequencia-mandante-under', 'percentual-mandante-under', '{{ nome_mandante }}', 'under')" />
                             </td>
                             <td id="frequencia-mandante-under">-</td>
                             <td id="percentual-mandante-under">-</td>
@@ -1675,7 +903,7 @@
     <div class="secao-container">
         <h2 class="titulo-jogadores">Jogadores com Matchup Positivo</h2>
         <div class="tabelas-lado-a-lado">
-    
+
             <!-- TABELA VISITANTE -->
             <div class="tabela-jogadores-container">
                 <h3 class="titulos_3">{{ nome_visitante }}</h3>
@@ -1684,48 +912,44 @@
                         <th class="cabecalho-tabela-jogadores">Player</th>
                         <th class="cabecalho-tabela-jogadores">Média</th>
                         <th class="cabecalho-tabela-jogadores">Valor</th>
-                        <th class="cabecalho-tabela-jogadores">Análise</th>
+                        <th class="cabecalho-tabela-jogadores">Resultado</th>
                     </tr>
-                
+
                     {% if dados_jogadores_visitante %}
-                        {% for criterio, jogadores in dados_jogadores_visitante.items() %}
-                            <!-- Linha do critério -->
-                            <tr data-criterio="{{ criterio }}">
-                                <td colspan="4" style="background-color:#ffc333; font-weight:bold; text-align:center;">
-                                    {{ criterio }}
-                                </td>
-                            </tr>
-                
-                            <!-- Linhas dos jogadores -->
-                            {% for jogador in jogadores %}
-                                <tr data-criterio="{{ criterio }}">
-                                    <td>{{ jogador.Player }}</td>
-                                    <td class="media-jogadores-visitante">
-                                        {{ jogador.Media }}
-                                    </td>                                    
-                                    <td>
-                                        <input
-                                            type="number"
-                                            step="0.01"
-                                            class="input-sem-setas input-jogadores-visitante"
-                                            style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
-                                            onchange="analisarJogadoresVisitante(this)"
-                                        />
-                                    </td>
-                                    <td>
-                                        <div class="semaforo-jogadores-visitante semaforo"></div>
-                                    </td>                       
-                                </tr>
-                            {% endfor %}
-                        {% endfor %}
+                    {% for criterio, jogadores in dados_jogadores_visitante.items() %}
+                    <!-- Linha do critério -->
+                    <tr data-criterio="{{ criterio }}">
+                        <td colspan="4" style="background-color:#ffc333; font-weight:bold; text-align:center;">
+                            {{ criterio }}
+                        </td>
+                    </tr>
+
+                    <!-- Linhas dos jogadores -->
+                    {% for jogador in jogadores %}
+                    <tr data-criterio="{{ criterio }}">
+                        <td>{{ jogador.Player }}</td>
+                        <td class="media-jogadores-visitante">
+                            {{ jogador.Media }}
+                        </td>
+                        <td>
+                            <input type="number" step="0.01" class="input-sem-setas input-jogadores-visitante"
+                                style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
+                                onchange="analisarJogadoresVisitante(this)" />
+                        </td>
+                        <td>
+                            <div class="semaforo-jogadores-visitante semaforo"></div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% endfor %}
                     {% else %}
-                        <tr>
-                            <td colspan="4">Nenhum dado disponível.</td>
-                        </tr>
+                    <tr>
+                        <td colspan="4">Nenhum dado disponível.</td>
+                    </tr>
                     {% endif %}
                 </table>
             </div>
-    
+
             <!-- TABELA MANDANTE -->
             <div class="tabela-jogadores-container">
                 <h3 class="titulos_3">{{ nome_mandante }}</h3>
@@ -1734,81 +958,49 @@
                         <th class="cabecalho-tabela-jogadores">Player</th>
                         <th class="cabecalho-tabela-jogadores">Média</th>
                         <th class="cabecalho-tabela-jogadores">Valor</th>
-                        <th class="cabecalho-tabela-jogadores">Análise</th>
+                        <th class="cabecalho-tabela-jogadores">Resultado</th>
                     </tr>
-                
+
                     {% if dados_jogadores_mandante %}
-                        {% for criterio, jogadores in dados_jogadores_mandante.items() %}
-                            <!-- Linha do critério -->
-                            <tr data-criterio="{{ criterio }}">
-                                <td colspan="4" style="background-color:#ffc333; font-weight:bold; text-align:center;">
-                                    {{ criterio }}
-                                </td>
-                            </tr>
-                
-                            <!-- Linhas dos jogadores -->
-                            {% for jogador in jogadores %}
-                                <tr data-criterio="{{ criterio }}">
-                                    <td>{{ jogador.Player }}</td>
-                                    <td class="media-jogadores-mandante">
-                                        {{ jogador.Media }}
-                                    </td>                                    
-                                    <td>
-                                        <input
-                                            type="number"
-                                            step="0.01"
-                                            class="input-sem-setas input-jogadores-mandante"
-                                            style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
-                                            onchange="analisarJogadoresMandante(this)"
-                                        />
-                                    </td>
-                                    <td>
-                                        <div class="semaforo-jogadores-mandante semaforo"></div>
-                                    </td>                       
-                                </tr>
-                            {% endfor %}
-                        {% endfor %}
+                    {% for criterio, jogadores in dados_jogadores_mandante.items() %}
+                    <!-- Linha do critério -->
+                    <tr data-criterio="{{ criterio }}">
+                        <td colspan="4" style="background-color:#ffc333; font-weight:bold; text-align:center;">
+                            {{ criterio }}
+                        </td>
+                    </tr>
+
+                    <!-- Linhas dos jogadores -->
+                    {% for jogador in jogadores %}
+                    <tr data-criterio="{{ criterio }}">
+                        <td>{{ jogador.Player }}</td>
+                        <td class="media-jogadores-mandante">
+                            {{ jogador.Media }}
+                        </td>
+                        <td>
+                            <input type="number" step="0.01" class="input-sem-setas input-jogadores-mandante"
+                                style="width: 80%; box-sizing: border-box; border: 1.3px solid #ffc333; padding: 5px; text-align: center;"
+                                onchange="analisarJogadoresMandante(this)" />
+                        </td>
+                        <td>
+                            <div class="semaforo-jogadores-mandante semaforo"></div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% endfor %}
                     {% else %}
-                        <tr>
-                            <td colspan="4">Nenhum dado disponível.</td>
-                        </tr>
+                    <tr>
+                        <td colspan="4">Nenhum dado disponível.</td>
+                    </tr>
                     {% endif %}
                 </table>
             </div>
-    
+
         </div>
     </div>
-    
-    <footer class="footer-container">
-        <div class="footer-top">
-            <div class="footer-logo">
-                <img src="{{ url_for('static', filename='images/logo_ddwin_white.png') }}" alt="Logo DDWin">
-            </div>
-            <div class="footer-nav">
-                <a href="/">Home</a>
-                <a href="/sports">Sports</a>
-                <a href="/sobre">Sobre</a>
-            </div>
-            <div class="footer-icons">
-                <div class="icons">
-                    <a href="https://t.me/ddwinsports" target="_blank">
-                        <img src="{{ url_for('static', filename='images/telegram_white.png') }}" alt="Telegram" class="icon-img">
-                    </a>                  
-                    <a href="https://www.instagram.com/andredamus" target="_blank">
-                        <img src="{{ url_for('static', filename='images/instagram_white.png') }}" alt="Instagram" class="icon-img">
-                    </a>
-                    <a href="https://www.youtube.com/@andredamus1" target="_blank">
-                        <img src="{{ url_for('static', filename='images/youtube_white.png') }}" alt="YouTube" class="icon-img">
-                    </a>
-                </div>
-                <a href="mailto:andredamus@gmail.com" class="contact-button">Contato</a>
-            </div>
-        </div>
-        
-        <hr class="footer-separator">
-        
-        <p class="footer-copy">&copy; 2025 DDWin Sports. Todos os direitos reservados.</p>
-    </footer>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}  
 
     <script>
 
@@ -1816,22 +1008,45 @@
 
         // FUNÇÃO CABEÇALHO
 
-        let lastScrollTop = 0;
-        const header = document.querySelector('header');
+        window.addEventListener('scroll', function() {
+            const topBar = document.querySelector('.top-bar');
+            const header = document.querySelector('header');
+            const scrollY = window.scrollY;
 
-        window.addEventListener('scroll', function () {
-            // Verifica se a tela é maior que 768px
-            if (window.innerWidth > 768) {
-                let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollY > 40) {
+                // Move o header para cima, sobrepondo o top-bar
+                header.style.top = `${Math.max(0, 60 - scrollY)}px`;
 
-                if (currentScroll > lastScrollTop && currentScroll > 100) {
-                    document.body.classList.add('hide-header'); // Esconde o header
+                // Quando o header chegar ao topo, aplica o estilo sticky
+                if (scrollY >= 60) {
+                    header.classList.add('sticky');
+                    topBar.style.top = "-60px"; // Oculta o top-bar
+                    header.style.zIndex = "1001"; // Garante que o header fique acima do top-bar
                 } else {
-                    document.body.classList.remove('hide-header'); // Mostra o header
+                    header.classList.remove('sticky');
+                    header.style.zIndex = "999"; // Restaura o z-index original
                 }
-
-                lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+            } else {
+                // Restaura as posições iniciais
+                topBar.style.top = "0";
+                header.style.top = "60px";
+                header.classList.remove('sticky');
+                header.style.zIndex = "999"; // Restaura o z-index original
             }
+        });
+
+        document.querySelectorAll('.language-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove a classe 'active' de todas as opções
+                document.querySelectorAll('.language-option').forEach(opt => opt.classList.remove('active'));
+                
+                // Adiciona a classe 'active' à opção clicada
+                this.classList.add('active');
+                
+                // Aqui você pode adicionar a lógica para mudar o idioma
+                const selectedLang = this.getAttribute('data-lang');
+                console.log('Idioma selecionado:', selectedLang);
+            });
         });
 
         // FUNÇÃO PONTOS TOTAIS OVER
@@ -1861,7 +1076,7 @@
 
             console.log(`Total Projeção Over: ${totalProjecaoOver}`);
             console.log(`Valor para Avaliar Over: ${valorAvaliarOver}`);
-            
+
             if (valorAvaliarOver <= totalProjecaoOver - 12) {
                 console.log("Condição VERDE atendida!");
                 semaforoOver.style.backgroundColor = "green";
@@ -1963,7 +1178,7 @@
                 } else {
                     console.log("Condição VERDE atendida!");
                     semaforoHandicapVisitante.style.backgroundColor = "green";
-                    frasesAnaliseHandicapVisitante.innerHTML = "<p>Excelente aposta.</p>";
+                    frasesAnaliseHandicapVisitante.innerHTML = "<p>Aposta não recomendada.</p>";
                 }
             } else {
                 if (valorAvaliarHandicapVisitantePreciso < totalProjecaoPreciso) {
@@ -1977,7 +1192,7 @@
                 } else {
                     console.log("Condição VERDE atendida!");
                     semaforoHandicapVisitante.style.backgroundColor = "green";
-                    frasesAnaliseHandicapVisitante.innerHTML = "<p>Excelente aposta.</p>";
+                    frasesAnaliseHandicapVisitante.innerHTML = "<p>Excelente aposta!!!</p>";
                 }
             }
         }
@@ -2025,7 +1240,7 @@
                 } else {
                     console.log("Condição VERDE atendida!");
                     semaforoHandicapMandante.style.backgroundColor = "green";
-                    frasesAnaliseHandicapMandante.innerHTML = "<p>Excelente aposta.</p>";
+                    frasesAnaliseHandicapMandante.innerHTML = "<p>Aposta não recomendada.</p>";
                 }
             } else {
                 if (valorAvaliarHandicapMandantePreciso < totalProjecaoPreciso) {
@@ -2039,7 +1254,7 @@
                 } else {
                     console.log("Condição VERDE atendida!");
                     semaforoHandicapMandante.style.backgroundColor = "green";
-                    frasesAnaliseHandicapMandante.innerHTML = "<p>Excelente aposta.</p>";
+                    frasesAnaliseHandicapMandante.innerHTML = "<p>Excelente aposta!!!</p>";
                 }
             }
         }
@@ -2088,7 +1303,7 @@
                 console.log(`Time codificado: ${timeCodificado}`);
 
                 // Adiciona o tipo de análise na URL da requisição
-                const url = `/calcular-frequencia?time=${timeCodificado}&valor=${valorDigitado}&tipo_analise=${tipoAnalise}`;
+                const url = `http://127.0.0.1:5001/calcular-frequencia?time=${timeCodificado}&valor=${valorDigitado}&tipo_analise=${tipoAnalise}`;
                 console.log(`Fazendo requisição para: ${url}`);
 
                 const response = await fetch(url);
@@ -2222,10 +1437,10 @@
                 frasesAnalise.innerHTML = frasesVermelho.map(frase => `<p>${frase}</p>`).join("");
                 return;
             }
-            
+
             // Condição AMARELO
-            
-            if  (
+
+            if (
                 pontosPrevistos >= valorAvaliar ||
                 pontosPermitidos >= valorAvaliar ||
                 (
@@ -2241,7 +1456,7 @@
                 if (valorAvaliar <= pontosPrevistos && valorAvaliar >= pontosPrevistos - 6) {
                     frasesAmarelo.push("Valor avaliado próximo dos pontos previstos (diferença de até 6 pontos)");
                 }
-                if (valorAvaliar <= pontosPermitidos &&  valorAvaliar >= pontosPermitidos - 6) {
+                if (valorAvaliar <= pontosPermitidos && valorAvaliar >= pontosPermitidos - 6) {
                     frasesAmarelo.push("Valor avaliado próximo dos pontos permitidos (diferença de até 6 pontos)");
                 }
                 if (rankingTemp > 3 && rankingTemp < 21) {
@@ -2263,7 +1478,7 @@
             semaforo.style.backgroundColor = "gray";
             frasesAnalise.innerHTML = "<p>Sem análise disponível.</p>";
         }
-        
+
         // FUNÇÃO PONTOS POR TIME UNDER
 
         function atualizarAnaliseUnder(time) {
@@ -2322,8 +1537,8 @@
             if (
                 pontosPrevistos <= valorAvaliar &&
                 pontosPermitidos <= valorAvaliar &&
-                rankingTemp < 11 &&
-                rankingLast5 < 11 &&
+                rankingTemp > 20 &&
+                rankingLast5 > 20 &&
                 freqPercentual >= 80
             ) {
                 console.log("Condição VERDE atendida!");
@@ -2336,8 +1551,8 @@
             if (
                 pontosPrevistos > valorAvaliar ||
                 pontosPermitidos > valorAvaliar ||
-                rankingTemp > 25 ||
-                rankingLast5 > 25 ||
+                rankingTemp < 4 ||
+                rankingLast5 < 4 ||
                 freqPercentual < 60
             ) {
                 console.log("Condição VERMELHO atendida!");
@@ -2350,11 +1565,11 @@
                 if (pontosPermitidos > valorAvaliar) {
                     frasesVermelho.push("Pontos permitidos maior que o valor avaliado");
                 }
-                if (rankingTemp > 25) {
-                    frasesVermelho.push("Defesa adversária muito fraca na temporada regular");
+                if (rankingTemp < 4) {
+                    frasesVermelho.push("Defesa adversária muito forte na temporada regular");
                 }
-                if (rankingLast5 > 25) {
-                    frasesVermelho.push("Defesa adversária muito fraca nos últimos 5 jogos");
+                if (rankingLast5 < 4) {
+                    frasesVermelho.push("Defesa adversária muito forte nos últimos 5 jogos");
                 }
                 if (freqPercentual < 60) {
                     frasesVermelho.push("Baixa frequência desse valor nos últimos 10 jogos");
@@ -2365,7 +1580,7 @@
             }
 
             // Condição AMARELO
-            if  (
+            if (
                 pontosPrevistos <= valorAvaliar ||
                 pontosPermitidos <= valorAvaliar ||
                 (
@@ -2381,14 +1596,14 @@
                 if (valorAvaliar >= pontosPrevistos && valorAvaliar <= pontosPrevistos + 6) {
                     frasesAmarelo.push("Valor avaliado próximo dos pontos previstos (diferença de até 6 pontos)");
                 }
-                if (valorAvaliar >= pontosPermitidos &&  valorAvaliar <= pontosPermitidos + 6) {
+                if (valorAvaliar >= pontosPermitidos && valorAvaliar <= pontosPermitidos + 6) {
                     frasesAmarelo.push("Valor avaliado próximo dos pontos permitidos (diferença de até 6 pontos)");
                 }
-                if (rankingTemp > 10 && rankingTemp < 25) {
-                    frasesAmarelo.push("Atenção com a defesa adversária. Números regulares na temporada");
+                if (rankingTemp > 3 && rankingTemp < 21) {
+                    frasesAmarelo.push("Atenção com a defesa adversária. Bons números na temporada regular");
                 }
-                if (rankingLast5 > 10 && rankingLast5 < 25) {
-                    frasesAmarelo.push("Atenção com a defesa adversária. Números regulares nos últimos 5 jogos");
+                if (rankingLast5 > 3 && rankingLast5 < 21) {
+                    frasesAmarelo.push("Atenção com a defesa adversária. Bons números nos últimos 5 jogos");
                 }
                 if (freqPercentual > 60 && freqPercentual < 80) {
                     frasesAmarelo.push("Atenção para a frequência dessa pontuação nos últimos 10 jogos");
@@ -2502,7 +1717,7 @@
         }
 
         window.onload = carregarRankings;
-        
+
         // FUNÇÃO JOGADORES VISITANTE
 
         function analisarJogadoresVisitante(inputElement) {
@@ -2570,5 +1785,4 @@
     </script>
 
 </body>
-
 </html>
