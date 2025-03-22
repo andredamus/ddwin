@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
@@ -42,6 +44,17 @@ def baixar_tabela(filtro, criterio):
         logs.append(f"❌ Erro ao acessar {url}: Código {response.status_code}")
         return None
 
+def verificar_arquivo_existe(caminho_arquivo):
+    if os.path.exists(caminho_arquivo):
+        try:
+            df = pd.read_csv(caminho_arquivo)
+            return True
+        except Exception as e:
+            logs.append(f"⚠️ Erro ao ler {caminho_arquivo}: {e}")
+            return False
+    else:
+        return False
+
 # Início do processo
 logs = []
 inicio_execucao = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
@@ -49,12 +62,18 @@ logs.append(f"🚀 Atualização de Jogadores: Início da execução: {inicio_ex
 
 for filtro in filtros:
     for criterio in criterios:
-        tabela = baixar_tabela(filtro, criterio)
-        if tabela is not None:
-            nome_filtro = "Last_5" if filtro == "Last_5_Games" else "Last_10" if filtro == "Last_10_Games" else filtro
-            nome_arquivo = f"{caminho_pasta}tabela_{nome_filtro}_{criterio}.csv"
-            tabela.to_csv(nome_arquivo, index=False)
-            logs.append(f"✅ {nome_arquivo}")
+        nome_filtro = "Last_5" if filtro == "Last_5_Games" else "Last_10" if filtro == "Last_10_Games" else filtro
+        nome_arquivo = f"{caminho_pasta}tabela_{nome_filtro}_{criterio}.csv"
+        
+        if verificar_arquivo_existe(nome_arquivo):
+            logs.append(f"📂 Arquivo já existe e foi verificado: {nome_arquivo}")
+        else:
+            tabela = baixar_tabela(filtro, criterio)
+            if tabela is not None:
+                tabela.to_csv(nome_arquivo, index=False)
+                logs.append(f"✅ {nome_arquivo} salvo com sucesso.")
+            else:
+                logs.append(f"❌ Falha ao salvar {nome_arquivo}. Tabela não encontrada ou erro de rede.")
 
 fim_execucao = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 logs.append(f"🕒 Fim da execução: {fim_execucao}")

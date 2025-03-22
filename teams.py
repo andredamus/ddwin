@@ -5,7 +5,7 @@ import os
 import requests
 from datetime import datetime
 
-# Ignorar verificação SSL
+# Ignorar verificação SSL (opcional)
 ssl._create_default_https_context = ssl._create_unverified_context
 
 # --- CONFIGURAÇÕES TELEGRAM ---
@@ -32,31 +32,49 @@ times_nba = [
     "OKC", "ORL", "PHI", "PHO", "POR", "SAC", "SAS", "TOR", "UTA", "WAS"
 ]
 
-# Caminho para salvar os arquivos CSV no repositório
+# Caminho absoluto para salvar os arquivos CSV no repositório
 BASE_DIR = "/home/andredamus/ddwin"
-CAMINHO_PASTA = f"{BASE_DIR}/data/teams"
+CAMINHO_PASTA = os.path.join(BASE_DIR, "data/teams")
 os.makedirs(CAMINHO_PASTA, exist_ok=True)
+
+def verificar_arquivos_existentes():
+    arquivos_existentes = []
+    for team in times_nba:
+        nome_arquivo = os.path.join(CAMINHO_PASTA, f"{team}_gamelog.csv")
+        if os.path.exists(nome_arquivo):
+            arquivos_existentes.append(nome_arquivo)
+    return arquivos_existentes
 
 def baixar_gamelogs():
     logs = []
     logs.append(f"Atualização de times: Início da execução {datetime.now()}")
+    
+    arquivos_existentes = verificar_arquivos_existentes()
+    logs.append(f"Arquivos já existentes: {', '.join(arquivos_existentes)}")
 
     for i, team in enumerate(times_nba):
+        nome_arquivo = os.path.join(CAMINHO_PASTA, f"{team}_gamelog.csv")
+        
+        # Se o arquivo já existe, pular o download
+        if nome_arquivo in arquivos_existentes:
+            mensagem = f"⚠️ O arquivo {nome_arquivo} já existe. Pulando o download."
+            print(mensagem)
+            logs.append(mensagem)
+            continue
+
         url = f"https://www.basketball-reference.com/teams/{team}/2025/gamelog/"
 
         try:
             print(f"🔗 Acessando: {url}")
             tabelas = pd.read_html(url)
             game_log = tabelas[0]
-
-            nome_arquivo = os.path.join(CAMINHO_PASTA, f"{team}_gamelog.csv")
             game_log.to_csv(nome_arquivo, index=False)
 
-            mensagem = f"✅ {nome_arquivo}"
+            mensagem = f"✅ Arquivo salvo com sucesso: {nome_arquivo}"
             print(mensagem)
             logs.append(mensagem)
 
-            # Aguardar entre 10 e 20 segundos
+            # Aguardar entre 10 e 20 segundos (personalizado)
             time.sleep(1 + (2 * (i % 2)))
 
         except Exception as e:
