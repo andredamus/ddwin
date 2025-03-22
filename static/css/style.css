@@ -18,7 +18,7 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     min-height: 100vh;
-    padding-top: 160px; /* Ajuste o padding-top para começar após o header */
+    padding-top: 160px;
 }
 
 
@@ -28,7 +28,7 @@ body {
 
 .top-bar {
     background-color: #111111;
-    height: 60px; /* Altura ajustada */
+    height: 60px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -47,60 +47,60 @@ body {
     border: none;
     padding: 7px 15px;
     font-size: 12px;
-    height: 40px; /* Altura ajustada */
+    height: 40px;
     margin: 0;
     border-radius: 4px;
 }
 
 .language-selector i {
-    font-size: 18px; /* Tamanho do ícone de globo */
+    font-size: 18px;
 }
 
 .language-option {
     cursor: pointer;
-    opacity: 0.6; /* Opacidade para idiomas não selecionados */
+    opacity: 0.6;
     transition: opacity 0.3s ease;
 }
 
 .language-option.active {
-    opacity: 1; /* Opacidade total para o idioma selecionado */
+    opacity: 1;
     font-weight: bold;
 }
 
 .language-option:hover {
-    opacity: 1; /* Efeito ao passar o mouse */
+    opacity: 1;
 }
 
 header {
     background-color: #21272c;
     color: white;
-    height: 80px; /* Altura ajustada */
+    height: 80px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
     width: 100%;
     position: fixed;
-    top: 60px; /* Colocado abaixo do top-bar */
+    top: 60px;
     left: 0;
     z-index: 999;
     transition: top 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
 header.sticky {
-    top: 0; /* Quando sticky, o header fica no topo */
-    background-color: #111111; /* Assume a cor do top-bar */
+    top: 0;
+    background-color: #111111;
 }
 
 header .logo img {
-    height: 50px; /* Altura da logo ajustada */
+    height: 50px;
 }
 
 .logo h4 {
-    margin-top: 0; /* Remove a margem superior */
-    margin-bottom: 0; /* Remove a margem inferior */
-    padding: 0; /* Remove o padding */
-    line-height: 0.3; /* Ajusta o espaçamento entre as linhas, se necessário */
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+    line-height: 0.3;
 }
 
 header .header-nav ul {
@@ -709,9 +709,13 @@ input[type="number"] {
 @media (max-width: 768px) {
 
     body {
-        padding: 0;
         padding-top: 0;
-        max-width: 100%;
+    }
+
+    .top-bar {
+        position: static;
+        height: 50px;
+        padding-right: 10px;
     }
 
     html, body {
@@ -723,34 +727,37 @@ input[type="number"] {
         background: linear-gradient(to bottom left, #3e3e3e, #111111) fixed;
     }
 
+    .language-selector select {
+        padding: 5px 10px;
+        font-size: 10px;
+        height: 30px;
+    }
+
+    .language-selector i {
+        font-size: 14px;
+    }
+
     header {
         position: static;
-        transition: none !important;
-        margin-top: 0;
-        margin-bottom: 20px;
-        padding: 10px 0;
-        overflow: hidden;
+        height: 80px;
+        padding: 0 10px;
+        justify-content: center;
     }
 
-    header::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.7);
-        z-index: -1;
-        width: 100vw;
-        margin-left: -50vw;
-        left: 50%;
+    header .logo img {
+        height: 40px;
     }
 
-    header h1 {
-        font-size: 1.75rem;
-        padding: 12px;
+    header {
+        justify-content: center;
+    }
+
+    .logo {
         text-align: center;
-        margin: 0;
+    }
+
+    .header-nav {
+        display: none;
     }
 
     .desktop-nome {
