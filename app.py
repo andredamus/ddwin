@@ -406,7 +406,6 @@ def index_view():
 
         # Função para carregar os arquivos de jogadores
         def carregar_arquivo_jogadores(filtro_jogadores, resultado_matchup, criterios_selecionados, time_visitante, time_mandante):
-            print("Função carregar_arquivo_jogadores chamada")
             # Mapeamento dos critérios e colunas correspondentes
             criterios_map = {
                 "pontos": {"arquivo": "points", "coluna_media": 5},
@@ -421,8 +420,8 @@ def index_view():
             dados_jogadores_visitante = {}
             dados_jogadores_mandante = {}
 
-            print(f"Dados Visitante antes de carregar: {dados_jogadores_visitante}")
-            print(f"Dados Mandante antes de carregar: {dados_jogadores_mandante}")
+            print(f"Dados Visitante: {dados_jogadores_visitante}")
+            print(f"Dados Mandante: {dados_jogadores_mandante}")
 
             # Obtém as siglas dos times (PADRÃO)
             sigla_visitante = SIGLAS_TIMES.get(time_visitante, "")
@@ -537,5 +536,14 @@ def index_view():
         dados_jogadores_mandante=dados_jogadores_mandante
     )
 
-# Ajuste o caminho para o arquivo rankings.csv com base na estrutura de pastas
-caminho_arquivo_rankings = os.path.join(RANKINGS_FOLDER, "rankings.csv")
+
+# <<EXECUÇÃO PRINCIPAL>>
+
+if __name__ == "__main__":
+
+    # Ajuste o caminho para o arquivo rankings.csv com base na estrutura de pastas
+    caminho_arquivo_rankings = os.path.join(RANKINGS_FOLDER, "rankings.csv")
+    
+    # Iniciar o servidor da aplicação
+    app.run(host='0.0.0.0', port=5001)
+
