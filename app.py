@@ -544,9 +544,6 @@ if __name__ == "__main__":
     # Ajuste o caminho para o arquivo rankings.csv com base na estrutura de pastas
     caminho_arquivo_rankings = os.path.join(RANKINGS_FOLDER, "rankings.csv")
     
-    # Processar o arquivo de rankings
-    processar_rankings(caminho_arquivo_rankings)
-    
     # Iniciar o servidor da aplicação
     app.run(host='0.0.0.0', port=5001)
 
