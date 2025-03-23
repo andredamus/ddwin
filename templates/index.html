@@ -1299,9 +1299,21 @@
             }
 
             try {
-                // Simulação da resposta da API
-                const data = { resultado: "10/20" }; // Exemplo de resposta
-                console.log("Resposta simulada da API:", data);
+                const timeCodificado = encodeURIComponent(time);
+                console.log(`Time codificado: ${timeCodificado}`);
+
+                // Adiciona o tipo de análise na URL da requisição
+                const url = `http://127.0.0.1:5001/calcular-frequencia?time=${timeCodificado}&valor=${valorDigitado}&tipo_analise=${tipoAnalise}`;
+                console.log(`Fazendo requisição para: ${url}`);
+
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`Erro na requisição: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                console.log("Resposta da API:", data);
 
                 document.getElementById(idFrequencia).textContent = data.resultado || '-';
                 console.log(`Resultado atualizado para: ${data.resultado}`);
@@ -1310,6 +1322,7 @@
                 document.getElementById(idPercentual).textContent = percentual;
                 console.log(`Percentual calculado: ${percentual}`);
 
+                // Verifica se é Over ou Under e chama a função correta
                 const timeFormatado = idFrequencia.includes("visitante") ? "visitante" : "mandante";
                 if (tipoAnalise === "over") {
                     console.log(`Chamando atualizarAnaliseOver para o time: ${timeFormatado}`);
