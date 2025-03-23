@@ -1,69 +1,73 @@
 import os
 import requests
-from datetime import datetime
+from tqdm import tqdm
 
-# Configurações do Telegram
-TELEGRAM_BOT_TOKEN = "7711386411:AAEZc_cIeYW33PsgJlNvWZb8V4nc7YhmcGM"
-TELEGRAM_CHAT_ID = "1700880989"
+# Função para enviar mensagem para o Telegram
+def enviar_mensagem_telegram(mensagem):
+    bot_token = "7711386411:AAEZc_cIeYW33PsgJlNvWZb8V4nc7YhmcGM"
+    chat_id = "1700880989"
+    url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
+    params = {
+        'chat_id': chat_id,
+        'text': mensagem,
+        'parse_mode': 'HTML'
+    }
 
-# Diretório onde ficam os arquivos dos times
-DATA_DIR = '/home/andredamus/ddwin/data/teams'
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()  # Levanta um erro para status de resposta diferente de 2xx
+        if response.status_code == 200:
+            print("✅ Mensagem enviada no Telegram com sucesso!")
+        else:
+            print(f"Erro ao enviar mensagem no Telegram: Status {response.status_code}, Detalhes: {response.text}")
+    except requests.exceptions.RequestException as e:
+        print(f"Erro ao enviar mensagem no Telegram: {e}")
 
-# Lista das siglas dos times da NBA
-nba_teams_abbr = [
-    "ATL", "BOS", "BRK", "CHI", "CLE", "DAL", "DEN", "DET",
-    "GSW", "HOU", "IND", "LAC", "LAL", "MEM", "MIA", "MIL",
-    "MIN", "NOP", "NYK", "OKC", "ORL", "PHI", "PHO", "POR",
-    "SAC", "SAS", "TOR", "UTA", "WAS"
+# Função para verificar se o arquivo já existe
+def verificar_arquivo_existente(caminho_arquivo):
+    return os.path.exists(caminho_arquivo)
+
+# Função para fazer o download do arquivo
+def baixar_arquivo(url, caminho_arquivo):
+    try:
+        response = requests.get(url, stream=True)
+        response.raise_for_status()
+        with open(caminho_arquivo, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+        print(f"📥 Arquivo baixado com sucesso: {caminho_arquivo}")
+        return True
+    except requests.exceptions.RequestException as e:
+        print(f"Erro ao baixar o arquivo: {e}")
+        return False
+
+# Lista de siglas dos times da NBA
+times_nba = [
+    'ATL', 'BOS', 'BRK', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU',
+    'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC',
+    'ORL', 'PHI', 'PHO', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'
 ]
 
-# Função para enviar mensagem no Telegram
-def send_telegram_message(chat_id, message, token):
-    url = f'https://api.telegram.org/bot{token}/sendMessage'
-    payload = {
-        'chat_id': chat_id,
-        'text': message
-    }
-    response = requests.post(url, data=payload)
+# URL base para o download dos gamelogs
+url_base = "https://www.basketball-reference.com/teams/{team_abbr}/gamelog/"
 
-    if not response.ok:
-        print("Erro ao enviar mensagem no Telegram:", response.text)
+# Diretório onde os arquivos serão salvos
+diretorio_arquivos = '/home/andredamus/ddwin/data/teams/'
 
-def main():
-    skipped_files = []
-
-    for team in nba_teams_abbr:
-        file_name = f"{team}_gamelog.csv"
-        file_path = os.path.join(DATA_DIR, file_name)
-
-        if os.path.exists(file_path):
-            print(f"⚠️ O arquivo {file_path} já existe. Pulando o download.")
-            skipped_files.append(file_name)
-        else:
-            # Simulação do download do arquivo
-            print(f"⬇️ Baixando o arquivo {file_name}...")
-
-            # Simulando um conteúdo baixado
-            content = f"Dados fictícios do time {team}"
-
-            # Salvando o conteúdo no arquivo
-            with open(file_path, 'w') as f:
-                f.write(content)
-
-            print(f"✅ Download concluído e salvo em {file_path}")
-
-    # Montando a mensagem para o Telegram
-    if skipped_files:
-        now = datetime.now().strftime("%d/%m/%Y %H:%M")
-        mensagem = f"🕒 Atualização de times em {now}:\n\n"
-        mensagem += "\n".join([f"✅ {arquivo}" for arquivo in skipped_files])
-
-        # Enviando a mensagem
-        send_telegram_message(TELEGRAM_CHAT_ID, mensagem, TELEGRAM_BOT_TOKEN)
-
-        print("✅ Mensagem enviada no Telegram com sucesso!")
+# Loop para baixar os gamelogs de cada time
+for time in tqdm(times_nba, desc="Baixando gamelogs"):
+    nome_arquivo = f"{time}_gamelog.csv"
+    caminho_arquivo = os.path.join(diretorio_arquivos, nome_arquivo)
+    
+    # Verifica se o arquivo já existe
+    if verificar_arquivo_existente(caminho_arquivo):
+        print(f"⚠️ O arquivo {caminho_arquivo} já existe. Pulando o download.")
     else:
-        print("Nenhum arquivo foi pulado. Todos os downloads foram feitos.")
+        # Monta a URL para o time
+        url = url_base.format(team_abbr=time)
+        print(f"Baixando o arquivo de {time}...")
 
-if __name__ == "__main__":
-    main()
+        # Faz o download do arquivo e verifica se foi bem-sucedido
+        if baixar_arquivo(url, caminho_arquivo):
+            # Envia mensagem no Telegram somente após o download bem-sucedido
+            enviar_mensagem_telegram(f"✅ {time}_gamelog.csv baixado com sucesso.")
