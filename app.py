@@ -536,14 +536,5 @@ def index_view():
         dados_jogadores_mandante=dados_jogadores_mandante
     )
 
-
-# <<EXECUÇÃO PRINCIPAL>>
-
-if __name__ == "__main__":
-
-    # Ajuste o caminho para o arquivo rankings.csv com base na estrutura de pastas
-    caminho_arquivo_rankings = os.path.join(RANKINGS_FOLDER, "rankings.csv")
-    
-    # Iniciar o servidor da aplicação
-    app.run(host='0.0.0.0', port=5001)
-
+# Ajuste o caminho para o arquivo rankings.csv com base na estrutura de pastas
+caminho_arquivo_rankings = os.path.join(RANKINGS_FOLDER, "rankings.csv")
