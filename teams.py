@@ -5,7 +5,7 @@ import os
 import requests
 from datetime import datetime
 
-# Ignorar verificação SSL (opcional)
+# Ignorar verificação SSL
 ssl._create_default_https_context = ssl._create_unverified_context
 
 # --- CONFIGURAÇÕES TELEGRAM ---
@@ -32,9 +32,9 @@ times_nba = [
     "OKC", "ORL", "PHI", "PHO", "POR", "SAC", "SAS", "TOR", "UTA", "WAS"
 ]
 
-# Caminho absoluto para salvar os arquivos CSV no repositório
+# Caminho para salvar os arquivos CSV no repositório
 BASE_DIR = "/home/andredamus/ddwin"
-CAMINHO_PASTA = os.path.join(BASE_DIR, "data/teams")
+CAMINHO_PASTA = f"{BASE_DIR}/data/teams"
 os.makedirs(CAMINHO_PASTA, exist_ok=True)
 
 def verificar_arquivos_existentes():
@@ -70,11 +70,11 @@ def baixar_gamelogs():
             game_log = tabelas[0]
             game_log.to_csv(nome_arquivo, index=False)
 
-            mensagem = f"✅ Arquivo salvo com sucesso: {nome_arquivo}"
+            mensagem = f"✅ {nome_arquivo}"
             print(mensagem)
             logs.append(mensagem)
 
-            # Aguardar entre 10 e 20 segundos (personalizado)
+            # Aguardar entre 10 e 20 segundos
             time.sleep(1 + (2 * (i % 2)))
 
         except Exception as e:

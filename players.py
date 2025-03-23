@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
@@ -45,10 +43,11 @@ def baixar_tabela(filtro, criterio):
         return None
 
 def verificar_arquivo_existe(caminho_arquivo):
+    """Verifica se o arquivo já existe na pasta e se pode ser lido corretamente."""
     if os.path.exists(caminho_arquivo):
         try:
             df = pd.read_csv(caminho_arquivo)
-            return True
+            return True  # O arquivo existe e foi lido com sucesso
         except Exception as e:
             logs.append(f"⚠️ Erro ao ler {caminho_arquivo}: {e}")
             return False
