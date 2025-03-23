@@ -56,7 +56,7 @@ def processar_dados(arquivo):
     df = df[df.iloc[:, 0] != 'Rk'].iloc[:-1]  # Remove cabeçalhos repetidos e a última linha (totais)
 
     colunas = {
-        6: 'Tm', 7: 'Opp', 24: 'Trb', 44: 'Trbc', 25: 'Ast', 46: 'Astp',
+        6: 'Tm', 7: 'Opp', 24: 'Trb', 45: 'Trbc', 25: 'Ast', 46: 'Astp',
         12: '3pt', 33: '3ptp', 26: 'Stl', 47: 'Stlp', 27: 'Blk', 48: 'Blkp'
     }
 
