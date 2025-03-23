@@ -1,73 +1,91 @@
+import ssl
+import time
+import pandas as pd
 import os
 import requests
-from tqdm import tqdm
+from datetime import datetime
 
-# Função para enviar mensagem para o Telegram
-def enviar_mensagem_telegram(mensagem):
-    bot_token = "7711386411:AAEZc_cIeYW33PsgJlNvWZb8V4nc7YhmcGM"
-    chat_id = "1700880989"
-    url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
-    params = {
-        'chat_id': chat_id,
-        'text': mensagem,
-        'parse_mode': 'HTML'
+# Ignorar verificação SSL
+ssl._create_default_https_context = ssl._create_unverified_context
+
+# --- CONFIGURAÇÕES TELEGRAM ---
+TELEGRAM_TOKEN = '7711386411:AAEZc_cIeYW33PsgJlNvWZb8V4nc7YhmcGM'
+CHAT_ID = '1700880989'
+
+def enviar_telegram(mensagem):
+    url = f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage'
+    payload = {
+        'chat_id': CHAT_ID,
+        'text': mensagem
     }
-
     try:
-        response = requests.get(url, params=params)
-        response.raise_for_status()  # Levanta um erro para status de resposta diferente de 2xx
-        if response.status_code == 200:
-            print("✅ Mensagem enviada no Telegram com sucesso!")
-        else:
-            print(f"Erro ao enviar mensagem no Telegram: Status {response.status_code}, Detalhes: {response.text}")
-    except requests.exceptions.RequestException as e:
-        print(f"Erro ao enviar mensagem no Telegram: {e}")
+        response = requests.post(url, data=payload)
+        if response.status_code != 200:
+            print(f"Erro ao enviar mensagem no Telegram: {response.text}")
+    except Exception as e:
+        print(f"Falha ao tentar enviar mensagem Telegram: {e}")
 
-# Função para verificar se o arquivo já existe
-def verificar_arquivo_existente(caminho_arquivo):
-    return os.path.exists(caminho_arquivo)
-
-# Função para fazer o download do arquivo
-def baixar_arquivo(url, caminho_arquivo):
-    try:
-        response = requests.get(url, stream=True)
-        response.raise_for_status()
-        with open(caminho_arquivo, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                f.write(chunk)
-        print(f"📥 Arquivo baixado com sucesso: {caminho_arquivo}")
-        return True
-    except requests.exceptions.RequestException as e:
-        print(f"Erro ao baixar o arquivo: {e}")
-        return False
-
-# Lista de siglas dos times da NBA
+# Lista com as siglas corretas dos 30 times da NBA
 times_nba = [
-    'ATL', 'BOS', 'BRK', 'CHI', 'CLE', 'DAL', 'DEN', 'DET', 'GSW', 'HOU',
-    'IND', 'LAC', 'LAL', 'MEM', 'MIA', 'MIL', 'MIN', 'NOP', 'NYK', 'OKC',
-    'ORL', 'PHI', 'PHO', 'POR', 'SAC', 'SAS', 'TOR', 'UTA', 'WAS'
+    "ATL", "BOS", "BRK", "CHO", "CHI", "CLE", "DAL", "DEN", "DET", "GSW",
+    "HOU", "IND", "LAC", "LAL", "MEM", "MIA", "MIL", "MIN", "NOP", "NYK",
+    "OKC", "ORL", "PHI", "PHO", "POR", "SAC", "SAS", "TOR", "UTA", "WAS"
 ]
 
-# URL base para o download dos gamelogs
-url_base = "https://www.basketball-reference.com/teams/{team_abbr}/gamelog/"
+# Caminho para salvar os arquivos CSV no repositório
+BASE_DIR = "/home/andredamus/ddwin"
+CAMINHO_PASTA = f"{BASE_DIR}/data/teams"
+os.makedirs(CAMINHO_PASTA, exist_ok=True)
 
-# Diretório onde os arquivos serão salvos
-diretorio_arquivos = '/home/andredamus/ddwin/data/teams/'
+def verificar_permissao_pasta():
+    """Verifica se o script tem permissão para escrever na pasta."""
+    try:
+        teste_arquivo = os.path.join(CAMINHO_PASTA, "teste_permissao.txt")
+        with open(teste_arquivo, "w") as f:
+            f.write("Teste de permissão")
+        os.remove(teste_arquivo)
+        return True
+    except Exception as e:
+        print(f"❌ Erro ao verificar permissão na pasta {CAMINHO_PASTA}: {e}")
+        return False
 
-# Loop para baixar os gamelogs de cada time
-for time in tqdm(times_nba, desc="Baixando gamelogs"):
-    nome_arquivo = f"{time}_gamelog.csv"
-    caminho_arquivo = os.path.join(diretorio_arquivos, nome_arquivo)
+def baixar_gamelogs():
+    logs = []
+    logs.append(f"Atualização de times: Início da execução {datetime.now()}")
     
-    # Verifica se o arquivo já existe
-    if verificar_arquivo_existente(caminho_arquivo):
-        print(f"⚠️ O arquivo {caminho_arquivo} já existe. Pulando o download.")
-    else:
-        # Monta a URL para o time
-        url = url_base.format(team_abbr=time)
-        print(f"Baixando o arquivo de {time}...")
+    # Verifica permissão na pasta
+    if not verificar_permissao_pasta():
+        logs.append("❌ Sem permissão para escrever na pasta. Verifique as permissões.")
+        enviar_telegram("\n".join(logs))
+        return
 
-        # Faz o download do arquivo e verifica se foi bem-sucedido
-        if baixar_arquivo(url, caminho_arquivo):
-            # Envia mensagem no Telegram somente após o download bem-sucedido
-            enviar_mensagem_telegram(f"✅ {time}_gamelog.csv baixado com sucesso.")
+    for i, team in enumerate(times_nba):
+        nome_arquivo = os.path.join(CAMINHO_PASTA, f"{team}_gamelog.csv")
+        url = f"https://www.basketball-reference.com/teams/{team}/2025/gamelog/"
+
+        try:
+            print(f"🔗 Acessando: {url}")
+            tabelas = pd.read_html(url)
+            game_log = tabelas[0]
+            game_log.to_csv(nome_arquivo, index=False)
+
+            mensagem = f"✅ {team}_gamelog.csv salvo com sucesso!"
+            print(mensagem)
+            logs.append(mensagem)
+
+            # Aguardar entre 10 e 20 segundos
+            time.sleep(1 + (2 * (i % 2)))
+
+        except Exception as e:
+            mensagem = f"❌ Erro ao baixar {team}: {e}"
+            print(mensagem)
+            logs.append(mensagem)
+
+    logs.append(f"Fim da execução: {datetime.now()}")
+
+    # Enviar log completo para o Telegram
+    mensagem_final = "\n".join(logs)
+    enviar_telegram(mensagem_final)
+
+if __name__ == "__main__":
+    baixar_gamelogs()
