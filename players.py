@@ -27,32 +27,25 @@ def enviar_mensagem_telegram(mensagem):
 
 def baixar_tabela(filtro, criterio):
     url = f"{base_url}/{criterio}/All/desc/1/{filtro}"
+    print(f"➡️ Acessando URL: {url}")
     response = requests.get(url, headers=headers)
 
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, "html.parser")
         tabela_certa = soup.find("table", class_="tablesaw")
+        
         if tabela_certa:
             df = pd.read_html(StringIO(str(tabela_certa)))[0]
+            print(f"✅ Tabela encontrada para {filtro} e {criterio}")
             return df
         else:
+            print(f"⚠️ Tabela **não** encontrada para {filtro} e {criterio}")
             logs.append(f"⚠️ Tabela não encontrada para {filtro} e {criterio}")
             return None
     else:
+        print(f"❌ Erro ao acessar {url}: Código {response.status_code}")
         logs.append(f"❌ Erro ao acessar {url}: Código {response.status_code}")
         return None
-
-def verificar_arquivo_existe(caminho_arquivo):
-    """Verifica se o arquivo já existe na pasta e se pode ser lido corretamente."""
-    if os.path.exists(caminho_arquivo):
-        try:
-            df = pd.read_csv(caminho_arquivo)
-            return True  # O arquivo existe e foi lido com sucesso
-        except Exception as e:
-            logs.append(f"⚠️ Erro ao ler {caminho_arquivo}: {e}")
-            return False
-    else:
-        return False
 
 # Início do processo
 logs = []
@@ -61,18 +54,26 @@ logs.append(f"🚀 Atualização de Jogadores: Início da execução: {inicio_ex
 
 for filtro in filtros:
     for criterio in criterios:
-        nome_filtro = "Last_5" if filtro == "Last_5_Games" else "Last_10" if filtro == "Last_10_Games" else filtro
+        if filtro == "Last_5_Games":
+            nome_filtro = "Last_5"
+        elif filtro == "Last_10_Games":
+            nome_filtro = "Last_10"
+        else:
+            nome_filtro = filtro
+        
         nome_arquivo = f"{caminho_pasta}tabela_{nome_filtro}_{criterio}.csv"
         
-        if verificar_arquivo_existe(nome_arquivo):
-            logs.append(f"📂 Arquivo já existe e foi verificado: {nome_arquivo}")
+        # TIRANDO A VERIFICAÇÃO DE ARQUIVO JÁ EXISTENTE para sempre baixar como no seu ambiente de teste
+        print(f"➡️ Baixando tabela para filtro {filtro} e critério {criterio}...")
+        tabela = baixar_tabela(filtro, criterio)
+        
+        if tabela is not None:
+            tabela.to_csv(nome_arquivo, index=False)
+            print(f"✅ Arquivo salvo em {nome_arquivo}")
+            logs.append(f"✅ {nome_arquivo} salvo com sucesso.")
         else:
-            tabela = baixar_tabela(filtro, criterio)
-            if tabela is not None:
-                tabela.to_csv(nome_arquivo, index=False)
-                logs.append(f"✅ {nome_arquivo} salvo com sucesso.")
-            else:
-                logs.append(f"❌ Falha ao salvar {nome_arquivo}. Tabela não encontrada ou erro de rede.")
+            print(f"❌ Falha ao salvar {nome_arquivo}")
+            logs.append(f"❌ Falha ao salvar {nome_arquivo}. Tabela não encontrada ou erro de rede.")
 
 fim_execucao = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 logs.append(f"🕒 Fim da execução: {fim_execucao}")
