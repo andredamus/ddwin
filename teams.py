@@ -3,8 +3,8 @@ import requests
 from datetime import datetime
 
 # Configurações do Telegram
-TELEGRAM_BOT_TOKEN = 'SEU_TOKEN_AQUI'
-TELEGRAM_CHAT_ID = 'SEU_CHAT_ID_AQUI'
+TELEGRAM_BOT_TOKEN = "7711386411:AAEZc_cIeYW33PsgJlNvWZb8V4nc7YhmcGM"
+TELEGRAM_CHAT_ID = "1700880989"
 
 # Diretório onde ficam os arquivos dos times
 DATA_DIR = '/home/andredamus/ddwin/data/teams'
