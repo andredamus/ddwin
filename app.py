@@ -420,6 +420,9 @@ def index_view():
             dados_jogadores_visitante = {}
             dados_jogadores_mandante = {}
 
+            print(f"Dados Visitante: {dados_jogadores_visitante}")
+            print(f"Dados Mandante: {dados_jogadores_mandante}")
+
             # Obtém as siglas dos times (PADRÃO)
             sigla_visitante = SIGLAS_TIMES.get(time_visitante, "")
             sigla_mandante = SIGLAS_TIMES.get(time_mandante, "")
