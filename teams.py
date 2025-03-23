@@ -90,3 +90,4 @@ def baixar_gamelogs():
 
 if __name__ == "__main__":
     baixar_gamelogs()
+    
