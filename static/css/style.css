@@ -21,6 +21,10 @@ body {
     padding-top: 160px;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 
 /* -------------------------------
         2. HEADER
@@ -259,16 +263,19 @@ button:hover {
         4. PÁGINA CAPA
 -----------------------------------*/        
 
-/* Seção principal */
 .hero {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
     position: relative;
-    height: 60vh;
-    background-color: #161616;
+    height: 80vh;
     overflow: hidden;
     display: flex;
     justify-content: flex-start;
     text-align: center;
     flex-direction: row;
+    background: linear-gradient(135deg, #111111 0%, #2A2A2A 100%);
+    background: radial-gradient(circle at 20% 50%, rgba(255, 180, 0, 0.1), transparent),
+                linear-gradient(135deg, #111111 0%, #2A2A2A 100%);
 }
 
 .hero-content {
@@ -278,11 +285,12 @@ button:hover {
     align-items: center;
     text-align: center;
     width: 60%;
-    background-color: #161616;
-    color: white;
+    background-color: transparent;
+    color: #111111;
     padding: 20px 40px;
     overflow: hidden;
     order: 1;
+    position: relative;
 }
 
 #background-video-wrapper {
@@ -312,42 +320,256 @@ button:hover {
 .hero-content h2 {
     color: #f6f6f6;
     font-weight: bold;
-    font-size: 34px;
+    font-size: 26px;
     margin-bottom: 10px;
-    margin-top: 10px;
+    margin-top: 60px;
+    letter-spacing: 2px;
 }
 
 .hero-content p {
     color: #f6f6f6;
-    font-size: 16px;
+    font-size: 15px;
     width: 93%;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
     margin-top: 50px;
+    letter-spacing: 1px;
 }
 
 .highlight {
-    color: #cc9000;
+    color: #FFB400;
     font-weight: bold;
-    font-size: 42px;
+    font-size: 40px;
+    background: rgba(255, 180, 0, 0.1);
+    backdrop-filter: blur(5px);
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 180, 0, 0.2);
 }
 
-/* Vídeo tutorial */
-.video-tutorial {
-    background-color: #ffb400;
-    color: #f6f6f6;
+.sports-leagues {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    background-color: #fffae6;
+    padding: 40px 10%;
+    color: #111111;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    position: relative;
+}
+
+.league {
     text-align: center;
-}
-
-.video-tutorial h3 {
-    font-size: 24px;
+    flex: 0 0 22%;
+    padding: 0;
+    background-color: #f6f6f6;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
 }
 
-.video-container iframe {
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 8px 8px 0 0;
+}
+
+.logo-container {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.league-logo {
     max-width: 100%;
-    height: 450px;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.nba-logo {
+    width: 44px !important;
+    height: auto;
+}
+
+.nfl-logo {
+    width: 160px !important;
+    height: auto;
+}
+
+.nhl-logo {
+    width: 90px !important;
+    height: auto;
+}
+
+.mlb-logo {
+    width: 80px !important;
+    height: auto;
+}
+
+.construction-text {
+    position: relative;
+    padding: 20px;
+}
+
+.construction-image {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 32px;
+    height: auto;
+    z-index: 2;
+}
+
+.league p {
+    padding: 17px;
+    color: #111111;
+    background-color: #f6f6f6;
+    margin: 0;
+    border-radius: 0 0 8px 8px;
+    position: relative;
+  
+}
+
+.league:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.video-tutorial {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    position: relative;
+    height: 80vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
+    text-align: center;
+    flex-direction: row;
+    background: #f6f6f6;
+    background: radial-gradient(circle at 20% 50%, rgba(255, 180, 0, 0.1), transparent),
+                linear-gradient(135deg, #3A3A3A 0%, #525252 100%);
+    padding: 40px 10%;
+}
+
+.video-container {
+    width: 60%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: -20px;
+}
+
+.video-wrapper {
+    width: 70%;
+    position: relative;
+    padding-top: 39.375%;
+    background: black;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.video-container::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    height: 75%;
+    background: transparent;
+    border: 10px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2),
+                0 0 40px rgba(255, 255, 255, 0.1);
+    z-index: 0;
+}
+
+.tutorial-text {
+    width: 50%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: justify;
+    color: #f6f6f6;
+    margin-left: 30px;
+    margin-right: -20px;
+}
+
+.tutorial-text h2 {
+    font-size: 34px;
+    margin-bottom: 20px;
+    color: #FFB400;
+}
+
+.tutorial-text p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.tutorial-text ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.tutorial-text li {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.tutorial-text li strong {
+    color: #FFB400;
 }
 
 
@@ -600,6 +822,7 @@ input[type="number"] {
     color: #fff;
     padding: 40px 20px;
     font-family: Arial, sans-serif;
+    margin-top: 20px;
 }
 
 .footer-top {

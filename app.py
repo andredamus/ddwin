@@ -280,9 +280,15 @@ def obter_rankings():
         return jsonify({"error": str(e)}), 500
 
 
+# <<LÓGICA PARA ROTA DA CAPA
+
+@app.route('/')
+def capa():
+    return render_template('index.html')
+
 # <<LÓGICA PARA ROTA DE TIMES E JOGADORES>>
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/nba', methods=['GET', 'POST'])
 def index_view():
     time_visitante = time_mandante = None
     media_visitante = media_mandante = None
@@ -496,7 +502,7 @@ def index_view():
         )
 
     return render_template(
-        "index.html",
+        "nba.html",
         nba_teams=nba_teams,
         nome_mandante=nome_mandante,
         nome_visitante=nome_visitante,
