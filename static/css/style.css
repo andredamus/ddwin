@@ -419,7 +419,7 @@ button:hover {
 }
 
 .nba-logo {
-    width: 44px !important;
+    width: 40px !important;
     height: auto;
 }
 
@@ -931,14 +931,9 @@ input[type="number"] {
 
 @media (max-width: 768px) {
 
+    /* -- RESET --*/
     body {
         padding-top: 0;
-    }
-
-    .top-bar {
-        position: static;
-        height: 50px;
-        padding-right: 10px;
     }
 
     html, body {
@@ -948,6 +943,14 @@ input[type="number"] {
         padding: 0;
         overflow-x: hidden;
         background: linear-gradient(to bottom left, #3e3e3e, #111111) fixed;
+    }
+
+
+    /* -- HEADER --*/
+    .top-bar {
+        position: static;
+        height: 50px;
+        padding-right: 10px;
     }
 
     .language-selector select {
@@ -983,6 +986,127 @@ input[type="number"] {
         display: none;
     }
 
+    
+    /* -- CAPA --*/
+    .hero {
+        flex-direction: column;
+        height: auto;
+        padding: 20px;
+    }
+
+    .hero-content {
+        width: 100%;
+        padding: 0;
+        order: 1; /* Garante que o conteúdo fique em cima */
+    }
+
+    .hero-content h2 {
+        font-size: 22px;
+        line-height: 1.3;
+        margin-top: 10px;
+    }
+
+    .hero-content p {
+        font-size: 14px;
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    .highlight {
+        font-size: 24px;
+    }
+
+    .sports-leagues {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 3%; /* Espaço entre os elementos (linhas e colunas) */
+        padding: 20px 5%;
+    }
+
+    .league {
+        flex: 0 0 47%; /* A largura já compensa o gap automático */
+        margin: 0 0 20px 0; /* Não precisa mais do margin! */
+    }
+
+    .image-container {
+        height: 180px;
+    }
+
+    .nba-logo {
+        width: 25px !important; /* controla a largura */
+        height: auto !important; /* pra manter proporção */
+    }
+    .nfl-logo {
+        width: 80px !important;
+        height: auto !important;
+    }
+    .nhl-logo {
+        width: 60px !important;
+        height: auto !important;
+    }
+    .mlb-logo {
+        width: 60px !important;
+        height: auto !important;
+    }
+
+    .league p {
+        font-size: 14px;
+      
+    }
+
+    .video-tutorial {
+        flex-direction: column; /* Texto em cima, vídeo embaixo */
+        height: auto;
+        padding: 20px 5%; /* Ajuste de padding para mobile */
+        margin-left: 0;
+    }
+
+    .video-container {
+        width: 100%;
+        height: 300px; /* Ajuste de altura para o vídeo no mobile */
+        margin-left: 0; /* Remover margem no mobile */
+        backdrop-filter: none; /* Remover efeito de blur no mobile */
+        border-radius: 15px; /* Ajuste de borda para o mobile */
+    }
+
+    .video-wrapper {
+        width: 100%;
+        padding-top: 56.25%; /* Mantendo a proporção 16:9 */
+    }
+
+    .tutorial-text {
+        width: 100%; /* O texto ocupa toda a largura */
+        margin-left: 0;
+        margin-right: 0;
+        text-align: left; /* Ajuste do alinhamento do texto */
+        padding: 10px 0;
+    }
+
+    .tutorial-text h2 {
+        font-size: 28px;
+    }
+
+    .tutorial-text p {
+        font-size: 14px; /* Ajuste no tamanho da fonte */
+    }
+
+    .tutorial-text ul li {
+        font-size: 14px; /* Ajuste no tamanho da fonte das listas */
+    }
+
+    .tutorial-text li strong {
+        color: #FFB400;
+    }
+
+    .video-container::before {
+        width: 90%;
+        height: 90%;
+        border-radius: 20px;
+    }
+
+
+
+
     .desktop-nome {
         display: none !important;
     }
@@ -991,6 +1115,10 @@ input[type="number"] {
         display: inline !important;
     }
 
+
+
+    
+    /* -- NBA --*/
     .filtros-container {
         display: flex;
         flex-direction: column;
