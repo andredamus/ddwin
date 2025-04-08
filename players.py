@@ -7,9 +7,9 @@ from datetime import datetime
 import time
 from random import randint
 
-# Configuração do Telegram
-TELEGRAM_BOT_TOKEN = "7711386411:AAEZc_cIeYW33PsgJlNvWZb8V4nc7YhmcGM"
-TELEGRAM_CHAT_ID = "1700880989"
+# --- CONFIGURAÇÕES TELEGRAM ---
+TELEGRAM_TOKEN = '7711386411:AAEZc_cIeYW33PsgJlNvWZb8V4nc7YhmcGM'
+CHAT_ID = '1700880989'
 
 # URLs e filtros
 base_url = "https://basketball.realgm.com/nba/stats/2025/Averages/Qualified"
@@ -25,13 +25,18 @@ headers = {
 # Caminho para salvar os arquivos CSV
 caminho_pasta = "/home/andredamus/ddwin/data/players/"
 
-def enviar_mensagem_telegram(mensagem):
-    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    payload = {"chat_id": TELEGRAM_CHAT_ID, "text": mensagem}
+def enviar_telegram(mensagem):
+    url = f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage'
+    payload = {
+        'chat_id': CHAT_ID,
+        'text': mensagem
+    }
     try:
-        requests.post(url, data=payload, timeout=10)
+        response = requests.post(url, data=payload)
+        if response.status_code != 200:
+            print(f"Erro ao enviar mensagem no Telegram: {response.text}")
     except Exception as e:
-        print(f"⚠️ Erro ao enviar mensagem no Telegram: {str(e)}")
+        print(f"Falha ao tentar enviar mensagem Telegram: {e}")
 
 def baixar_tabela(filtro, criterio):
     url = f"{base_url}/{criterio}/All/desc/1/{filtro}"
@@ -111,9 +116,6 @@ fim_execucao = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
 logs.append(f"🛑 Fim da execução: {fim_execucao}")
 logs.append(f"⏳ Tempo total: {datetime.strptime(fim_execucao, '%d/%m/%Y %H:%M:%S') - datetime.strptime(inicio_execucao, '%d/%m/%Y %H:%M:%S')}")
 
-# Enviar relatório final
-try:
-    enviar_mensagem_telegram("\n".join(logs))
-    print("📤 Log enviado para o Telegram")
-except Exception as e:
-    print(f"⚠️ Falha ao enviar log para Telegram: {str(e)}")
+# Enviar log completo para o Telegram
+mensagem_final = "\n".join(logs)
+enviar_telegram(mensagem_final)
