@@ -9,6 +9,10 @@ PYTHON_PATH="$VENV_DIR/bin/python3"
 SCRIPT_PATH="$PROJETO_DIR/teams.py"
 TEAMS_DATA_DIR="$PROJETO_DIR/data/teams"
 
+echo "Usuário executando o script: $(whoami)" >> "$LOG_FILE"
+echo "Diretório de trabalho atual: $(pwd)" >> "$LOG_FILE"
+env >> "$LOG_FILE" # Lista todas as variáveis de ambiente
+
 # Garantir que a pasta de logs existe (mantenha)
 mkdir -p "$LOG_DIR"
 
