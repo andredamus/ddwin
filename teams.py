@@ -67,6 +67,17 @@ def baixar_gamelogs():
             print(f"🔗 Acessando: {url}")
             tabelas = pd.read_html(url)
             game_log = tabelas[0]
+
+            # Adicionando logs para depuração
+            print(f"💾 Tentando salvar arquivo: {nome_arquivo}")
+            logs.append(f"💾 Tentando salvar arquivo: {nome_arquivo}")
+            print(game_log.head())  # Mostrar as primeiras linhas do DataFrame
+            print(game_log.info())  # Mostrar informações do DataFrame
+            if not os.access(CAMINHO_PASTA, os.W_OK):
+                erro_permissao = f"❌ Sem permissão de escrita na pasta {CAMINHO_PASTA} antes de salvar {nome_arquivo}"
+                print(erro_permissao)
+                logs.append(erro_permissao)
+
             game_log.to_csv(nome_arquivo, index=False)
 
             mensagem = f"✅ {team}_gamelog.csv salvo com sucesso!"
